@@ -8,8 +8,13 @@
 </head>
 <body>
   <header>
-    <h1>🎷 2025 Stetson Saxophone Workshop Schedule</h1>
-    <p class="notice">⚠️ This is the 2025-05-05 Draft. A final schedule will be released in June. ⚠️</p>
+    <h1>Camp Schedule</h1>
+    <button id="menu-toggle" aria-label="Toggle contact menu" aria-expanded="false">☰</button>
+    <nav id="contact-menu" aria-hidden="true">
+      <a href="sms:+14074940603">📩 Text Dr. Rosenberg</a>
+      <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
+      <a href="mailto:trosenberg@stetson.edu">✉️ Email Dr. Rosenberg</a>
+    </nav>
   </header>
 
   <main>
@@ -55,7 +60,7 @@
           </ul>
         </li>
         <li><time>9:00 - 9:15 PM</time>: Students in Dorm - Hatter Hall</li>
-        <li><time>9:15 - 9:30 PM</time>: Hall Meeting – Lounge on your flor in Hatter Hall
+        <li><time>9:15 - 9:30 PM</time>: Hall Meeting – Lounge on your floor in Hatter Hall
           <ul>
             <li>Students will meet with the counselor staff to discuss the rules and procedures for the rest of the week.</li>
           </ul>
@@ -192,5 +197,27 @@
     }
   });
 </script>
+
+<!-- Animations for Hamburger Menu -->
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('contact-menu');
+
+  toggle.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !expanded);
+    menu.setAttribute('aria-hidden', expanded);
+    menu.classList.toggle('show');
+  });
+
+  document.addEventListener('click', e => {
+    if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+      menu.classList.remove('show');
+    }
+  });
+</script>
+
 </body>
 </html>

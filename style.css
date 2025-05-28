@@ -6,10 +6,58 @@ body {
 }
 
 header {
+  position: relative;
   background-color: #2b644a;
   color: #fff;
   padding: 1.5rem;
   text-align: center;
+}
+
+#menu-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+  z-index: 20;
+}
+
+#contact-menu {
+  position: absolute;
+  right: 1rem;
+  top: 3.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 0.5rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  z-index: 10;
+}
+
+#contact-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#contact-menu a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: #2b644a;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+#contact-menu a:hover {
+  background-color: #f0fdf7;
 }
 
 .notice {
@@ -24,6 +72,20 @@ header {
 
 main {
   padding: 2rem;
+}
+
+a {
+  color: #2b644a;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #4dab4f;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
 }
 
 .day {
