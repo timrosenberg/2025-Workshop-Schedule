@@ -446,10 +446,6 @@
 
     for (let i = 0; i < items.length; i++) {
       const timeText = items[i].querySelector('time')?.textContent.trim();
-      if (timeText.includes("7:15 PM")) {
-        console.log("✅ 7:15 PM entry found:", timeText, items[i].outerHTML);
-      }
-
       if (!timeText) continue;
       const [start, end] = parseTimeString(timeText);
 
@@ -460,14 +456,19 @@
         timeText
       });
 
+      // Skip any block where currentTime is AFTER end
       if (currentTime >= start && currentTime < end) {
         current = items[i];
         next = items[i + 1] || null;
         break;
-      } else if (currentTime < start && !next) {
-        next = items[i]; // allow current to still be found later
+      }
+
+      // Assign next if we're before a future block
+      if (!current && currentTime < start && !next) {
+        next = items[i];
       }
     }
+
 
     function applyTo(el, item) {
       if (!el) return;
