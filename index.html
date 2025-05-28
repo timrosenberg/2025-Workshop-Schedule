@@ -57,7 +57,7 @@
       <summary><span>Monday, June 23 — 🎬 Sax & Screen</span></summary>
       <p class="theme-description">Wear something that shows your favorite film or musical!</p>
       <ul>
-        <li><time>8:30 - 11:30 AM</time>: Registration – Hatter Hall (<a href="https://maps.app.goo.gl/HKpeWutxRgLNbqmZ6">map</a>)</li>
+        <li data-id="june-23-1"><time>8:30 - 11:30 AM</time>: Registration – Hatter Hall (<a href="https://maps.app.goo.gl/HKpeWutxRgLNbqmZ6">map</a>)</li>
         <li><time>10:30 - 11:30 AM</time>: Honors Recital Auditions – Hatter Hall, Floor 2</li>
         <li><time>12:00 - 12:45 PM</time>: 🥪 Lunch – Carlton Union Building (CUB) (<a href="https://maps.app.goo.gl/wdAMPGnM3GRCCsnA8">map</a>)
           <ul>
@@ -385,16 +385,18 @@
   }
 
   function scrollToId(id) {
-    let target = document.querySelector('details[open] li#' + id);
-    if (!target) {
-      target = document.getElementById(id);
-    }
-    if (target) {
+    // Try visible first
+    let target = document.querySelector('details[open] li#' + id) ||
+                document.getElementById(id);
+    if (!target) return;
+
+    requestAnimationFrame(() => {
       target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       target.classList.add('highlighted');
       setTimeout(() => target.classList.remove('highlighted'), 2000);
-    }
+    });
   }
+
 
   function updateNowNextFromHiddenData() {
     const testModeSelect = document.getElementById('test-mode-select');
@@ -403,19 +405,31 @@
 
     const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
     const day = now.getDate();
-    const todayKey = `schedule-${month}-${day}`;
+    const scheduleId = `schedule-${month}-${day}`;
+    const detailsId = `${month}-${day}`;
 
-    const scheduleList = document.getElementById(todayKey);
-    if (!scheduleList) {
-      console.warn("⚠️ Could not find schedule list for:", todayKey);
+    const scheduleList = document.getElementById(scheduleId);
+    const visibleDetails = document.getElementById(detailsId);
+
+    if (!scheduleList || !visibleDetails) {
+      console.warn("⚠️ Could not find matching schedule/details for:", scheduleId, detailsId);
       return;
     }
 
-    const items = Array.from(scheduleList.querySelectorAll('li'));
+    // Open only the correct <details>
+    document.querySelectorAll('details').forEach(d => d.removeAttribute('open'));
+    visibleDetails.setAttribute('open', '');
+
+    // Assign IDs to visible items from their data-id
+    visibleDetails.querySelectorAll('li').forEach(li => {
+      const dataId = li.getAttribute('data-id');
+      if (dataId) li.id = dataId;
+    });
+
+    const items = Array.from(visibleDetails.querySelectorAll('li'));
     const currentTime = new Date(1970, 0, 1, now.getHours(), now.getMinutes());
 
     let current = null, next = null;
-
     for (let i = 0; i < items.length; i++) {
       const timeText = items[i].querySelector('time')?.textContent.trim();
       if (!timeText) continue;
@@ -424,6 +438,7 @@
       if (currentTime >= start && currentTime < end) {
         current = items[i];
         next = items[i + 1] || null;
+        break;
       } else if (!current && currentTime < start && !next) {
         next = items[i];
       }
@@ -449,6 +464,7 @@
     applyTo(document.getElementById('next-activity'), next);
   }
 
+
   function localDateFromISO(isoStr) {
     const [date, time] = isoStr.split('T');
     const [y, m, d] = date.split('-').map(Number);
@@ -457,23 +473,40 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Assign IDs from data-id for hidden items
-    document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
-      const dataId = li.getAttribute('data-id');
-      if (dataId) li.id = dataId;
-    });
-
-    // Assign IDs for visible items in open <details>
-    document.querySelectorAll('details[open] li').forEach(li => {
-      const dataId = li.getAttribute('data-id');
-      if (dataId) li.id = dataId;
-    });
-
-    updateNowNextFromHiddenData();
-    setInterval(updateNowNextFromHiddenData, 60000);
-
-    document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
+  // Assign IDs to all schedule items (initial hidden)
+  document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
+    const dataId = li.getAttribute('data-id');
+    if (dataId) li.id = dataId;
   });
+
+  // Open today's <details>
+  const now = new Date();
+  const options = { month: 'long', day: 'numeric' };
+  const todayKey = now.toLocaleDateString('en-US', options)
+    .toLowerCase()
+    .replace(',', '')
+    .replace(' ', '-');
+
+  const target = document.getElementById(todayKey) || document.getElementById('june-23');
+  if (target) {
+    target.setAttribute('open', '');
+    target.setAttribute('today', '');
+
+    // 👉 AFTER <details open>, assign IDs to visible items
+    target.querySelectorAll('li').forEach(li => {
+      const dataId = li.getAttribute('data-id');
+      if (dataId) li.id = dataId;
+    });
+
+    // Optional: Scroll to it
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  updateNowNextFromHiddenData();
+  setInterval(updateNowNextFromHiddenData, 60000);
+  document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
+});
+
 </script>
 
 
