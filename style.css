@@ -70,9 +70,72 @@ header {
   border-radius: 6px;
 }
 
+.workshop-banner {
+  background-color: #d0ebff;
+  color: #084c8d;
+  padding: 1rem 2.5rem 1rem 1rem;
+  margin: 1rem auto;
+  border-left: 5px solid #2b644a;
+  border-radius: 4px;
+  max-width: 700px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.close-banner {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #084c8d;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.workshop-banner {
+  display: none;
+}
+
 main {
   padding: 2rem;
 }
+
+.now-next {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.activity-box {
+  flex: 1 1 250px;
+  background: #f0fdf7;
+  border: 2px solid #2b644a;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.activity-box h3 {
+  margin-top: 0;
+  color: #2b644a;
+  font-size: 1.25rem;
+}
+
+.activity-details {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: #444;
+}
+
 
 a {
   color: #2b644a;

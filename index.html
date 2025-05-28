@@ -15,9 +15,26 @@
       <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
       <a href="mailto:trosenberg@stetson.edu">✉️ Email Dr. Rosenberg</a>
     </nav>
+    <div class="notice">⚠️ This is the 2025-05-05 Draft. A final schedule will be released in June.⚠️</div>
+    <div class="workshop-banner" id="studentNotice" data-id="day1">
+      📢 Welcome to Day 1! Don’t forget your instrument and water bottle!
+      <button class="close-banner" aria-label="Dismiss notice">&times;</button>
+    </div>
   </header>
 
   <main>
+
+  <section class="now-next">
+    <div class="activity-box now">
+      <h3>Now</h3>
+        <div class="activity-details" id="current-activity">Loading...</div>
+    </div>
+    <div class="activity-box next">
+      <h3>Next</h3>
+        <div class="activity-details" id="next-activity">Loading...</div>
+    </div>
+  </section>
+
 
     <!-- MONDAY -->
     <details class="day" id="june-23">
@@ -175,49 +192,130 @@
   </footer>
 
 <!-- Open the current day's schedule, fallback to Monday -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const now = new Date();
-    const options = { month: 'long', day: 'numeric' };
-    const todayKey = now.toLocaleDateString('en-US', options)
-      .toLowerCase()
-      .replace(',', '')
-      .replace(' ', '-'); // e.g., "june-24"
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const now = new Date();
+      const options = { month: 'long', day: 'numeric' };
+      const todayKey = now.toLocaleDateString('en-US', options)
+        .toLowerCase()
+        .replace(',', '')
+        .replace(' ', '-'); // e.g., "june-24"
 
-    const target = document.getElementById(todayKey) || document.getElementById('june-23');
+      const target = document.getElementById(todayKey) || document.getElementById('june-23');
 
-    if (target) {
-      target.setAttribute('open', '');
-      target.setAttribute('today', '');
+      if (target) {
+        target.setAttribute('open', '');
+        target.setAttribute('today', '');
 
-      // 👇 Scroll it into view smoothly
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100); // slight delay ensures layout is ready
-    }
-  });
-</script>
+        // 👇 Scroll it into view smoothly
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100); // slight delay ensures layout is ready
+      }
+    });
+  </script>
 
 <!-- Animations for Hamburger Menu -->
-<script>
-  const toggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('contact-menu');
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('contact-menu');
 
-  toggle.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', !expanded);
-    menu.setAttribute('aria-hidden', expanded);
-    menu.classList.toggle('show');
-  });
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !expanded);
+      menu.setAttribute('aria-hidden', expanded);
+      menu.classList.toggle('show');
+    });
 
-  document.addEventListener('click', e => {
-    if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-      toggle.setAttribute('aria-expanded', 'false');
-      menu.setAttribute('aria-hidden', 'true');
-      menu.classList.remove('show');
+    document.addEventListener('click', e => {
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        menu.classList.remove('show');
+      }
+    });
+  </script>
+
+<!-- Notifications Banner Dismiss Logic -->
+  <script>
+    const banner = document.getElementById('studentNotice');
+    const closeBtn = banner?.querySelector('.close-banner');
+    const messageId = banner?.getAttribute('data-id');
+    const dismissedId = localStorage.getItem('dismissedNotice');
+
+    // Show banner only if this message hasn't been dismissed
+    if (messageId !== dismissedId) {
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
     }
+
+    closeBtn?.addEventListener('click', () => {
+      banner.style.display = 'none';
+      localStorage.setItem('dismissedNotice', messageId);
+    });
+  </script>
+
+<!-- Now / Next Logic -->
+<script>
+  function parseTimeString(timeStr) {
+    // Normalize AM/PM if only the second part has it
+    let [start, end] = timeStr.split('-').map(s => s.trim());
+    if (!start.match(/am|pm/i)) {
+      const ampm = end.slice(-2);
+      start += ' ' + ampm;
+    }
+    return [new Date(`1970-01-01T${convertTo24Hour(start)}`),
+            new Date(`1970-01-01T${convertTo24Hour(end)}`)];
+  }
+
+  function convertTo24Hour(str) {
+    const [time, ampm] = str.toLowerCase().split(' ');
+    let [h, m] = time.split(':');
+    h = parseInt(h);
+    if (ampm === 'pm' && h !== 12) h += 12;
+    if (ampm === 'am' && h === 12) h = 0;
+    return `${String(h).padStart(2, '0')}:${m || '00'}`;
+  }
+
+  function updateActivityStatus() {
+    const todayOpen = document.querySelector('details[open]');
+    if (!todayOpen) return;
+
+    const timeEls = todayOpen.querySelectorAll('time');
+    const now = new Date();
+    const nowTime = new Date(`1970-01-01T${now.toTimeString().slice(0,5)}`);
+
+    let current = null;
+    let next = null;
+
+    for (let i = 0; i < timeEls.length; i++) {
+      const timeEl = timeEls[i];
+      const timeRange = timeEl.textContent.trim();
+      const desc = timeEl.parentNode.textContent.split(':').slice(1).join(':').trim();
+
+      const [start, end] = parseTimeString(timeRange);
+
+      if (nowTime >= start && nowTime < end) {
+        current = desc;
+        next = timeEls[i + 1]?.parentNode.textContent.split(':').slice(1).join(':').trim() || null;
+        break;
+      } else if (nowTime < start && !next) {
+        next = desc;
+        break;
+      }
+    }
+
+    document.getElementById('current-activity').textContent = current || '—';
+    document.getElementById('next-activity').textContent = next || '—';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateActivityStatus();
+    setInterval(updateActivityStatus, 60000); // update every minute
   });
 </script>
+
 
 </body>
 </html>
