@@ -91,9 +91,18 @@ footer {
   background: #eee;
 }
 
-summary::-webkit-details-marker {
-  display: none;
+summary {
+  all: unset;
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #293c2e;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  background: none;
 }
+
+summary::-webkit-details-marker,
 summary::marker {
   display: none;
 }
