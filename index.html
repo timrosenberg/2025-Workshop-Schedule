@@ -402,32 +402,43 @@
       }
     }
 
-    function applyTo(el, item) {
-      if (!item) {
-        el.textContent = '—';
-        el.removeAttribute('href');
-        return;
-      }
-      const id = item.getAttribute('data-id');
-      const visibleItem = document.getElementById(id);
-      if (visibleItem) visibleItem.classList.add('highlighted');
+      function applyTo(el, item) {
+        if (!item) {
+          el.textContent = '—';
+          el.removeAttribute('href');
+          return;
+        }
+        const id = item.getAttribute('data-id');
+        item.id = id; // Assign ID so the scroll works
+        item.classList.add('highlighted');
 
-      el.textContent = item.textContent.trim().split('\n')[0];
-      el.href = `#${id}`;
-      el.onclick = e => {
-        e.preventDefault();
-        scrollToId(id);
-      };
-    }
+        el.textContent = item.textContent.trim().split('\n')[0];
+        el.href = `#${id}`;
+        el.onclick = e => {
+          e.preventDefault();
+          scrollToId(id);
+        };
+      }
+
 
     applyTo(document.getElementById('current-activity'), current);
     applyTo(document.getElementById('next-activity'), next);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    updateNowNextFromHiddenData();
-    setInterval(updateNowNextFromHiddenData, 60000);
-  });
+    document.addEventListener('DOMContentLoaded', () => {
+      // Assign matching ID to each schedule item based on its data-id
+      document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
+        const dataId = li.getAttribute('data-id');
+        if (dataId) li.id = dataId;
+      });
+
+      // Initial update of Now/Next activities
+      updateNowNextFromHiddenData();
+
+      // Refresh the Now/Next activities every minute
+      setInterval(updateNowNextFromHiddenData, 60000);
+    });
+
   </script>
 
 

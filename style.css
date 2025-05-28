@@ -71,18 +71,20 @@ header {
 }
 
 .workshop-banner {
-  background-color: #d0ebff;
-  color: #084c8d;
-  padding: 1rem 2.5rem 1rem 1rem;
+  display: none; /* controlled by JS */
+  background-color: #66A95A;
+  color: #2b644a;
+  padding: 0.75rem 2rem 0.75rem 1rem;
   margin: 1rem auto;
-  border-left: 5px solid #2b644a;
-  border-radius: 4px;
-  max-width: 700px;
+  border-radius: 6px;
   font-weight: 600;
   font-size: 1rem;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   position: relative;
+  display: inline-block;
+  max-width: 90%;
+  white-space: nowrap;
 }
 
 .close-banner {
