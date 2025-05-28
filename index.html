@@ -368,13 +368,23 @@
   }
 
   function convertTo24Hour(time) {
+    if (!time) return "00:00"; // fallback if null or empty
+
     if (!time.includes(':')) time = time.replace(/(AM|PM)/, ':00 $1');
-    const [h, m, ampm] = time.match(/(\d+):(\d+)\s*(AM|PM)/i).slice(1);
+    
+    const match = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (!match) {
+      console.warn("Invalid time format:", time);
+      return "00:00";
+    }
+
+    const [h, m, ampm] = match.slice(1);
     let hour = parseInt(h, 10);
     if (ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
     if (ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
     return `${hour.toString().padStart(2, '0')}:${m}`;
   }
+
 
   function scrollToId(id) {
     const target = document.getElementById(id);

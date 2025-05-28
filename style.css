@@ -74,14 +74,18 @@ header {
 }
 
 .notice {
-  font-size: 1rem;
   background: #ffefc1;
   color: #7a6000;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
   margin: 1rem auto;
-  padding: 2rem;
   font-size: 1rem;
-  max-width: 600px;
+  max-width: 90vw;
+  width: fit-content;
   border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  white-space: normal;
+  word-break: break-word;
 }
 
 .workshop-banner {
