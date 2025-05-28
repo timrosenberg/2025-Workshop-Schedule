@@ -143,6 +143,16 @@ main {
   text-decoration: underline;
 }
 
+.highlighted {
+  animation: flash-highlight 2s ease-out;
+}
+
+@keyframes flash-highlight {
+  0%   { background-color: #f8fcbf; }
+  50%  { background-color: #fcfcb0; }
+  100% { background-color: transparent; }
+}
+
 
 a {
   color: #2b644a;

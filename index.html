@@ -260,66 +260,73 @@
   <script>
     function scrollToId(id) {
       const target = document.getElementById(id);
-       if (target) {
+      if (target) {
         if (target.tagName.toLowerCase() === 'details') {
           target.open = true;
         }
         target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.add('highlighted');
+        setTimeout(() => target.classList.remove('highlighted'), 2000);
       }
     }
 
-    function updateNowNextFromSummary() {
-      const details = Array.from(document.querySelectorAll('details'));
+    function updateNowNextFromListItems() {
+      const today = document.querySelector('details[open]');
+      if (!today) return;
+
+      const items = Array.from(today.querySelectorAll('li')).filter(li =>
+        li.querySelector('time') && !li.closest('ul ul')
+      );
+
       const now = new Date();
-      const currentTime = new Date(`1970-01-01T${now.toTimeString().slice(0,5)}`);
+      const currentTime = new Date(`1970-01-01T${now.toTimeString().slice(0, 5)}`);
 
-      let nowTarget = null;
-      let nextTarget = null;
+      let current = null;
+      let next = null;
 
-      for (let i = 0; i < details.length; i++) {
-        const detail = details[i];
-        const times = detail.querySelectorAll('time');
-        for (let t = 0; t < times.length; t++) {
-          const [start, end] = parseTimeString(times[t].textContent.trim());
-          if (currentTime >= start && currentTime < end) {
-            nowTarget = detail;
-            nextTarget = details[i + 1] || null;
-            break;
-          } else if (currentTime < start && !nowTarget && !nextTarget) {
-            nextTarget = detail;
-            break;
-          }
+      for (let i = 0; i < items.length; i++) {
+        const timeRange = items[i].querySelector('time')?.textContent.trim();
+        if (!timeRange) continue;
+        const [start, end] = parseTimeString(timeRange);
+
+        if (currentTime >= start && currentTime < end) {
+          current = items[i];
+          next = items[i + 1] || null;
+          break;
+        } else if (currentTime < start && !current && !next) {
+          next = items[i];
+          break;
         }
-        if (nowTarget) break;
       }
 
-      const currentAnchor = document.getElementById('current-activity');
-      const nextAnchor = document.getElementById('next-activity');
-
-      if (nowTarget) {
-        currentAnchor.href = `#${nowTarget.id}`;
-        currentAnchor.textContent = nowTarget.querySelector('summary').textContent;
-        currentAnchor.onclick = e => {
-          e.preventDefault();
-          scrollToId(nowTarget.id);
-        };
-      } else {
-        currentAnchor.textContent = '—';
-        currentAnchor.removeAttribute('href');
+      function formatAnchor(item) {
+        if (!item) return { text: '—', href: '#' };
+        const id = item.id || `time-${Math.random().toString(36).substr(2, 8)}`;
+        item.id = id;
+        const text = item.textContent.trim().split('\n')[0];
+        return { text, href: `#${id}` };
       }
 
-      if (nextTarget) {
-        nextAnchor.href = `#${nextTarget.id}`;
-        nextAnchor.textContent = nextTarget.querySelector('summary').textContent;
-        nextAnchor.onclick = e => {
-          e.preventDefault();
-          scrollToId(nextTarget.id);
-        };
-      } else {
-        nextAnchor.textContent = '—';
-        nextAnchor.removeAttribute('href');
-      }
+      const curr = formatAnchor(current);
+      const nxt = formatAnchor(next);
+
+      const currLink = document.getElementById('current-activity');
+      currLink.textContent = curr.text;
+      currLink.href = curr.href;
+      currLink.onclick = e => {
+        e.preventDefault();
+        scrollToId(curr.href.slice(1));
+      };
+
+      const nextLink = document.getElementById('next-activity');
+      nextLink.textContent = nxt.text;
+      nextLink.href = nxt.href;
+      nextLink.onclick = e => {
+        e.preventDefault();
+        scrollToId(nxt.href.slice(1));
+      };
     }
+
 
     function parseTimeString(timeStr) {
       let [start, end] = timeStr.split('-').map(s => s.trim());
@@ -341,9 +348,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      updateNowNextFromSummary();
-      setInterval(updateNowNextFromSummary, 60000); // update every minute
+      updateNowNextFromListItems();
+      setInterval(updateNowNextFromListItems, 60000);
     });
+
   </script>
 
 
