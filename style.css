@@ -40,6 +40,7 @@ header {
 
 #contact-menu {
   position: absolute;
+  text-align: left;
   right: 1rem;
   top: 3.5rem;
   background: white;
@@ -152,10 +153,10 @@ main {
 
 .activity-box a {
   display: block;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #2b644a;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .activity-box a:hover {
@@ -190,9 +191,13 @@ a:focus {
 .day {
   background: white;
   margin-bottom: 2rem;
-  padding: 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.day, .day * {
+  font-size: 1.1rem !important;
 }
 
 summary {
