@@ -24,17 +24,16 @@
 
   <main>
 
-  <section class="now-next">
-    <div class="activity-box now">
-      <h3>Now</h3>
-        <div class="activity-details" id="current-activity">Loading...</div>
+    <div class="now-next-container">
+      <div class="activity-box">
+        <h3>Now</h3>
+        <a id="current-activity" href="#">—</a>
+      </div>
+      <div class="activity-box">
+        <h3>Next</h3>
+        <a id="next-activity" href="#">—</a>
+      </div>
     </div>
-    <div class="activity-box next">
-      <h3>Next</h3>
-        <div class="activity-details" id="next-activity">Loading...</div>
-    </div>
-  </section>
-
 
     <!-- MONDAY -->
     <details class="day" id="june-23">
@@ -185,6 +184,95 @@
       </ul>
     </details>
 
+    <ul id="schedule-june-23" data-day="june-23" hidden>
+      <li data-id="june-23-1"><time>8:30 - 11:30 AM</time>: Registration – Hatter Hall</li>
+      <li data-id="june-23-2"><time>10:30 - 11:30 AM</time>: Honors Recital Auditions – Hatter Hall, Floor 2</li>
+      <li data-id="june-23-3"><time>12:00 - 12:45 PM</time>: Lunch – CUB</li>
+      <li data-id="june-23-4"><time>1:00 - 1:45 PM</time>: Opening Meeting – Feasel Hall</li>
+      <li data-id="june-23-5"><time>1:45 - 3:15 PM</time>: Rehearsals – Symphonic (Feasel), Concert (Various)</li>
+      <li data-id="june-23-6"><time>3:15 - 4:45 PM</time>: Rehearsals – Symphonic (Various), Concert (Tinsley 132)</li>
+      <li data-id="june-23-7"><time>5:00 - 6:00 PM</time>: Jazz Classes</li>
+      <li data-id="june-23-8"><time>6:15 - 7:00 PM</time>: Dinner – CUB</li>
+      <li data-id="june-23-9"><time>7:15 - 8:00 PM</time>: Faculty Recital – Lee Chapel</li>
+      <li data-id="june-23-10"><time>8:00 - 9:00 PM</time>: Practice or Relax</li>
+      <li data-id="june-23-11"><time>9:00 - 9:15 PM</time>: Students in Dorm</li>
+      <li data-id="june-23-12"><time>9:15 - 9:30 PM</time>: Hall Meeting – Hatter Hall</li>
+      <li data-id="june-23-13"><time>10:00 PM</time>: Lights out</li>
+    </ul>
+
+    <ul id="schedule-june-24" data-day="june-24" hidden>
+      <li data-id="june-24-1"><time>7:15 - 8:00 AM</time>: Wake up</li>
+      <li data-id="june-24-2"><time>8:00 AM</time>: Meet counselors</li>
+      <li data-id="june-24-3"><time>8:15 - 8:45 AM</time>: Breakfast – CUB</li>
+      <li data-id="june-24-4"><time>9:00 - 9:35 AM</time>: Fundamentals – Various</li>
+      <li data-id="june-24-5"><time>9:45 - 11:45 AM</time>: Rehearsals – Symphonic / Concert</li>
+      <li data-id="june-24-6"><time>12:00 - 12:45 PM</time>: Lunch – CUB</li>
+      <li data-id="june-24-7"><time>1:00 - 2:30 PM</time>: Masterclass – Feasel</li>
+      <li data-id="june-24-8"><time>2:45 - 4:45 PM</time>: Rehearsals – Various / Tinsley</li>
+      <li data-id="june-24-9"><time>5:00 - 6:00 PM</time>: Jazz Classes</li>
+      <li data-id="june-24-10"><time>6:15 - 7:00 PM</time>: Dinner – CUB</li>
+      <li data-id="june-24-11"><time>7:15 - 8:00 PM</time>: Recital – Dr. Rosenberg</li>
+      <li data-id="june-24-12"><time>8:15 - 10:00 PM</time>: Movie Night – TBA</li>
+      <li data-id="june-24-13"><time>10:00 PM</time>: Lights out</li>
+    </ul>
+
+    <ul id="schedule-june-25" data-day="june-25" hidden>
+      <li data-id="june-25-1"><time>7:15 - 8:00 AM</time>: Wake up</li>
+      <li data-id="june-25-2"><time>8:00 AM</time>: Meet counselors</li>
+      <li data-id="june-25-3"><time>8:15 - 8:45 AM</time>: Breakfast – CUB</li>
+      <li data-id="june-25-4"><time>9:00 - 9:35 AM</time>: Fundamentals – Various</li>
+      <li data-id="june-25-5"><time>9:45 - 11:45 AM</time>: Rehearsals – Symphonic / Concert</li>
+      <li data-id="june-25-6"><time>12:00 - 12:45 PM</time>: Lunch – CUB</li>
+      <li data-id="june-25-7"><time>1:00 - 3:00 PM</time>: Rehearsals – Various / Tinsley</li>
+      <li data-id="june-25-8"><time>3:15 - 4:15 PM</time>: Masterclass – Greg Osby</li>
+      <li data-id="june-25-9"><time>4:25 - 6:00 PM</time>: Scavenger Hunt</li>
+      <li data-id="june-25-10"><time>6:15 - 7:00 PM</time>: Dinner – CUB</li>
+      <li data-id="june-25-11"><time>7:15 - 8:15 PM</time>: Guest Recital – Greg Osby</li>
+      <li data-id="june-25-12"><time>8:15 - 9:15 PM</time>: Jam Session – Greg Osby</li>
+      <li data-id="june-25-13"><time>10:00 PM</time>: Lights out</li>
+    </ul>
+
+    <ul id="schedule-june-26" data-day="june-26" hidden>
+      <li data-id="june-26-1"><time>7:15 - 8:00 AM</time>: Wake up</li>
+      <li data-id="june-26-2"><time>8:00 AM</time>: Meet counselors</li>
+      <li data-id="june-26-3"><time>8:15 - 8:45 AM</time>: Breakfast – CUB</li>
+      <li data-id="june-26-4"><time>9:00 - 9:35 AM</time>: Fundamentals – Various</li>
+      <li data-id="june-26-5"><time>9:45 - 11:45 AM</time>: Rehearsals – Symphonic / Concert</li>
+      <li data-id="june-26-6"><time>12:00 - 12:45 PM</time>: Lunch – CUB</li>
+      <li data-id="june-26-7"><time>1:00 - 2:30 PM</time>: Masterclass – All-State Prep</li>
+      <li data-id="june-26-8"><time>2:45 - 4:45 PM</time>: Rehearsals – Various / Tinsley</li>
+      <li data-id="june-26-9"><time>5:00 - 5:50 PM</time>: Jazz Classes</li>
+      <li data-id="june-26-10"><time>6:00 - 6:10 PM</time>: Workshop Photo – Sampson</li>
+      <li data-id="june-26-11"><time>6:15 - 7:00 PM</time>: Dinner – CUB</li>
+      <li data-id="june-26-12"><time>7:15 - 8:15 PM</time>: Young Artist Recital – Lee Chapel</li>
+      <li data-id="june-26-13"><time>8:15 - 9:00 PM</time>: Practice or Relax</li>
+      <li data-id="june-26-14"><time>10:00 PM</time>: Lights out</li>
+    </ul>
+
+    <ul id="schedule-june-27" data-day="june-27" hidden>
+      <li data-id="june-27-1"><time>7:15 - 8:00 AM</time>: Wake up</li>
+      <li data-id="june-27-2"><time>8:15 - 8:45 AM</time>: Breakfast</li>
+      <li data-id="june-27-3"><time>9:00 - 9:35 AM</time>: Fundamentals</li>
+      <li data-id="june-27-4"><time>9:45 - 11:45 AM</time>: Rehearsals</li>
+      <li data-id="june-27-5"><time>12:00 - 12:45 PM</time>: Lunch</li>
+      <li data-id="june-27-6"><time>1:00 - 3:00 PM</time>: Rehearsals</li>
+      <li data-id="june-27-7"><time>3:10 - 4:10 PM</time>: Jazz Classes</li>
+      <li data-id="june-27-8"><time>4:15 - 6:00 PM</time>: Dress Rehearsal – Lee Chapel</li>
+      <li data-id="june-27-9"><time>6:15 - 7:00 PM</time>: Dinner</li>
+      <li data-id="june-27-10"><time>7:30 - 8:45 PM</time>: Chamber Concert – Lee Chapel</li>
+      <li data-id="june-27-11"><time>10:00 PM</time>: Lights out</li>
+    </ul>
+
+    <ul id="schedule-june-28" data-day="june-28" hidden>
+      <li data-id="june-28-1"><time>7:00 AM</time>: Wake up – Pack & Prep</li>
+      <li data-id="june-28-2"><time>7:30 - 8:00 AM</time>: Breakfast – CUB</li>
+      <li data-id="june-28-3"><time>8:15 - 9:15 AM</time>: Dress Rehearsals – Feasel / Tinsley</li>
+      <li data-id="june-28-4"><time>9:30 - 11:00 AM</time>: Dress & Checkout – Hatter Hall</li>
+      <li data-id="june-28-5"><time>11:00 AM</time>: Call Time – Lee Chapel</li>
+      <li data-id="june-28-6"><time>11:30 - 12:30 PM</time>: Final Concert – Lee Chapel</li>
+      <li data-id="june-28-7"><time>12:30 - 1:30 PM</time>: Return Equipment – Tinsley</li>
+    </ul>
+  
   </main>
 
   <footer>
@@ -258,100 +346,88 @@
 
 <!-- Now / Next Logic -->
   <script>
-    function scrollToId(id) {
-      const target = document.getElementById(id);
-      if (target) {
-        if (target.tagName.toLowerCase() === 'details') {
-          target.open = true;
-        }
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        target.classList.add('highlighted');
-        setTimeout(() => target.classList.remove('highlighted'), 2000);
+  function parseTimeString(timeStr) {
+    const [start, end] = timeStr.split(' - ');
+    const toDate = str => new Date(`1970-01-01T${convertTo24Hour(str)}`);
+    return [toDate(start), end ? toDate(end) : new Date('1970-01-01T23:59')];
+  }
+
+  function convertTo24Hour(time) {
+    if (!time.includes(':')) time = time.replace(/(AM|PM)/, ':00 $1');
+    const [h, m, ampm] = time.match(/(\d+):(\d+)\s*(AM|PM)/i).slice(1);
+    let hour = parseInt(h, 10);
+    if (ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
+    if (ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
+    return `${hour.toString().padStart(2, '0')}:${m}`;
+  }
+
+  function scrollToId(id) {
+    const target = document.getElementById(id);
+    if (target) {
+      if (target.tagName.toLowerCase() === 'details') {
+        target.open = true;
+      }
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.classList.add('highlighted');
+      setTimeout(() => target.classList.remove('highlighted'), 2000);
+    }
+  }
+
+  function updateNowNextFromHiddenData() {
+    const today = new Date();
+    const month = today.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+    const day = today.getDate();
+    const scheduleList = document.querySelector(`#schedule-${month}-${day}`) || document.querySelector('#schedule-june-23');
+
+    if (!scheduleList) return;
+
+    const items = Array.from(scheduleList.querySelectorAll('li'));
+    const now = new Date();
+    const currentTime = new Date(`1970-01-01T${now.toTimeString().slice(0, 5)}`);
+
+    let current = null, next = null;
+
+    for (let i = 0; i < items.length; i++) {
+      const timeText = items[i].querySelector('time')?.textContent.trim();
+      if (!timeText) continue;
+      const [start, end] = parseTimeString(timeText);
+
+      if (currentTime >= start && currentTime < end) {
+        current = items[i];
+        next = items[i + 1] || null;
+        break;
+      } else if (currentTime < start && !current && !next) {
+        next = items[i];
+        break;
       }
     }
 
-    function updateNowNextFromListItems() {
-      const today = document.querySelector('details[open]');
-      if (!today) return;
-
-      const items = Array.from(today.querySelectorAll('li')).filter(li =>
-        li.querySelector('time') && !li.closest('ul ul')
-      );
-
-      const now = new Date();
-      const currentTime = new Date(`1970-01-01T${now.toTimeString().slice(0, 5)}`);
-
-      let current = null;
-      let next = null;
-
-      for (let i = 0; i < items.length; i++) {
-        const timeRange = items[i].querySelector('time')?.textContent.trim();
-        if (!timeRange) continue;
-        const [start, end] = parseTimeString(timeRange);
-
-        if (currentTime >= start && currentTime < end) {
-          current = items[i];
-          next = items[i + 1] || null;
-          break;
-        } else if (currentTime < start && !current && !next) {
-          next = items[i];
-          break;
-        }
+    function applyTo(el, item) {
+      if (!item) {
+        el.textContent = '—';
+        el.removeAttribute('href');
+        return;
       }
+      const id = item.getAttribute('data-id');
+      const visibleItem = document.getElementById(id);
+      if (visibleItem) visibleItem.classList.add('highlighted');
 
-      function formatAnchor(item) {
-        if (!item) return { text: '—', href: '#' };
-        const id = item.id || `time-${Math.random().toString(36).substr(2, 8)}`;
-        item.id = id;
-        const text = item.textContent.trim().split('\n')[0];
-        return { text, href: `#${id}` };
-      }
-
-      const curr = formatAnchor(current);
-      const nxt = formatAnchor(next);
-
-      const currLink = document.getElementById('current-activity');
-      currLink.textContent = curr.text;
-      currLink.href = curr.href;
-      currLink.onclick = e => {
+      el.textContent = item.textContent.trim().split('\n')[0];
+      el.href = `#${id}`;
+      el.onclick = e => {
         e.preventDefault();
-        scrollToId(curr.href.slice(1));
-      };
-
-      const nextLink = document.getElementById('next-activity');
-      nextLink.textContent = nxt.text;
-      nextLink.href = nxt.href;
-      nextLink.onclick = e => {
-        e.preventDefault();
-        scrollToId(nxt.href.slice(1));
+        scrollToId(id);
       };
     }
 
+    applyTo(document.getElementById('current-activity'), current);
+    applyTo(document.getElementById('next-activity'), next);
+  }
 
-    function parseTimeString(timeStr) {
-      let [start, end] = timeStr.split('-').map(s => s.trim());
-      if (!start.match(/am|pm/i)) {
-        const ampm = end.slice(-2);
-        start += ' ' + ampm;
-      }
-      return [new Date(`1970-01-01T${convertTo24Hour(start)}`),
-              new Date(`1970-01-01T${convertTo24Hour(end)}`)];
-    }
-
-    function convertTo24Hour(str) {
-      const [time, ampm] = str.toLowerCase().split(' ');
-      let [h, m] = time.split(':');
-      h = parseInt(h);
-      if (ampm === 'pm' && h !== 12) h += 12;
-      if (ampm === 'am' && h === 12) h = 0;
-      return `${String(h).padStart(2, '0')}:${m || '00'}`;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      updateNowNextFromListItems();
-      setInterval(updateNowNextFromListItems, 60000);
-    });
-
+  document.addEventListener('DOMContentLoaded', () => {
+    updateNowNextFromHiddenData();
+    setInterval(updateNowNextFromHiddenData, 60000);
+  });
   </script>
 
 
