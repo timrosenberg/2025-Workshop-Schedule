@@ -411,12 +411,13 @@
     }
   }
 
-  function localDateFromISO(dateString) {
-    const [date, time] = dateString.split('T');
-    const [y, m, d] = date.split('-').map(Number);
-    const [h, min] = time.split(':').map(Number);
-    return new Date(y, m - 1, d, h, min);
-  }
+    function localDateFromISO(isoStr) {
+      const [datePart, timePart] = isoStr.split('T');
+      const [year, month, day] = datePart.split('-').map(Number);
+      const [hour, minute] = timePart.split(':').map(Number);
+      return new Date(year, month - 1, day, hour, minute); // Local time
+    }
+
 
     function updateNowNextFromHiddenData() {
     const testModeSelect = document.getElementById('test-mode-select');
