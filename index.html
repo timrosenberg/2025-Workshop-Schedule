@@ -295,7 +295,7 @@
   </footer>
 
 <!-- Open the current day's schedule, fallback to Monday -->
-  <script>
+<!--   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const now = new Date();
       const options = { month: 'long', day: 'numeric' };
@@ -316,7 +316,7 @@
         }, 100); // slight delay ensures layout is ready
       }
     });
-  </script>
+  </script> -->
 
 <!-- Animations for Hamburger Menu -->
   <script>
@@ -389,7 +389,8 @@
   }
 
   function updateNowNextFromHiddenData() {
-    const testValue = document.getElementById('test-mode-select')?.value;
+    const testModeSelect = document.getElementById('test-mode-select');
+    const testValue = testModeSelect?.value;
     const now = testValue ? new Date(testValue) : new Date();
 
     const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
@@ -440,26 +441,18 @@
     applyTo(document.getElementById('next-activity'), next);
   }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // Assign matching ID to each schedule item based on its data-id
-      document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
-        const dataId = li.getAttribute('data-id');
-        if (dataId) li.id = dataId;
-      });
-
-      // Initial update of Now/Next activities
-      updateNowNextFromHiddenData();
-
-      // Refresh the Now/Next activities every minute
-      setInterval(updateNowNextFromHiddenData, 60000);
-
-      // Test Toggle Function 
-      document.getElementById('test-mode-toggle')?.addEventListener('change', updateNowNextFromHiddenData);
-      document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
+      const dataId = li.getAttribute('data-id');
+      if (dataId) li.id = dataId;
     });
 
-  </script>
+    updateNowNextFromHiddenData();
+    setInterval(updateNowNextFromHiddenData, 60000);
 
+    document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
+  });
+</script>
 
 </body>
 </html>
