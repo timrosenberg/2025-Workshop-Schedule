@@ -363,133 +363,108 @@
   </script>
 
 <!-- Now / Next Logic -->
-  <script>
-    function parseTimeString(timeStr) {
-      const parts = timeStr.split(' - ');
-      const parsePart = str => {
-        const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
-        if (!match) {
-          console.warn("Invalid time format:", str);
-          return new Date(1970, 0, 1, 0, 0);
-        }
-        let [, h, m, ampm] = match;
-        h = parseInt(h, 10);
-        m = parseInt(m, 10);
-        if (ampm.toUpperCase() === "PM" && h !== 12) h += 12;
-        if (ampm.toUpperCase() === "AM" && h === 12) h = 0;
-        return new Date(1970, 0, 1, h, m);
-      };
-
-      const start = parsePart(parts[0]);
-      const end = parts[1] ? parsePart(parts[1]) : new Date(1970, 0, 1, 23, 59);
-      return [start, end];
-    }
-
-  function convertTo24Hour(time) {
-    if (!time) return "00:00"; // fallback if null or empty
-
-    if (!time.includes(':')) time = time.replace(/(AM|PM)/, ':00 $1');
-    
-    const match = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
-    if (!match) {
-      console.warn("Invalid time format:", time);
-      return "00:00";
-    }
-
-    const [h, m, ampm] = match.slice(1);
-    let hour = parseInt(h, 10);
-    if (ampm.toUpperCase() === 'PM' && hour < 12) hour += 12;
-    if (ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
-    return `${hour.toString().padStart(2, '0')}:${m}`;
+<script>
+  function parseTimeString(timeStr) {
+    const parts = timeStr.split(' - ');
+    const parsePart = str => {
+      const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
+      if (!match) {
+        console.warn("Invalid time format:", str);
+        return new Date(1970, 0, 1, 0, 0);
+      }
+      let [, h, m, ampm] = match;
+      h = parseInt(h, 10);
+      m = parseInt(m, 10);
+      if (ampm.toUpperCase() === "PM" && h !== 12) h += 12;
+      if (ampm.toUpperCase() === "AM" && h === 12) h = 0;
+      return new Date(1970, 0, 1, h, m);
+    };
+    const start = parsePart(parts[0]);
+    const end = parts[1] ? parsePart(parts[1]) : new Date(1970, 0, 1, 23, 59);
+    return [start, end];
   }
 
-
   function scrollToId(id) {
-    const target = document.getElementById(id);
+    let target = document.querySelector('details[open] li#' + id);
+    if (!target) {
+      target = document.getElementById(id);
+    }
     if (target) {
-      if (target.tagName.toLowerCase() === 'details') {
-        target.open = true;
-      }
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       target.classList.add('highlighted');
       setTimeout(() => target.classList.remove('highlighted'), 2000);
     }
   }
 
-    function localDateFromISO(isoStr) {
-      const [datePart, timePart] = isoStr.split('T');
-      const [year, month, day] = datePart.split('-').map(Number);
-      const [hour, minute] = timePart.split(':').map(Number);
-      return new Date(year, month - 1, day, hour, minute);
+  function updateNowNextFromHiddenData() {
+    const testModeSelect = document.getElementById('test-mode-select');
+    const testValue = testModeSelect?.value;
+    const now = testValue ? localDateFromISO(testValue) : new Date();
+
+    const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+    const day = now.getDate();
+    const todayKey = `schedule-${month}-${day}`;
+
+    const scheduleList = document.getElementById(todayKey);
+    if (!scheduleList) {
+      console.warn("⚠️ Could not find schedule list for:", todayKey);
+      return;
     }
 
-    function updateNowNextFromHiddenData() {
-      const testModeSelect = document.getElementById('test-mode-select');
-      const testValue = testModeSelect?.value;
-      const now = testValue ? localDateFromISO(testValue) : new Date();
+    const items = Array.from(scheduleList.querySelectorAll('li'));
+    const currentTime = new Date(1970, 0, 1, now.getHours(), now.getMinutes());
 
-      const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
-      const day = now.getDate();
-      const todayKey = `schedule-${month}-${day}`;
+    let current = null, next = null;
 
-      const scheduleList = document.getElementById(todayKey);
-      if (!scheduleList) {
-        console.warn("⚠️ Could not find schedule list for:", todayKey);
+    for (let i = 0; i < items.length; i++) {
+      const timeText = items[i].querySelector('time')?.textContent.trim();
+      if (!timeText) continue;
+      const [start, end] = parseTimeString(timeText);
+
+      if (currentTime >= start && currentTime < end) {
+        current = items[i];
+        next = items[i + 1] || null;
+      } else if (!current && currentTime < start && !next) {
+        next = items[i];
+      }
+    }
+
+    function applyTo(el, item) {
+      if (!el) return;
+      if (!item) {
+        el.textContent = '—';
+        el.removeAttribute('href');
         return;
       }
-
-      console.log("🧪 Using schedule list ID:", scheduleList.id);
-      const items = Array.from(scheduleList.querySelectorAll('li'));
-      const currentTime = new Date(1970, 0, 1, now.getHours(), now.getMinutes());
-
-      let current = null, next = null;
-
-      for (let i = 0; i < items.length; i++) {
-        const timeText = items[i].querySelector('time')?.textContent.trim();
-        if (!timeText) continue;
-
-        const [start, end] = parseTimeString(timeText);
-        console.log(`Checking item ${i}:`, {
-          currentTime: currentTime.toTimeString(),
-          start: start.toTimeString(),
-          end: end.toTimeString(),
-          timeText
-        });
-
-        if (currentTime >= start && currentTime < end) {
-          current = items[i];
-          next = items[i + 1] || null;
-          // ⚠️ Don't break here — there could be multiple matching blocks
-        } else if (!current && currentTime < start && !next) {
-          next = items[i];
-        }
-      }
-
-      function applyTo(el, item) {
-        if (!el) return;
-        if (!item) {
-          el.textContent = '—';
-          el.removeAttribute('href');
-          return;
-        }
-        const id = item.getAttribute('data-id');
-        item.id = id;
-        item.classList.add('highlighted');
-
-        el.textContent = item.textContent.trim().split('\n')[0];
-        el.href = `#${id}`;
-        el.onclick = e => {
-          e.preventDefault();
-          scrollToId(id);
-        };
-      }
-
-      applyTo(document.getElementById('current-activity'), current);
-      applyTo(document.getElementById('next-activity'), next);
+      const id = item.getAttribute('data-id');
+      el.textContent = item.textContent.trim().split('\n')[0];
+      el.href = `#${id}`;
+      el.onclick = e => {
+        e.preventDefault();
+        scrollToId(id);
+      };
     }
 
+    applyTo(document.getElementById('current-activity'), current);
+    applyTo(document.getElementById('next-activity'), next);
+  }
+
+  function localDateFromISO(isoStr) {
+    const [date, time] = isoStr.split('T');
+    const [y, m, d] = date.split('-').map(Number);
+    const [h, min] = time.split(':').map(Number);
+    return new Date(y, m - 1, d, h, min);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    // Assign IDs from data-id for hidden items
     document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
+      const dataId = li.getAttribute('data-id');
+      if (dataId) li.id = dataId;
+    });
+
+    // Assign IDs for visible items in open <details>
+    document.querySelectorAll('details[open] li').forEach(li => {
       const dataId = li.getAttribute('data-id');
       if (dataId) li.id = dataId;
     });
@@ -500,6 +475,7 @@
     document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
   });
 </script>
+
 
 </body>
 </html>

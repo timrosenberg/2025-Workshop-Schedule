@@ -127,12 +127,31 @@ main {
   padding: 2rem;
 }
 
+@media (max-width: 600px) {
+  .now-next-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: .5rem;
+  }
+}
+
 .now-next-container {
   display: flex;
   justify-content: center;
   gap: 2rem;
   margin: 1rem auto 2rem;
   max-width: 600px;
+}
+
+#now-box a,
+#next-box a {
+  color: #2b644a;
+  text-decoration: none;
+}
+
+#now-box a:hover,
+#next-box a:hover {
+  text-decoration: underline;
 }
 
 .activity-box {
@@ -285,4 +304,9 @@ summary::before {
 
 details[open] summary::before {
   transform: rotate(90deg);
+}
+
+li.highlighted {
+  background-color: #fff2b2;
+  transition: background-color 0.3s ease;
 }
