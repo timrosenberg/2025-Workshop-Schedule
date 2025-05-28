@@ -15,7 +15,7 @@
   <main>
 
     <!-- MONDAY -->
-    <details class="day">
+    <details class="day" id="june-23">
       <summary>Monday, June 23 — 🎬 Sax & Screen</summary>
       <p class="theme-description">Wear something that shows your favorite film or musical!</p>
       <ul>
@@ -65,7 +65,7 @@
     </details>
 
     <!-- TUESDAY -->
-    <details class="day">
+    <details class="day" id="june-24">
       <summary>Tuesday, June 24 — 🦈 Sharks & ✈️ Jets</summary>
       <p class="theme-description">Wear something with a shark or jet on it. 🫰… 🫰… 🫰…</p>
       <ul>
@@ -86,7 +86,7 @@
     </details>
 
     <!-- WEDNESDAY -->
-    <details class="day">
+    <details class="day" id="june-25">
       <summary>Wednesday, June 25 — ⚡ Greased Lightning</summary>
       <p class="theme-description">Dress retro! Bandanas, rolled sleeves, bowling shirts, or sunglasses. Inspired by <a href="https://www.nationalworld.com/jpim-static/image/2022/08/09/12/grease%20cast.jpg?width=1200&enable=upscale"><i>Grease</i></a>, <a href="https://i0.wp.com/pepperdinebeacon.com/wp-content/uploads/2021/12/West-Side-Story-Review.png?resize=1140,570&ssl=1"><i>West Side Story</i></a>, <a href="https://i.redd.it/rzwi0hm1hc2a1.jpg"><i>Fame</i></a>, and <a href="https://saltlakemagazine-webaholics.s3.us-west-2.amazonaws.com/wp-content/uploads/2024/08/01133937/The-Cast-of-the-Film-Footloose-from-1984_SLM-JA24_Paramount_Courtesy-Everett-Collection.jpg"><i>Footloose</i></a>.</p>
       <ul>
@@ -107,7 +107,7 @@
     </details>
 
     <!-- THURSDAY -->
-    <details class="day">
+    <details class="day" id="june-26">
       <summary>Thursday, June 26 — 🐱 Purrs-day Thursday</summary>
       <p class="theme-description">Wear a cat-themed outfit. Bonus points for <a href="https://res.cloudinary.com/hello-tickets/image/upload/c_limit,f_auto,q_auto,w_1920/v1638481741/adhcqgo2sadh0sqskunk.jpg"><i>Cats</i></a> musical merch (no costumes). Bring your camp shirt for the photo!</p>
       <ul>
@@ -129,7 +129,7 @@
     </details>
 
     <!-- FRIDAY -->
-    <details class="day">
+    <details class="day" id="june-27">
       <summary>Friday, June 27 — 🧚‍♀️ Team Pink or 🧙‍♀️ Green</summary>
       <p class="theme-description">Wear pink for <a href="https://en.wikipedia.org/wiki/Glinda">Glinda</a> or green for <a href="https://en.wikipedia.org/wiki/Elphaba">Elphaba</a>… or mix both! Celebrate your team spirit from <a href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQCT41vPi95dKBzcxRq4JRz2kGso3szfkVBLu2qz0dzPejxncrO"><i>Wicked</i></a>.</p>
   <ul>...</ul>
@@ -149,7 +149,7 @@
     </details>
 
     <!-- SATURDAY -->
-    <details class="day">
+    <details class="day" id="june-28">
       <summary>Saturday, June 28 — 🎓 School Spirit Day</summary>
       <p class="theme-description">Show off your school pride with your favorite school-themed attire!</p>
       <ul>
@@ -168,5 +168,29 @@
   <footer>
     <p>Created for Stetson Saxophone Workshop • ©2025</p>
   </footer>
+
+<!-- Open the current day's schedule, fallback to Monday -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const now = new Date();
+    const options = { month: 'long', day: 'numeric' };
+    const todayKey = now.toLocaleDateString('en-US', options)
+      .toLowerCase()
+      .replace(',', '')
+      .replace(' ', '-'); // e.g., "june-24"
+
+    const target = document.getElementById(todayKey) || document.getElementById('june-23');
+
+    if (target) {
+      target.setAttribute('open', '');
+      target.setAttribute('today', '');
+
+      // 👇 Scroll it into view smoothly
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100); // slight delay ensures layout is ready
+    }
+  });
+</script>
 </body>
 </html>
