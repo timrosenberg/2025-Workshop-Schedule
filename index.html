@@ -433,7 +433,7 @@
       console.warn("⚠️ Could not find schedule list for:", todayKey);
       return;
     }
-
+    console.log("🧪 Using schedule list ID:", scheduleList.id);
     const items = Array.from(scheduleList.querySelectorAll('li'));
     const currentTime = new Date(1970, 0, 1, now.getHours(), now.getMinutes());
 
