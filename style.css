@@ -5,8 +5,9 @@
   font-size: 1rem;
 }
 
-.test-toggle input[type="checkbox"] {
-  margin-right: 0.5rem;
+#test-mode-select {
+  font-size: 1rem;
+  margin-left: 0.5rem;
 }
 /* END TEST TOGGLE*/
 
@@ -77,7 +78,7 @@ header {
   background: #ffefc1;
   color: #7a6000;
   margin: 1rem auto;
-  padding: 0.75rem 2.5rem 0.75rem, 2.5rem;
+  padding: 1rem;
   max-width: 600px;
   border-radius: 6px;
 }
