@@ -35,13 +35,22 @@ main {
 }
 
 summary {
-  font-size: 1.25rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #293c2e;
   cursor: pointer;
   padding: 0.5rem 0;
   outline: none;
+  background: none;
+  border: none;
 }
+
+.theme-description {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #444;
+}
+
 
 details[open] summary::after {
   content: " ▲";
@@ -59,9 +68,13 @@ ul {
   margin: 1rem 0;
 }
 
-li {
+ul > li {
   padding: 0.5rem 0;
   border-bottom: 1px dashed #ccc;
+}
+
+li ul li {
+  border-bottom: none;
 }
 
 li ul {
