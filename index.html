@@ -366,18 +366,24 @@
   <script>
     function parseTimeString(timeStr) {
       const [start, end] = timeStr.split(' - ');
-      const toTimeParts = str => {
-        const match = str.match(/(\d+):(\d+)?\s*(AM|PM)/i);
-        if (!match) return null;
-        let [_, h, m = "00", ampm] = match;
+      
+      const parsePart = str => {
+        const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
+        if (!match) {
+          console.warn("Invalid time format:", str);
+          return new Date(1970, 0, 1, 0, 0);
+        }
+        let [, h, m, ampm] = match;
         h = parseInt(h, 10);
         m = parseInt(m, 10);
-        if (ampm.toUpperCase() === "PM" && h < 12) h += 12;
+        if (ampm.toUpperCase() === "PM" && h !== 12) h += 12;
         if (ampm.toUpperCase() === "AM" && h === 12) h = 0;
         return new Date(1970, 0, 1, h, m);
       };
-      return [toTimeParts(start), end ? toTimeParts(end) : new Date(1970, 0, 1, 23, 59)];
+
+      return [parsePart(start), end ? parsePart(end) : new Date(1970, 0, 1, 23, 59)];
     }
+
 
 
   function convertTo24Hour(time) {
