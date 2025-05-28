@@ -440,7 +440,13 @@
       const timeText = items[i].querySelector('time')?.textContent.trim();
       if (!timeText) continue;
       const [start, end] = parseTimeString(timeText);
-
+      console.log(`Checking item ${i}:`, {
+        currentTime: currentTime.toTimeString(),
+        start: start.toTimeString(),
+        end: end.toTimeString(),
+        timeText
+      });
+      
       if (currentTime >= start && currentTime < end) {
         current = items[i];
         next = items[i + 1] || null;
