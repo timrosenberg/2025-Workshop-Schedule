@@ -68,14 +68,14 @@ ul {
   margin: 1rem 0;
 }
 
-ul > li {
+ul li {
   padding: 0.5rem 0;
+}
+
+ul li:not(:has(ul)) {
   border-bottom: 1px dashed #ccc;
 }
 
-li ul li {
-  border-bottom: none;
-}
 
 li ul {
   list-style-type: disc;
