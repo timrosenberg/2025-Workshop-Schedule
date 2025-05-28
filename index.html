@@ -11,7 +11,7 @@
     <h1>🎷 2025 Stetson Saxophone Workshop Schedule</h1>
     <button id="menu-toggle" aria-label="Toggle contact menu" aria-expanded="false">☰</button>
     <nav id="contact-menu" aria-hidden="true">
-      <a href="sms:+14074940603">📩 Text Dr. Rosenberg</a>
+      <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
       <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
       <a href="mailto:trosenberg@stetson.edu">✉️ Email Dr. Rosenberg</a>
     </nav>
@@ -388,10 +388,17 @@
     }
   }
 
+  function localDateFromISO(dateString) {
+    const [date, time] = dateString.split('T');
+    const [y, m, d] = date.split('-').map(Number);
+    const [h, min] = time.split(':').map(Number);
+    return new Date(y, m - 1, d, h, min);
+  }
+
   function updateNowNextFromHiddenData() {
     const testModeSelect = document.getElementById('test-mode-select');
     const testValue = testModeSelect?.value;
-    const now = testValue ? new Date(testValue) : new Date();
+    const now = testValue ? localDateFromISO(testValue) : new Date();
 
     const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
     const day = now.getDate();
@@ -440,6 +447,7 @@
     applyTo(document.getElementById('current-activity'), current);
     applyTo(document.getElementById('next-activity'), next);
   }
+
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('ul[id^="schedule-"] li').forEach(li => {
