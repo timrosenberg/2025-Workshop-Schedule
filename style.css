@@ -109,8 +109,9 @@ main {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin: 2rem 0;
+  margin: 1rem auto 2rem auto;
   flex-wrap: wrap;
+  max-width: 900px;
 }
 
 .activity-box {
@@ -133,7 +134,13 @@ main {
   font-size: 1rem;
   font-weight: 600;
   margin-top: 0.5rem;
-  color: #444;
+  color: #2b644a;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.activity-details:hover {
+  text-decoration: underline;
 }
 
 

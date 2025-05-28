@@ -257,64 +257,94 @@
   </script>
 
 <!-- Now / Next Logic -->
-<script>
-  function parseTimeString(timeStr) {
-    // Normalize AM/PM if only the second part has it
-    let [start, end] = timeStr.split('-').map(s => s.trim());
-    if (!start.match(/am|pm/i)) {
-      const ampm = end.slice(-2);
-      start += ' ' + ampm;
-    }
-    return [new Date(`1970-01-01T${convertTo24Hour(start)}`),
-            new Date(`1970-01-01T${convertTo24Hour(end)}`)];
-  }
-
-  function convertTo24Hour(str) {
-    const [time, ampm] = str.toLowerCase().split(' ');
-    let [h, m] = time.split(':');
-    h = parseInt(h);
-    if (ampm === 'pm' && h !== 12) h += 12;
-    if (ampm === 'am' && h === 12) h = 0;
-    return `${String(h).padStart(2, '0')}:${m || '00'}`;
-  }
-
-  function updateActivityStatus() {
-    const todayOpen = document.querySelector('details[open]');
-    if (!todayOpen) return;
-
-    const timeEls = todayOpen.querySelectorAll('time');
-    const now = new Date();
-    const nowTime = new Date(`1970-01-01T${now.toTimeString().slice(0,5)}`);
-
-    let current = null;
-    let next = null;
-
-    for (let i = 0; i < timeEls.length; i++) {
-      const timeEl = timeEls[i];
-      const timeRange = timeEl.textContent.trim();
-      const desc = timeEl.parentNode.textContent.split(':').slice(1).join(':').trim();
-
-      const [start, end] = parseTimeString(timeRange);
-
-      if (nowTime >= start && nowTime < end) {
-        current = desc;
-        next = timeEls[i + 1]?.parentNode.textContent.split(':').slice(1).join(':').trim() || null;
-        break;
-      } else if (nowTime < start && !next) {
-        next = desc;
-        break;
+  <script>
+    function scrollToId(id) {
+      const target = document.getElementById(id);
+       if (target) {
+        if (target.tagName.toLowerCase() === 'details') {
+          target.open = true;
+        }
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
 
-    document.getElementById('current-activity').textContent = current || '—';
-    document.getElementById('next-activity').textContent = next || '—';
-  }
+    function updateNowNextFromSummary() {
+      const details = Array.from(document.querySelectorAll('details'));
+      const now = new Date();
+      const currentTime = new Date(`1970-01-01T${now.toTimeString().slice(0,5)}`);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    updateActivityStatus();
-    setInterval(updateActivityStatus, 60000); // update every minute
-  });
-</script>
+      let nowTarget = null;
+      let nextTarget = null;
+
+      for (let i = 0; i < details.length; i++) {
+        const detail = details[i];
+        const times = detail.querySelectorAll('time');
+        for (let t = 0; t < times.length; t++) {
+          const [start, end] = parseTimeString(times[t].textContent.trim());
+          if (currentTime >= start && currentTime < end) {
+            nowTarget = detail;
+            nextTarget = details[i + 1] || null;
+            break;
+          } else if (currentTime < start && !nowTarget && !nextTarget) {
+            nextTarget = detail;
+            break;
+          }
+        }
+        if (nowTarget) break;
+      }
+
+      const currentAnchor = document.getElementById('current-activity');
+      const nextAnchor = document.getElementById('next-activity');
+
+      if (nowTarget) {
+        currentAnchor.href = `#${nowTarget.id}`;
+        currentAnchor.textContent = nowTarget.querySelector('summary').textContent;
+        currentAnchor.onclick = e => {
+          e.preventDefault();
+          scrollToId(nowTarget.id);
+        };
+      } else {
+        currentAnchor.textContent = '—';
+        currentAnchor.removeAttribute('href');
+      }
+
+      if (nextTarget) {
+        nextAnchor.href = `#${nextTarget.id}`;
+        nextAnchor.textContent = nextTarget.querySelector('summary').textContent;
+        nextAnchor.onclick = e => {
+          e.preventDefault();
+          scrollToId(nextTarget.id);
+        };
+      } else {
+        nextAnchor.textContent = '—';
+        nextAnchor.removeAttribute('href');
+      }
+    }
+
+    function parseTimeString(timeStr) {
+      let [start, end] = timeStr.split('-').map(s => s.trim());
+      if (!start.match(/am|pm/i)) {
+        const ampm = end.slice(-2);
+        start += ' ' + ampm;
+      }
+      return [new Date(`1970-01-01T${convertTo24Hour(start)}`),
+              new Date(`1970-01-01T${convertTo24Hour(end)}`)];
+    }
+
+    function convertTo24Hour(str) {
+      const [time, ampm] = str.toLowerCase().split(' ');
+      let [h, m] = time.split(':');
+      h = parseInt(h);
+      if (ampm === 'pm' && h !== 12) h += 12;
+      if (ampm === 'am' && h === 12) h = 0;
+      return `${String(h).padStart(2, '0')}:${m || '00'}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNowNextFromSummary();
+      setInterval(updateNowNextFromSummary, 60000); // update every minute
+    });
+  </script>
 
 
 </body>
