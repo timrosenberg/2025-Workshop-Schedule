@@ -365,8 +365,7 @@
 <!-- Now / Next Logic -->
   <script>
     function parseTimeString(timeStr) {
-      const [start, end] = timeStr.split(' - ');
-      
+      const parts = timeStr.split(' - ');
       const parsePart = str => {
         const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
         if (!match) {
@@ -381,10 +380,10 @@
         return new Date(1970, 0, 1, h, m);
       };
 
-      return [parsePart(start), end ? parsePart(end) : new Date(1970, 0, 1, 23, 59)];
+      const start = parsePart(parts[0]);
+      const end = parts[1] ? parsePart(parts[1]) : new Date(1970, 0, 1, 23, 59);
+      return [start, end];
     }
-
-
 
   function convertTo24Hour(time) {
     if (!time) return "00:00"; // fallback if null or empty
