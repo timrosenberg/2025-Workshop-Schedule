@@ -34,18 +34,29 @@ main {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.day h2 {
+summary {
+  font-size: 1.25rem;
+  font-weight: bold;
   color: #293c2e;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  outline: none;
 }
 
-.theme {
-  font-style: italic;
-  margin-bottom: 1rem;
+details[open] summary::after {
+  content: " ▲";
+  font-size: 0.8em;
+}
+
+summary::after {
+  content: " ▼";
+  font-size: 0.8em;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 1rem 0;
 }
 
 li {
@@ -71,20 +82,4 @@ footer {
   padding: 1rem;
   font-size: 0.9rem;
   background: #eee;
-}
-
-summary h2 {
-  display: inline;
-  cursor: pointer;
-  margin: 0;
-}
-
-details[open] summary h2::after {
-  content: " ▲";
-  font-size: 0.8em;
-}
-
-summary h2::after {
-  content: " ▼";
-  font-size: 0.8em;
 }
