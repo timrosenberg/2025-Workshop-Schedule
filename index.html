@@ -446,6 +446,10 @@
 
     for (let i = 0; i < items.length; i++) {
       const timeText = items[i].querySelector('time')?.textContent.trim();
+      if (timeText.includes("7:15 PM")) {
+        console.log("✅ 7:15 PM entry found:", timeText, items[i].outerHTML);
+      }
+
       if (!timeText) continue;
       const [start, end] = parseTimeString(timeText);
 
