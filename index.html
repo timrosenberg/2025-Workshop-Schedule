@@ -15,7 +15,7 @@
       <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
       <a href="mailto:trosenberg@stetson.edu">✉️ Email Dr. Rosenberg</a>
     </nav>
-    <div class="notice">⚠️ This is the 2025-05-05 Draft. A final schedule will be released in June.⚠️</div>
+    <div class="notice">⚠️ This is the 2025-05-05 Draft. A final schedule will be released in June.</div>
     <div class="workshop-banner" id="studentNotice" data-id="day1">
       📢 Welcome to Day 1! Don’t forget your instrument and water bottle!
       <button class="close-banner" aria-label="Dismiss notice">&times;</button>
@@ -415,11 +415,11 @@
       const [datePart, timePart] = isoStr.split('T');
       const [year, month, day] = datePart.split('-').map(Number);
       const [hour, minute] = timePart.split(':').map(Number);
-      return new Date(year, month - 1, day, hour, minute); // Local time
+      return new Date(year, month - 1, day, hour, minute);
     }
 
 
-    function updateNowNextFromHiddenData() {
+  function updateNowNextFromHiddenData() {
     const testModeSelect = document.getElementById('test-mode-select');
     const testValue = testModeSelect?.value;
     const now = testValue ? localDateFromISO(testValue) : new Date();
@@ -428,9 +428,11 @@
     const day = now.getDate();
     const todayKey = `schedule-${month}-${day}`;
 
-    const scheduleList = document.getElementById(todayKey) || document.getElementById('schedule-june-23');
-
-    if (!scheduleList) return;
+    const scheduleList = document.getElementById(todayKey);
+    if (!scheduleList) {
+      console.warn("⚠️ Could not find schedule list for:", todayKey);
+      return;
+    }
 
     const items = Array.from(scheduleList.querySelectorAll('li'));
     const currentTime = new Date(1970, 0, 1, now.getHours(), now.getMinutes());
@@ -441,25 +443,25 @@
       const timeText = items[i].querySelector('time')?.textContent.trim();
       if (!timeText) continue;
       const [start, end] = parseTimeString(timeText);
+
       console.log(`Checking item ${i}:`, {
         currentTime: currentTime.toTimeString(),
         start: start.toTimeString(),
         end: end.toTimeString(),
         timeText
       });
-      
+
       if (currentTime >= start && currentTime < end) {
         current = items[i];
         next = items[i + 1] || null;
         break;
       } else if (currentTime < start && !next) {
-        next = items[i];
-        // Do not break — keep checking in case current is found later
+        next = items[i]; // allow current to still be found later
       }
     }
 
-
     function applyTo(el, item) {
+      if (!el) return;
       if (!item) {
         el.textContent = '—';
         el.removeAttribute('href');
@@ -480,6 +482,7 @@
     applyTo(document.getElementById('current-activity'), current);
     applyTo(document.getElementById('next-activity'), next);
   }
+
 
 
   document.addEventListener('DOMContentLoaded', () => {
