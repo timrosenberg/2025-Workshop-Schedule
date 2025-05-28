@@ -74,7 +74,7 @@ header {
   display: none; /* controlled by JS */
   background-color: #cbeec5;
   color: #2b644a;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 2.5rem 0.75rem 1rem; /* extra right-padding for the close button */
   margin: 1rem auto;
   border-radius: 6px;
   font-weight: 600;
@@ -84,7 +84,10 @@ header {
   position: relative;
   max-width: 90vw;
   width: fit-content;
+  white-space: normal; /* allows wrapping */
+  word-break: break-word;
 }
+
 
 .close-banner {
   position: absolute;
@@ -93,7 +96,7 @@ header {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #084c8d;
+  color: #2b644a;
   cursor: pointer;
   line-height: 1;
 }
