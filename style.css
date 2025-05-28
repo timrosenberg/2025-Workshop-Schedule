@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+header {
+  background-color: #222;
+  color: #fff;
+  padding: 1.5rem;
+  text-align: center;
+}
+.notice {
+  font-size: 1rem;
+  background: #ffefc1;
+  color: #7a6000;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  max-width: 600px;
+  border-radius: 6px;
+}
+main {
+  padding: 2rem;
+}
+.day {
+  background: white;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.day h2 {
+  color: #5a3d8e;
+}
+.theme {
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #ccc;
+}
+time {
+  font-weight: bold;
+  color: #4a4a4a;
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  background: #eee;
+}
