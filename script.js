@@ -1,54 +1,50 @@
-// script.js
-
 async function loadSchedule() {
-  const response = await fetch('./schedule.json');
-  console.log("Fetched data:", data); // 👈 Add this
-  const scheduleData = await response.json();
+  const response = await fetch('2025-Workshop-Schedule/schedule.json');
+  const data = await response.json();
 
-  const main = document.querySelector('main');
-
-  scheduleData.days.forEach(day => {
+  const scheduleContainer = document.getElementById('schedule');
+  data.days.forEach((day, dayIndex) => {
     const details = document.createElement('details');
     details.className = 'day';
     details.id = day.id;
 
     const summary = document.createElement('summary');
-    summary.innerHTML = `<span>${day.title}</span>`;
+    summary.innerHTML = `<span>${day.name}</span>`;
     details.appendChild(summary);
 
-    if (day.themeDescription) {
-      const desc = document.createElement('p');
-      desc.className = 'theme-description';
-      desc.innerHTML = day.themeDescription;
-      details.appendChild(desc);
-    }
+    const theme = document.createElement('p');
+    theme.className = 'theme-description';
+    theme.innerHTML = day.description;
+    details.appendChild(theme);
 
     const ul = document.createElement('ul');
-    day.events.forEach(event => {
+    ul.id = `schedule-${day.id}`;
+
+    day.items.forEach((item, index) => {
       const li = document.createElement('li');
-      li.setAttribute('data-id', event.id);
-      li.id = event.id;
-
+      li.setAttribute('data-id', `${day.id}-${index + 1}`);
+      li.id = `${day.id}-${index + 1}`;
+      
       const time = document.createElement('time');
-      time.textContent = event.time;
+      time.textContent = item.time;
       li.appendChild(time);
-      li.innerHTML += `: ${event.description}`;
+      li.appendChild(document.createTextNode(`: ${item.title}`));
 
-      if (event.subEvents) {
-        const subUl = document.createElement('ul');
-        event.subEvents.forEach(sub => {
-          const subLi = document.createElement('li');
-          subLi.innerHTML = sub;
-          subUl.appendChild(subLi);
+      if (item.notes) {
+        const notesUl = document.createElement('ul');
+        item.notes.forEach(note => {
+          const noteLi = document.createElement('li');
+          noteLi.innerHTML = note;
+          notesUl.appendChild(noteLi);
         });
-        li.appendChild(subUl);
+        li.appendChild(notesUl);
       }
 
       ul.appendChild(li);
     });
 
     details.appendChild(ul);
-    main.appendChild(details);
+    scheduleContainer.appendChild(details);
   });
 }
 
@@ -56,7 +52,10 @@ function parseTimeString(timeStr) {
   const parts = timeStr.split(' - ');
   const parsePart = str => {
     const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
-    if (!match) return new Date(1970, 0, 1, 0, 0);
+    if (!match) {
+      console.warn("Invalid time format:", str);
+      return new Date(1970, 0, 1, 0, 0);
+    }
     let [, h, m, ampm] = match;
     h = parseInt(h, 10);
     m = parseInt(m, 10);
@@ -70,11 +69,14 @@ function parseTimeString(timeStr) {
 }
 
 function scrollToId(id) {
-  const target = document.getElementById(id);
+  let target = document.querySelector('details[open] li#' + id) || document.getElementById(id);
   if (!target) return;
-  target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  target.classList.add('highlighted');
-  setTimeout(() => target.classList.remove('highlighted'), 2000);
+
+  requestAnimationFrame(() => {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.classList.add('highlighted');
+    setTimeout(() => target.classList.remove('highlighted'), 2000);
+  });
 }
 
 function localDateFromISO(isoStr) {
@@ -84,20 +86,27 @@ function localDateFromISO(isoStr) {
   return new Date(y, m - 1, d, h, min);
 }
 
-function updateNowNext() {
-  const testValue = document.getElementById('test-mode-select')?.value;
+function updateNowNextFromHiddenData() {
+  const testModeSelect = document.getElementById('test-mode-select');
+  const testValue = testModeSelect?.value;
   const now = testValue ? localDateFromISO(testValue) : new Date();
 
   const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
   const day = now.getDate();
+  const scheduleId = `schedule-${month}-${day}`;
   const detailsId = `${month}-${day}`;
-  const details = document.getElementById(detailsId);
-  if (!details) return;
 
-  document.querySelectorAll('details').forEach(d => d.removeAttribute('open'));
-  details.setAttribute('open', '');
+  const scheduleList = document.getElementById(scheduleId);
+  const visibleDetails = document.getElementById(detailsId);
+  if (!scheduleList || !visibleDetails) return;
 
-  const items = Array.from(details.querySelectorAll('li'));
+  visibleDetails.setAttribute('open', '');
+  visibleDetails.querySelectorAll('li').forEach(li => {
+    const dataId = li.getAttribute('data-id');
+    if (dataId) li.id = dataId;
+  });
+
+  const items = Array.from(visibleDetails.querySelectorAll('li'));
   const currentTime = new Date(1970, 0, 1, now.getHours(), now.getMinutes());
 
   let current = null;
@@ -108,13 +117,11 @@ function updateNowNext() {
     if (!timeText) continue;
 
     const [start, end] = parseTimeString(timeText);
-
     if (currentTime >= start && currentTime < end) {
       current = items[i];
       next = items[i + 1] || null;
       break;
     }
-
     if (!current && currentTime < start && !next) {
       next = items[i];
     }
@@ -125,7 +132,6 @@ function updateNowNext() {
     if (!item || !item.id) {
       el.textContent = '—';
       el.removeAttribute('href');
-      el.onclick = null;
       return;
     }
 
@@ -142,29 +148,9 @@ function updateNowNext() {
   applyTo(document.getElementById('next-activity'), next);
 }
 
-function setupBannerDismiss() {
-  const banner = document.getElementById('studentNotice');
-  const closeBtn = banner?.querySelector('.close-banner');
-  const messageId = banner?.getAttribute('data-id');
-  const dismissedId = localStorage.getItem('dismissedNotice');
-
-  if (messageId !== dismissedId) {
-    banner.style.display = 'block';
-  } else {
-    banner.style.display = 'none';
-  }
-
-  closeBtn?.addEventListener('click', () => {
-    banner.style.display = 'none';
-    localStorage.setItem('dismissedNotice', messageId);
-  });
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSchedule();
-  updateNowNext();
-  setupBannerDismiss();
-
-  document.getElementById('test-mode-select')?.addEventListener('change', updateNowNext);
-  setInterval(updateNowNext, 60000);
+  updateNowNextFromHiddenData();
+  setInterval(updateNowNextFromHiddenData, 60000);
+  document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
 });
