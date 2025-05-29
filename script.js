@@ -1,5 +1,5 @@
 async function loadSchedule() {
-  const response = await fetch('2025-Workshop-Schedule/schedule.json');
+  const response = await fetch('./schedule.json');
   const data = await response.json();
 
   const scheduleContainer = document.getElementById('schedule');
