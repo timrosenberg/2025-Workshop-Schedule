@@ -130,6 +130,19 @@ main {
   padding: 2rem;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+#schedule-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 1rem;
+}
+
 @media (max-width: 600px) {
   .now-next-container {
     flex-direction: column;
@@ -218,10 +231,6 @@ summary {
   outline: none;
   background: none;
   border: none;
-}
-
-#schedule-container {
-  margin: 0 1rem;
 }
 
 .theme-description {

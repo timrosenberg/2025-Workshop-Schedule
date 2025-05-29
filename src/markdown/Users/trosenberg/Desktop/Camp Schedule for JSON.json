@@ -1,0 +1,88 @@
+{
+  "days": [
+    {
+      "title": "Monday, June 23",
+      "theme": "Sax & Screen - wear something that shows your favorite film or musical.",
+      "items": [
+        {
+          "time": "8:30 - 11:30 AM",
+          "text": "Registration and Check-in - Hatter Hall",
+          "map": "https://maps.app.goo.gl/HKpeWutxRgLNbqmZ6"
+        },
+        {
+          "time": "10:30 - 11:30 AM",
+          "text": "Young Artist Honors Recital Auditions, Final Round - Hatter Hall, Floor 2"
+        },
+        {
+          "time": "12:00 - 12:45 PM",
+          "text": "🥪 Lunch - Carlton Union Building (CUB)",
+          "map": "https://maps.app.goo.gl/wdAMPGnM3GRCCsnA8",
+          "subpoints": [
+            "Students meet in lobby of Hatter Hall.",
+            "Students will be escorted to CUB by workshop staff.",
+            "Students must have their workshop name badge to enter."
+          ]
+        },
+        {
+          "time": "1:00 - 1:45 PM",
+          "text": "Opening Meeting - Feasel Hall (inside McMahan Hall)",
+          "map": "https://maps.app.goo.gl/5mDXBVoTABQhHF5L6",
+          "subpoints": [
+            "Bring large ensemble and chamber ensemble instruments."
+          ]
+        },
+        {
+          "time": "1:45 - 3:15 PM",
+          "text": "Large Ensemble & Chamber Ensemble Rehearsal",
+          "subpoints": [
+            "Symphonic Saxophones (10th-12+ grade): Large Ensemble - Feasel Hall",
+            "Concert Saxophones (7th-9th grade): Chamber Ensembles - Various Rooms"
+          ]
+        },
+        {
+          "time": "3:15 - 4:45 PM",
+          "text": "Large Ensemble & Chamber Ensemble Rehearsal",
+          "subpoints": [
+            "Symphonic Saxophones: Chamber Ensembles - Various Rooms",
+            "Concert Saxophones: Large Ensemble - Tinsley Hall, Room 132",
+            "Map: https://maps.app.goo.gl/kmcVc2dHF1nawH2Q8"
+          ]
+        },
+        {
+          "time": "5:00 - 6:00 PM",
+          "text": "Jazz Classes - Various Rooms"
+        },
+        {
+          "time": "6:15 - 7:00 PM",
+          "text": "🍽️ Dinner - CUB"
+        },
+        {
+          "time": "7:15 - 8:00 PM",
+          "text": "Faculty Recital: Saxophone Workshop Staff - Lee Chapel",
+          "map": "https://maps.app.goo.gl/Dvm3E7u6dcQk4WHg7"
+        },
+        {
+          "time": "8:00 - 9:00",
+          "text": "Practice Time or Relax in Dorm - Presser or Hatter Hall",
+          "subpoints": [
+            "Students may stay in Presser to practice or go to Hatter Hall to relax.",
+            "Students will be escorted to Hatter Hall in a group."
+          ]
+        },
+        {
+          "time": "9:00 - 9:15",
+          "text": "Students in Dorm - Hatter Hall"
+        },
+        {
+          "time": "9:15 - 9:30",
+          "text": "Hall Meeting with Counselors - Lounge of your floor in Hatter Hall",
+          "subpoints": [
+            "Students will meet with the counselor staff to discuss the rules and procedures for the rest of the week."
+          ]
+        },
+        {
+          "time": "10:00 PM",
+          "text": "🛌 Lights out"
+        }
+      ]
+    },
