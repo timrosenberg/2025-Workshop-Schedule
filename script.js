@@ -2,6 +2,7 @@
 
 async function loadSchedule() {
   const response = await fetch('./schedule.json');
+  console.log("Fetched data:", data); // 👈 Add this
   const scheduleData = await response.json();
 
   const main = document.querySelector('main');
