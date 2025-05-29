@@ -1,0 +1,109 @@
+{
+  "june-23": {
+    "label": "Monday, June 23 — 🎬 Sax & Screen",
+    "theme": "Wear something that shows your favorite film or musical!",
+    "items": [
+      { "time": "8:30 - 11:30 AM", "text": "Registration – Hatter Hall", "map": "https://maps.app.goo.gl/HKpeWutxRgLNbqmZ6" },
+      { "time": "10:30 - 11:30 AM", "text": "Honors Recital Auditions – Hatter Hall, Floor 2" },
+      { "time": "12:00 - 12:45 PM", "text": "🥪 Lunch – CUB", "map": "https://maps.app.goo.gl/wdAMPGnM3GRCCsnA8" },
+      { "time": "1:00 - 1:45 PM", "text": "Opening Meeting – Feasel Hall", "map": "https://maps.app.goo.gl/5mDXBVoTABQhHF5L6" },
+      { "time": "1:45 - 3:15 PM", "text": "Rehearsals – Symphonic (Feasel), Concert (Various)" },
+      { "time": "3:15 - 4:45 PM", "text": "Rehearsals – Symphonic (Various), Concert (Tinsley 132)", "map": "https://maps.app.goo.gl/kmcVc2dHF1nawH2Q8" },
+      { "time": "5:00 - 6:00 PM", "text": "Jazz Classes – Various Rooms" },
+      { "time": "6:15 - 7:00 PM", "text": "🍽️ Dinner – CUB" },
+      { "time": "7:15 - 8:00 PM", "text": "Faculty Recital: Saxophone Workshop Staff – Lee Chapel", "map": "https://maps.app.goo.gl/Dvm3E7u6dcQk4WHg7" },
+      { "time": "8:00 - 9:00 PM", "text": "Practice or Relax – Presser or Hatter Hall" },
+      { "time": "9:00 - 9:15 PM", "text": "Students in Dorm - Hatter Hall" },
+      { "time": "9:15 - 9:30 PM", "text": "Hall Meeting – Lounge in Hatter Hall" },
+      { "time": "10:00 PM", "text": "🛌 Lights out" }
+    ]
+  },
+  "june-24": {
+    "label": "Tuesday, June 24 — 🦈 Sharks & ✈️ Jets",
+    "theme": "Wear something with a shark or jet on it. 🫰… 🫰… 🫰…",
+    "items": [
+      { "time": "7:15 - 8:00 AM", "text": "Wake up" },
+      { "time": "8:00 AM", "text": "Meet counselors – Hatter Hall" },
+      { "time": "8:15 - 8:45 AM", "text": "🥞 Breakfast – CUB" },
+      { "time": "9:00 - 9:35 AM", "text": "Fundamentals – Various Rooms" },
+      { "time": "9:45 - 11:45 AM", "text": "Rehearsals – Symphonic (Feasel), Concert (Various)" },
+      { "time": "12:00 - 12:45 PM", "text": "🥪 Lunch – CUB" },
+      { "time": "1:00 - 2:30 PM", "text": "Masterclass – Feasel Hall" },
+      { "time": "2:45 - 4:45 PM", "text": "Rehearsals – Symphonic (Various), Concert (Tinsley)" },
+      { "time": "5:00 - 6:00 PM", "text": "Jazz Classes" },
+      { "time": "6:15 - 7:00 PM", "text": "🍽️ Dinner – CUB" },
+      { "time": "7:15 - 8:00 PM", "text": "Recital – Dr. Rosenberg" },
+      { "time": "8:15 - 10:00 PM", "text": "📽️ Movie Night – Location TBA" },
+      { "time": "10:00 PM", "text": "🛌 Lights out" }
+    ]
+  },
+  "june-25": {
+    "label": "Wednesday, June 25 — ⚡ Greased Lightning",
+    "theme": "Dress retro! Bandanas, rolled sleeves, bowling shirts, or sunglasses.",
+    "items": [
+      { "time": "7:15 - 8:00 AM", "text": "Wake up" },
+      { "time": "8:00 AM", "text": "Meet counselors – Hatter Hall" },
+      { "time": "8:15 - 8:45 AM", "text": "🥞 Breakfast – CUB" },
+      { "time": "9:00 - 9:35 AM", "text": "Fundamentals – Various Rooms" },
+      { "time": "9:45 - 11:45 AM", "text": "Rehearsals – Symphonic (Feasel), Concert (Various)" },
+      { "time": "12:00 - 12:45 PM", "text": "🥪 Lunch – CUB" },
+      { "time": "1:00 - 3:00 PM", "text": "Rehearsals – Symphonic (Various), Concert (Tinsley)" },
+      { "time": "3:15 - 4:15 PM", "text": "Masterclass – Greg Osby" },
+      { "time": "4:25 - 6:00 PM", "text": "🔎 Scavenger Hunt – Feasel & Campus" },
+      { "time": "6:15 - 7:00 PM", "text": "🍽️ Dinner – CUB" },
+      { "time": "7:15 - 8:15 PM", "text": "Guest Recital – Greg Osby" },
+      { "time": "8:15 - 9:15 PM", "text": "Jam Session – Greg Osby & Band" },
+      { "time": "10:00 PM", "text": "🛌 Lights out" }
+    ]
+  },
+  "june-26": {
+    "label": "Thursday, June 26 — 🐱 Purrs-day Thursday",
+    "theme": "Wear a cat-themed outfit. Bring your camp shirt for the photo!",
+    "items": [
+      { "time": "7:15 - 8:00 AM", "text": "Wake up" },
+      { "time": "8:00 AM", "text": "Meet counselors – Hatter Hall" },
+      { "time": "8:15 - 8:45 AM", "text": "🥞 Breakfast – CUB" },
+      { "time": "9:00 - 9:35 AM", "text": "Fundamentals – Various Rooms" },
+      { "time": "9:45 - 11:45 AM", "text": "Rehearsals – Symphonic (Feasel), Concert (Various)" },
+      { "time": "12:00 - 12:45 PM", "text": "🥪 Lunch – CUB" },
+      { "time": "1:00 - 2:30 PM", "text": "Masterclass – All-State Prep (by grade)" },
+      { "time": "2:45 - 4:45 PM", "text": "Rehearsals – Symphonic (Various), Concert (Tinsley)" },
+      { "time": "5:00 - 5:50 PM", "text": "Jazz Classes – Various Rooms" },
+      { "time": "6:00 - 6:10 PM", "text": "Workshop Photo – Sampson Steps" },
+      { "time": "6:15 - 7:00 PM", "text": "🍽️ Dinner – CUB" },
+      { "time": "7:15 - 8:15 PM", "text": "Young Artist Recital – Lee Chapel" },
+      { "time": "8:15 - 9:00 PM", "text": "Practice or Relax" },
+      { "time": "10:00 PM", "text": "🛌 Lights out" }
+    ]
+  },
+  "june-27": {
+    "label": "Friday, June 27 — 🧚‍♀️ Team Pink or 🧙‍♀️ Green",
+    "theme": "Wear pink for Glinda or green for Elphaba… or mix both!",
+    "items": [
+      { "time": "7:15 - 8:00 AM", "text": "Wake up" },
+      { "time": "8:15 - 8:45 AM", "text": "🥞 Breakfast" },
+      { "time": "9:00 - 9:35 AM", "text": "Fundamentals" },
+      { "time": "9:45 - 11:45 AM", "text": "Rehearsals" },
+      { "time": "12:00 - 12:45 PM", "text": "🥪 Lunch" },
+      { "time": "1:00 - 3:00 PM", "text": "Rehearsals" },
+      { "time": "3:10 - 4:10 PM", "text": "Jazz Classes" },
+      { "time": "4:15 - 6:00 PM", "text": "Dress Rehearsal – Lee Chapel" },
+      { "time": "6:15 - 7:00 PM", "text": "🍽️ Dinner" },
+      { "time": "7:30 - 8:45 PM", "text": "Chamber Concert – Lee Chapel" },
+      { "time": "10:00 PM", "text": "🛌 Lights out" }
+    ]
+  },
+  "june-28": {
+    "label": "Saturday, June 28 — 🎓 School Spirit Day",
+    "theme": "Show off your school pride with your favorite school-themed attire!",
+    "items": [
+      { "time": "7:00 AM", "text": "Early Wake up – Pack & Prep" },
+      { "time": "7:30 - 8:00 AM", "text": "🥞 Breakfast – CUB" },
+      { "time": "8:15 - 9:15 AM", "text": "Dress Rehearsals – Symphonic (Feasel), Concert (Tinsley)" },
+      { "time": "9:30 - 11:00 AM", "text": "Dress & Checkout – Hatter Hall" },
+      { "time": "11:00 AM", "text": "Call Time – Lee Chapel" },
+      { "time": "11:30 - 12:30 PM", "text": "Final Concert – Lee Chapel" },
+      { "time": "12:30 - 1:30 PM", "text": "Return Equipment – Tinsley Hall" }
+    ]
+  }
+}
