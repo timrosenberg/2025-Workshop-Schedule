@@ -3,7 +3,16 @@
     "label": "Monday, June 23 — 🎬 Sax & Screen",
     "theme": "Wear something that shows your favorite film or musical!",
     "items": [
-      { "time": "8:30 - 11:30 AM", "text": "Registration – Hatter Hall", "map": "https://maps.app.goo.gl/HKpeWutxRgLNbqmZ6" },
+      {
+  "time": "1:00 - 1:45 PM",
+  "text": "Opening Meeting – Feasel Hall",
+  "map": "https://maps.app.goo.gl/5mDXBVoTABQhHF5L6",
+  "subpoints": [
+    "Welcome by faculty",
+    "Group orientation",
+    "Camp guidelines overview"
+  ]
+},
       { "time": "10:30 - 11:30 AM", "text": "Honors Recital Auditions – Hatter Hall, Floor 2" },
       { "time": "12:00 - 12:45 PM", "text": "🥪 Lunch – CUB", "map": "https://maps.app.goo.gl/wdAMPGnM3GRCCsnA8" },
       { "time": "1:00 - 1:45 PM", "text": "Opening Meeting – Feasel Hall", "map": "https://maps.app.goo.gl/5mDXBVoTABQhHF5L6" },

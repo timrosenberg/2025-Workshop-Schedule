@@ -6,9 +6,21 @@
   <title>Summer Workshop Schedule</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <header>
     <h1>🎷 Summer Workshop Schedule</h1>
+    
+<!-- STATIC BANNER -->
+  <div id="global-notice" class="notice" style="display:none;"></div>
+
+<!-- DAILY BANNER -->
+  <div class="workshop-banner" id="daily-banner" style="display:none;">
+    <span id="banner-text"></span>
+    <button class="close-banner" aria-label="Dismiss notice">&times;</button>
+  </div>
+
+<!-- TEST MODE TOGGLE -->
     <label for="test-mode-select" style="margin: 1rem auto; display: block; text-align: center;">
       Test Mode:
       <select id="test-mode-select">
@@ -22,15 +34,25 @@
         <option value="2025-06-28T07:15">June 28 @ 7:15 AM</option>
       </select>
     </label>
+
   </header>
 
-  <section class="now-next-boxes">
-    <a id="current-activity" class="now-box" href="#">—</a>
-    <a id="next-activity" class="next-box" href="#">—</a>
+<!-- NOW & NEXT BOXES -->
+  <section class="now-next-container">
+    <div class="activity-box" id="now-box">
+      <h3>Now</h3>
+      <a id="current-activity" href="#">—</a>
+    </div>
+    <div class="activity-box" id="next-box">
+      <h3>Next</h3>
+      <a id="next-activity" href="#">—</a>
+    </div>
   </section>
 
+<!-- SCHEDULE BODY -->
   <div id="schedule-container"></div>
 
-  <script src="script.js" defer></script>
+<script src="script.js" defer></script>
+
 </body>
 </html>

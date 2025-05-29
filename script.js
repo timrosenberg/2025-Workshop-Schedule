@@ -1,43 +1,55 @@
+let globalBannerData = {};
+
 async function loadSchedule() {
   const response = await fetch('schedule.json');
   const data = await response.json();
+  const scheduleContainer = document.getElementById('schedule-container');
 
-  const scheduleContainer = document.getElementById('schedule');
-  data.days.forEach((day, dayIndex) => {
+  Object.entries(data).forEach(([key, dayData]) => {
     const details = document.createElement('details');
     details.className = 'day';
-    details.id = day.id;
+    details.id = key;
 
     const summary = document.createElement('summary');
-    summary.innerHTML = `<span>${day.name}</span>`;
+    summary.innerHTML = `<span>${dayData.label}</span>`;
     details.appendChild(summary);
 
     const theme = document.createElement('p');
     theme.className = 'theme-description';
-    theme.innerHTML = day.description;
+    theme.textContent = dayData.theme;
     details.appendChild(theme);
 
     const ul = document.createElement('ul');
-    ul.id = `schedule-${day.id}`;
+    ul.id = `schedule-${key}`;
 
-    day.items.forEach((item, index) => {
+    dayData.items.forEach((item, index) => {
       const li = document.createElement('li');
-      li.setAttribute('data-id', `${day.id}-${index + 1}`);
-      li.id = `${day.id}-${index + 1}`;
-      
+      li.setAttribute('data-id', `${key}-${index + 1}`);
+      li.id = `${key}-${index + 1}`;
+
       const time = document.createElement('time');
       time.textContent = item.time;
       li.appendChild(time);
-      li.appendChild(document.createTextNode(`: ${item.title}`));
 
-      if (item.notes) {
-        const notesUl = document.createElement('ul');
-        item.notes.forEach(note => {
-          const noteLi = document.createElement('li');
-          noteLi.innerHTML = note;
-          notesUl.appendChild(noteLi);
-        });
-        li.appendChild(notesUl);
+    li.appendChild(document.createTextNode(`: ${item.text}`));
+
+    if (item.subpoints && item.subpoints.length) {
+    const subUl = document.createElement('ul');
+    item.subpoints.forEach(point => {
+        const subLi = document.createElement('li');
+        subLi.textContent = point;
+        subUl.appendChild(subLi);
+    });
+    li.appendChild(subUl);
+    }
+
+      if (item.map) {
+        const mapLink = document.createElement('a');
+        mapLink.href = item.map;
+        mapLink.textContent = ' [Map]';
+        mapLink.target = '_blank';
+        mapLink.style.marginLeft = '0.5rem';
+        li.appendChild(mapLink);
       }
 
       ul.appendChild(li);
@@ -152,5 +164,49 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadSchedule();
   updateNowNextFromHiddenData();
   setInterval(updateNowNextFromHiddenData, 60000);
-  document.getElementById('test-mode-select')?.addEventListener('change', updateNowNextFromHiddenData);
+
+  // Fetch banner data once
+  fetch('banners.json')
+    .then(res => res.json())
+    .then(banners => {
+      globalBannerData = banners;
+      applyBanner();
+    });
+
+  // Re-run both Now/Next + Banner when Test Mode changes
+  document.getElementById('test-mode-select')?.addEventListener('change', () => {
+    updateNowNextFromHiddenData();
+    applyBanner(); // ✅ run again on test change
+  });
+
+  function applyBanner() {
+    const noticeEl = document.getElementById('global-notice');
+    if (globalBannerData.globalNotice?.text) {
+      noticeEl.textContent = globalBannerData.globalNotice.text;
+      noticeEl.style.display = 'block';
+    }
+
+    const bannerEl = document.getElementById('daily-banner');
+    const bannerText = document.getElementById('banner-text');
+    const testValue = document.getElementById('test-mode-select')?.value;
+    const now = testValue ? localDateFromISO(testValue) : new Date();
+
+    const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+    const day = now.getDate();
+    const key = `${month}-${day}`;
+
+    const message = globalBannerData.banners?.[key];
+    if (!message || localStorage.getItem(`bannerDismissed-${key}`)) {
+      bannerEl.style.display = 'none'; // ✅ hide it if dismissed or no message
+      return;
+    }
+
+    bannerText.textContent = message;
+    bannerEl.style.display = 'block';
+
+    bannerEl.querySelector('.close-banner')?.addEventListener('click', () => {
+      bannerEl.style.display = 'none';
+      localStorage.setItem(`bannerDismissed-${key}`, 'true');
+    });
+  }
 });

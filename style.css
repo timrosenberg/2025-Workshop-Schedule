@@ -10,6 +10,9 @@
   margin-left: 0.5rem;
 }
 /* END TEST TOGGLE*/
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -139,7 +142,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin: 1rem auto 2rem;
+  margin: 1rem 1rem 2rem;
   max-width: 600px;
 }
 
@@ -182,8 +185,8 @@ main {
   text-decoration: underline;
 }
 
-.highlighted {
-  animation: flash-highlight 2s ease-out;
+li {
+  transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
 @keyframes flash-highlight {
@@ -191,7 +194,6 @@ main {
   50%  { background-color: #fcfcb0; }
   100% { background-color: transparent; }
 }
-
 
 a {
   color: #2b644a;
@@ -207,18 +209,6 @@ a:focus {
   text-decoration: underline;
 }
 
-.day {
-  background: white;
-  margin-bottom: 2rem;
-  padding: 0.5rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.day, .day * {
-  font-size: 1.1rem !important;
-}
-
 summary {
   font-size: 1.5rem;
   font-weight: 700;
@@ -230,6 +220,10 @@ summary {
   border: none;
 }
 
+#schedule-container {
+  margin: 0 1rem;
+}
+
 .theme-description {
   margin-top: 0.5rem;
   font-style: italic;
@@ -238,22 +232,44 @@ summary {
 
 ul {
   list-style-type: none;
-  padding: 0;
+  padding-left: 0;
   margin: 1rem 0;
 }
 
 ul li {
   padding: 0.5rem 0;
+  margin-left: 0;
+}
+
+.day {
+  background: white;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 900px;
+}
+
+.day > *:not(summary) {
+  font-size: inherit;
 }
 
 .day > ul > li {
+  /* padding: 0.75rem 1.25rem; */
   border-bottom: 1px dashed #ccc;
-  padding: 0.5rem 0;
 }
 
 .day ul ul li {
   border-bottom: none;
   padding: 0.3rem 0; /* optional: tighter spacing for sub-bullets */
+}
+
+.day > ul > li.highlighted {
+  background-color: #fff2b2;
+  border-radius: 8px;
+  box-shadow: 0 0 0 0.3rem #fff2b2;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 li ul {
@@ -279,7 +295,7 @@ footer {
 summary {
   all: unset;
   display: block;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #293c2e;
   cursor: pointer;
@@ -304,9 +320,4 @@ summary::before {
 
 details[open] summary::before {
   transform: rotate(90deg);
-}
-
-li.highlighted {
-  background-color: #fff2b2;
-  transition: background-color 0.3s ease;
 }
