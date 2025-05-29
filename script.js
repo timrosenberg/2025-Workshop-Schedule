@@ -1,7 +1,7 @@
 // script.js
 
 async function loadSchedule() {
-  const response = await fetch('schedule.json');
+  const response = await fetch('./schedule.json');
   const scheduleData = await response.json();
 
   const main = document.querySelector('main');
