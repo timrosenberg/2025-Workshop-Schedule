@@ -215,12 +215,6 @@ li {
   transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
-@keyframes flash-highlight {
-  0%   { background-color: #f8fcbf; }
-  50%  { background-color: #fcfcb0; }
-  100% { background-color: transparent; }
-}
-
 a {
   color: #2b644a;
   text-decoration: none;
@@ -272,20 +266,54 @@ ul li {
 }
 
 .day > ul > li {
-  /* padding: 0.75rem 1.25rem; */
   border-bottom: 1px dashed #ccc;
+  padding: 0.5rem 0; /* You can slightly reduce this if needed */
+  margin-bottom: 0;
 }
 
 .day ul ul li {
   border-bottom: none;
-  padding: 0.3rem 0; /* optional: tighter spacing for sub-bullets */
+  padding: 0.2rem 0;
+  margin-bottom: 0; /* Removes extra space below sub-bullets */
 }
 
 .day > ul > li.highlighted {
   background-color: #fff2b2;
   border-radius: 4px;
-  box-shadow: 0 0 0 0.3rem #fff2b2;
+  box-shadow: 0 0 0 4px #fff2b2;
+  /* padding: 1rem;
+  margin: 0.5rem 0; */
+  position: relative;
+  animation: highlightFlash 1.2s ease-in-out forwards;
+  animation-fill-mode: none;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes highlightFlash {
+  0% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  15% {
+    background-color: #fff2b2;
+    box-shadow: 0 0 0 4px #fff2b2;
+  }
+  30% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  45% {
+    background-color: #fff2b2;
+    box-shadow: 0 0 0 4px #fff2b2;
+  }
+  60% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
 }
 
 li ul {
@@ -336,4 +364,14 @@ summary::before {
 
 details[open] summary::before {
   transform: rotate(90deg);
+}
+
+.day ul ul {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.day ul ul li:last-child {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
