@@ -80,7 +80,7 @@ function renderSchedule(scheduleData) {
     const ul = document.createElement('ul');
     for (const act of day.activities) {
       const li = document.createElement('li');
-      li.setAttribute('data-time', activity.time);
+      li.setAttribute('data-time', act.time);
       li.innerHTML = `<time>${act.time}</time> — ${act.title}`;
       if (act.location) li.innerHTML += ` @ ${act.location}`;
       if (act.mapUrl) li.innerHTML += ` <a href="${act.mapUrl}" target="_blank">(map)</a>`;
