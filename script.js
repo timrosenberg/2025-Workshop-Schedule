@@ -11,7 +11,7 @@ function groupFlatSchedule(flatData) {
       grouped[date] = {
         date,
         day: item["Day"] || "",
-        theme: item["Theme"] || "",
+        theme: item["Theme Title"] || "",
         themeDescription: item["Theme Description"] || "",
         activities: []
       };
@@ -19,14 +19,15 @@ function groupFlatSchedule(flatData) {
 
     const notes = [];
     for (let i = 1; i <= 4; i++) {
-      const note = item[`Note ${i}`];
+      const note = item[`Subpoint ${i}`];
       if (note) notes.push(note);
     }
 
     grouped[date].activities.push({
       time: item["Time"] || "",
-      title: item["Title"] || "",
+      title: item["Activity"] || "",
       location: item["Location"] || "",
+      mapUrl: item["Map URL"] || "",
       notes
     });
   }
