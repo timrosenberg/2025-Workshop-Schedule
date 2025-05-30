@@ -120,9 +120,13 @@ function updateNowNextFromHiddenData() {
 
   for (let i = 0; i < today.activities.length; i++) {
     const act = today.activities[i];
-    const [start, end] = (act.time || '').split('-').map(t => t && t.trim());
+    let [start, end] = (act.time || '').split('-').map(t => t && t.trim());
+    if (!end) {
+      end = start;
+    }
     const startTime = parseTime(start, now);
     const endTime = parseTime(end, now);
+
 
     if (startTime && endTime && now >= startTime && now < endTime) {
       foundNow = act;
