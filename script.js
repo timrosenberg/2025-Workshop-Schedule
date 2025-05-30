@@ -104,8 +104,8 @@ function renderSchedule(scheduleData) {
 
 function updateNowNextFromHiddenData() {
   const now = getCurrentTime();
-  const today = scheduleData.find(day => day.date === now.toLocaleDateString('en-CA'));
-
+  const localDateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  const today = scheduleData.find(day => day.date === localDateStr);
   const currentAnchor = document.getElementById('now-anchor');
   const nextAnchor = document.getElementById('next-anchor');
 
