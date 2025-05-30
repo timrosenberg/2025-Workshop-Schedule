@@ -195,6 +195,7 @@ function applyBanner() {
 }
 
 function formatDate(isoDate) {
-  const d = new Date(isoDate);
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
