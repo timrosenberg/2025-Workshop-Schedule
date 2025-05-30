@@ -161,10 +161,9 @@ function getCurrentTime() {
   const testValue = document.getElementById('test-mode-select')?.value;
   if (!testValue) return new Date();
 
-  const parts = testValue.split('T');
-  const [year, month, day] = parts[0].split('-').map(Number);
-  const [hour, minute] = parts[1].split(':').map(Number);
-  return new Date(year, month - 1, day, hour, minute);
+  // Parse the test value as if it were in the local timezone
+  const date = new Date(testValue);
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 }
 
 function applyBanner() {
