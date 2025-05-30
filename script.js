@@ -266,13 +266,15 @@ function formatDate(isoDate) {
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
+//DARK MODE
+
 function getCurrentTimeForDarkMode() {
   const testValue = document.getElementById('test-mode-select')?.value;
   if (!testValue) return new Date();
 
-  const parts = testValue.split('T');
-  const [year, month, day] = parts[0].split('-').map(Number);
-  const [hour, minute] = parts[1].split(':').map(Number);
+  const [datePart, timePart] = testValue.split('T');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const [hour, minute] = timePart.split(':').map(Number);
   return new Date(year, month - 1, day, hour, minute);
 }
 
@@ -290,10 +292,10 @@ function checkAndApplyDarkMode() {
 document.addEventListener('DOMContentLoaded', () => {
   checkAndApplyDarkMode();
 
-  setInterval(checkAndApplyDarkMode, 60 * 60 * 1000);
-
-  const testSelector = document.getElementById('test-mode-select');
-  if (testSelector) {
-    testSelector.addEventListener('change', checkAndApplyDarkMode);
+  const testModeSelect = document.getElementById('test-mode-select');
+  if (testModeSelect) {
+    testModeSelect.addEventListener('change', checkAndApplyDarkMode);
   }
+
+  setInterval(checkAndApplyDarkMode, 60 * 60 * 1000); // Check every hour
 });
