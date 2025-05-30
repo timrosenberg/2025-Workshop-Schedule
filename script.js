@@ -139,29 +139,30 @@ function updateNowNextFromHiddenData() {
   if (foundNow) {
     const anchorId = `activity-${localDateStr}-${foundNow.time.replace(/[^a-zA-Z0-9]/g, '')}`;
     currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
-    const el = document.getElementById(anchorId);
-    // CHANGE THIS EMOJI
-    currentAnchor.innerHTML = `<a href="#${selector}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
     currentAnchor.querySelector('a').addEventListener('click', (e) => {
       e.preventDefault();
-      const el = document.querySelector(selector);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const el = document.getElementById(anchorId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('highlighted');
+        setTimeout(() => el.classList.remove('highlighted'), 3000);
+      }
     });
   }
 
   if (foundNext) {
     const anchorId = `activity-${localDateStr}-${foundNext.time.replace(/[^a-zA-Z0-9]/g, '')}`;
-    currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNext.time} — ${foundNext.title}</a>`;
-    const el = document.getElementById(anchorId);
-    // CHANGE THIS EMOJI
-    nextAnchor.innerHTML = `<a href="#${selector}">⏭️ ${foundNext.time} — ${foundNext.title}</a>`;
+    nextAnchor.innerHTML = `<a href="#${anchorId}">⏭️ ${foundNext.time} — ${foundNext.title}</a>`;
     nextAnchor.querySelector('a').addEventListener('click', (e) => {
       e.preventDefault();
-      const el = document.querySelector(selector);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const el = document.getElementById(anchorId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('highlighted');
+        setTimeout(() => el.classList.remove('highlighted'), 3000);
+      }
     });
   }
-
 }
 
 function parseTime(timeStr, refDate) {
