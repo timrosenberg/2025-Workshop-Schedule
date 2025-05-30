@@ -40,21 +40,25 @@ async function loadSchedule() {
   scheduleData = groupFlatSchedule(flatData);
   renderSchedule(scheduleData);
 }
+
 function renderSchedule(data) {
   const container = document.getElementById('schedule-container');
   container.innerHTML = '';
 
   data.forEach(day => {
-    const dayEl = document.createElement('div');
+    const dayEl = document.createElement('details');
     dayEl.className = 'day';
+    dayEl.setAttribute('open', true);
 
-    const dateTitle = document.createElement('summary');
-    dateTitle.textContent = `${day.day}, ${new Date(day.date).toLocaleDateString('en-US', {
-      month: 'long', day: 'numeric'
-    })}`;
-    dayEl.appendChild(dateTitle);
+    const dateStr = new Date(day.date).toLocaleDateString('en-US', {
+      weekday: 'long', month: 'long', day: 'numeric'
+    });
 
-    if (day.theme) {
+    const summary = document.createElement('summary');
+    summary.textContent = `${day.day || ''}, ${dateStr}`;
+    dayEl.appendChild(summary);
+
+    if (day.theme && day.themeDescription) {
       const themeEl = document.createElement('div');
       themeEl.className = 'theme-description';
       themeEl.innerHTML = `<strong>${day.theme}:</strong> ${day.themeDescription}`;
@@ -63,22 +67,19 @@ function renderSchedule(data) {
 
     const ul = document.createElement('ul');
 
-    day.activities.forEach(activity => {
+    day.activities.forEach(act => {
       const li = document.createElement('li');
-      li.innerHTML = `
-        <time>${activity.time}</time> — 
-        <strong>${activity.title}</strong> 
-        ${activity.location ? `@ ${activity.location}` : ''}
-      `;
+      const link = act.mapUrl ? `<a href="${act.mapUrl}" target="_blank">[map]</a>` : '';
+      li.innerHTML = `<time>${act.time}</time> — <strong>${act.title}</strong>${act.location ? ` @ ${act.location}` : ''} ${link}`;
 
-      if (activity.notes?.length) {
-        const noteList = document.createElement('ul');
-        activity.notes.forEach(n => {
-          const noteItem = document.createElement('li');
-          noteItem.innerHTML = n;
-          noteList.appendChild(noteItem);
+      if (act.notes?.length) {
+        const subUl = document.createElement('ul');
+        act.notes.forEach(n => {
+          const subLi = document.createElement('li');
+          subLi.innerHTML = n;
+          subUl.appendChild(subLi);
         });
-        li.appendChild(noteList);
+        li.appendChild(subUl);
       }
 
       ul.appendChild(li);
@@ -88,6 +89,7 @@ function renderSchedule(data) {
     container.appendChild(dayEl);
   });
 }
+
 function getCurrentTime() {
   const testValue = document.getElementById('test-mode-select')?.value;
   return testValue ? new Date(testValue) : new Date();
