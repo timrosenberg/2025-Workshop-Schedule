@@ -107,7 +107,8 @@ function updateNowNext() {
   nextAnchor.textContent = '➡️ No upcoming activity';
   nextAnchor.href = '#';
 
-  const today = scheduleData.find(day => day.date === now.toISOString().slice(0, 10));
+  const localDateStr = now.toLocaleDateString('en-CA'); // "YYYY-MM-DD"
+  const today = scheduleData.find(day => day.date === localDateStr);
   if (!today) return;
 
   const events = today.activities.map(act => {
