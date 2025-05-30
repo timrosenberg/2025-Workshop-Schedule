@@ -14,6 +14,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   const res = await fetch('banners.json');
   globalBannerData = await res.json();
   applyBanner();
+
+  document.getElementById('menu-toggle')?.addEventListener('click', () => {
+  document.getElementById('contact-menu')?.classList.toggle('show');
+  });
+
+  document.addEventListener('click', (event) => {
+  const menu = document.getElementById('contact-menu');
+  const toggle = document.getElementById('menu-toggle');
+  if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+    menu.classList.remove('show');
+  }
+  });
+
 });
 
 async function loadSchedule() {

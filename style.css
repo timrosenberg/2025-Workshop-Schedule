@@ -262,7 +262,7 @@ ul li {
   font-size: 1rem;
   margin-bottom: 1rem;
   padding: 0.5rem 1.5rem;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 900px;
 }
@@ -283,7 +283,7 @@ ul li {
 
 .day > ul > li.highlighted {
   background-color: #fff2b2;
-  border-radius: 6px;
+  border-radius: 4px;
   box-shadow: 0 0 0 0.3rem #fff2b2;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
