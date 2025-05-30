@@ -80,6 +80,7 @@ function renderSchedule(scheduleData) {
     const ul = document.createElement('ul');
     for (const act of day.activities) {
       const li = document.createElement('li');
+      li.setAttribute('data-time', activity.time);
       li.innerHTML = `<time>${act.time}</time> — ${act.title}`;
       if (act.location) li.innerHTML += ` @ ${act.location}`;
       if (act.mapUrl) li.innerHTML += ` <a href="${act.mapUrl}" target="_blank">(map)</a>`;
@@ -136,12 +137,27 @@ function updateNowNextFromHiddenData() {
   }
 
   if (foundNow) {
-    currentAnchor.innerHTML = `⌛ ${foundNow.time} — ${foundNow.title}`;
+    const selector = `li[data-time="${foundNow.time}"]`;
+    // CHANGE THIS EMOJI
+    currentAnchor.innerHTML = `<a href="#${selector}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
+    currentAnchor.querySelector('a').addEventListener('click', (e) => {
+      e.preventDefault();
+      const el = document.querySelector(selector);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   }
 
   if (foundNext) {
-    nextAnchor.innerHTML = `⏭️ ${foundNext.time} — ${foundNext.title}`;
+    const selector = `li[data-time="${foundNext.time}"]`;
+    // CHANGE THIS EMOJI
+    nextAnchor.innerHTML = `<a href="#${selector}">⏭️ ${foundNext.time} — ${foundNext.title}</a>`;
+    nextAnchor.querySelector('a').addEventListener('click', (e) => {
+      e.preventDefault();
+      const el = document.querySelector(selector);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   }
+
 }
 
 function parseTime(timeStr, refDate) {
