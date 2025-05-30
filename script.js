@@ -9,7 +9,7 @@ function groupFlatSchedule(flatData) {
 
     if (!grouped[date]) {
       grouped[date] = {
-        date: new Date(date + 'T00:00').toISOString().split('T')[0],
+        date: new Date(date + 'T00:00:00').toLocaleDateString('en-CA'),
         day: item["Day"] || "",
         theme: item["Theme Title"] || "",
         themeDescription: item["Theme Description"] || "",
