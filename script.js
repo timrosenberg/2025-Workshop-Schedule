@@ -80,7 +80,7 @@ function renderSchedule(scheduleData) {
     const ul = document.createElement('ul');
     for (const act of day.activities) {
       const li = document.createElement('li');
-      li.setAttribute('data-time', act.time);
+      li.setAttribute('id', `activity-${day.date}-${act.time.replace(/[^a-zA-Z0-9]/g, '')}`);
       li.innerHTML = `<time>${act.time}</time> — ${act.title}`;
       if (act.location) li.innerHTML += ` @ ${act.location}`;
       if (act.mapUrl) li.innerHTML += ` <a href="${act.mapUrl}" target="_blank">(map)</a>`;
@@ -137,7 +137,9 @@ function updateNowNextFromHiddenData() {
   }
 
   if (foundNow) {
-    const selector = `li[data-time="${foundNow.time}"]`;
+    const anchorId = `activity-${localDateStr}-${foundNow.time.replace(/[^a-zA-Z0-9]/g, '')}`;
+    currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
+    const el = document.getElementById(anchorId);
     // CHANGE THIS EMOJI
     currentAnchor.innerHTML = `<a href="#${selector}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
     currentAnchor.querySelector('a').addEventListener('click', (e) => {
@@ -148,7 +150,9 @@ function updateNowNextFromHiddenData() {
   }
 
   if (foundNext) {
-    const selector = `li[data-time="${foundNext.time}"]`;
+    const anchorId = `activity-${localDateStr}-${foundNext.time.replace(/[^a-zA-Z0-9]/g, '')}`;
+    currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNext.time} — ${foundNext.title}</a>`;
+    const el = document.getElementById(anchorId);
     // CHANGE THIS EMOJI
     nextAnchor.innerHTML = `<a href="#${selector}">⏭️ ${foundNext.time} — ${foundNext.title}</a>`;
     nextAnchor.querySelector('a').addEventListener('click', (e) => {
