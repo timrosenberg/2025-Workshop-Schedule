@@ -34,7 +34,7 @@ function groupFlatSchedule(flatData) {
       grouped[date] = {
         date,
         day: item["Day"] || "",
-        theme: item["Theme Title"] || "",
+        themeTitle: item["Theme Title"] || "",
         themeDescription: item["Theme Description"] || "",
         activities: []
       };
