@@ -283,7 +283,7 @@ ul li {
 
 .day > ul > li.highlighted {
   background-color: #fff2b2;
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: 0 0 0 0.3rem #fff2b2;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
