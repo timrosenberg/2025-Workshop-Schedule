@@ -67,7 +67,7 @@ function renderSchedule(scheduleData) {
     details.className = 'day';
 
     const summary = document.createElement('summary');
-    summary.innerHTML = `${day.day}, ${day.date}`;
+    summary.innerHTML = `${day.day}${day.day && day.date ? ', ' : ''}${formatDate(day.date)}`;
     details.appendChild(summary);
 
     if (day.themeDescription) {
@@ -159,7 +159,12 @@ function parseTime(timeStr, refDate) {
 
 function getCurrentTime() {
   const testValue = document.getElementById('test-mode-select')?.value;
-  return testValue ? new Date(testValue) : new Date();
+  if (!testValue) return new Date();
+
+  const parts = testValue.split('T');
+  const [year, month, day] = parts[0].split('-').map(Number);
+  const [hour, minute] = parts[1].split(':').map(Number);
+  return new Date(year, month - 1, day, hour, minute);
 }
 
 function applyBanner() {
@@ -188,4 +193,9 @@ function applyBanner() {
     bannerEl.style.display = 'none';
     localStorage.setItem(`bannerDismissed-${key}`, 'true');
   });
+}
+
+function formatDate(isoDate) {
+  const d = new Date(isoDate);
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
