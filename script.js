@@ -279,6 +279,18 @@ function getCurrentTimeForDarkMode() {
 }
 
 function checkAndApplyDarkMode() {
+  const manualSetting = localStorage.getItem('manualDarkMode');
+
+  if (manualSetting === 'on') {
+    document.body.classList.add('dark-mode');
+    return;
+  }
+
+  if (manualSetting === 'off') {
+    document.body.classList.remove('dark-mode');
+    return;
+  }
+
   const now = getCurrentTimeForDarkMode();
   const estHour = now.getHours();
 
@@ -290,12 +302,35 @@ function checkAndApplyDarkMode() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  checkAndApplyDarkMode();
-
+  const manualToggle = document.getElementById('manual-dark-toggle');
   const testModeSelect = document.getElementById('test-mode-select');
+  const savedMode = localStorage.getItem('manualDarkMode');
+
+  // Apply saved mode or check time-based dark mode
+  if (savedMode === 'on') {
+    document.body.classList.add('dark-mode');
+  } else {
+    checkAndApplyDarkMode();
+  }
+
+  // Handle manual toggle
+  if (manualToggle) {
+    manualToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-mode');
+      if (isDark) {
+        localStorage.setItem('manualDarkMode', 'on');
+      } else {
+        localStorage.removeItem('manualDarkMode');
+        checkAndApplyDarkMode(); // Revert to time-based mode
+      }
+    });
+  }
+
+  // Handle test mode selector
   if (testModeSelect) {
     testModeSelect.addEventListener('change', checkAndApplyDarkMode);
   }
 
-  setInterval(checkAndApplyDarkMode, 60 * 60 * 1000); // Check every hour
+  // Re-check periodically
+  setInterval(checkAndApplyDarkMode, 60 * 60 * 1000);
 });

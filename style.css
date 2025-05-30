@@ -33,14 +33,17 @@ header {
 #menu-toggle {
   position: absolute;
   right: 1rem;
-  top: 1.5rem;
+  top: 1rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
-  color: white;
+  font-size: 2rem;
+  color: #d2edc8;
   cursor: pointer;
   z-index: 20;
+  transition: color 0.3s;
 }
+
+#menu-toggle:hover {color: #fff}
 
 #contact-menu {
   position: absolute;
@@ -345,6 +348,36 @@ details[open] summary::before {
 }
 
 /* DARK MODE */
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 3.5rem; /* Adjust as needed to position below the hamburger menu */
+  right: 1.22rem;
+  background: none;
+  border: none;
+  font-size: 1.22rem;
+  color: #d2edc8;
+  cursor: pointer;
+  z-index: 20;
+  transition: color 0.3s;
+}
+
+.dark-mode-toggle:hover {
+  color: #ffffff;
+}
+
+body.dark-mode .dark-mode-toggle {
+  color: #ffffff;
+}
+
+.dark-mode-toggle i {
+  transform: rotate(0deg); /* Change the degree as desired */
+  transition: transform 0.5s ease;
+}
+
+body.dark-mode .dark-mode-toggle i {
+  transform: rotate(180deg); /* Or whatever rotation you prefer */
+}
 
 body.dark-mode {
   background-color: #121212;
