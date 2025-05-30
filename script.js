@@ -80,7 +80,11 @@ function renderSchedule(scheduleData) {
     details.className = 'day';
 
     const summary = document.createElement('summary');
-    summary.innerHTML = `${day.day}${day.day && day.date ? ', ' : ''}${formatDate(day.date)}`;
+    const [year, month, dayNum] = day.date.split('-').map(Number);
+    const localDate = new Date(year, month - 1, dayNum);
+    const weekdayName = localDate.toLocaleDateString('en-US', { weekday: 'long' });
+    summary.innerHTML = `<span class="day-name">${weekdayName}</span>, ${formatDate(day.date)}`;
+    /* summary.innerHTML = `<span class="day-name">${day.day}</span>${day.day && day.date ? ', ' : ''}${formatDate(day.date)}`; */
     details.appendChild(summary);
 
     if (day.themeDescription) {
@@ -162,7 +166,7 @@ function updateNowNextFromHiddenData() {
   if (foundNow) {
     const anchorId = `activity-${localDateStr}-${foundNow.time.replace(/[^a-zA-Z0-9]/g, '')}`;
     currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
-    
+
     currentAnchor.querySelector('a').addEventListener('click', (e) => {
       e.preventDefault();
       const el = document.getElementById(anchorId);
@@ -173,8 +177,11 @@ function updateNowNextFromHiddenData() {
         }
 
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.classList.add('highlighted');
-        setTimeout(() => el.classList.remove('highlighted'), 3000);
+
+        el.classList.add('blink-highlight');
+        setTimeout(() => el.classList.remove('blink-highlight'), 800);
+        setTimeout(() => el.classList.add('blink-highlight'), 1400);
+        setTimeout(() => el.classList.remove('blink-highlight'), 2200);
       }
     });
   }
@@ -193,8 +200,11 @@ function updateNowNextFromHiddenData() {
         }
 
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.classList.add('highlighted');
-        setTimeout(() => el.classList.remove('highlighted'), 3000);
+
+        el.classList.add('blink-highlight');
+        setTimeout(() => el.classList.remove('blink-highlight'), 800);
+        setTimeout(() => el.classList.add('blink-highlight'), 1400);
+        setTimeout(() => el.classList.remove('blink-highlight'), 2200);
       }
     });
   }
@@ -255,3 +265,35 @@ function formatDate(isoDate) {
   const d = new Date(year, month - 1, day);
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
+
+function getCurrentTimeForDarkMode() {
+  const testValue = document.getElementById('test-mode-select')?.value;
+  if (!testValue) return new Date();
+
+  const parts = testValue.split('T');
+  const [year, month, day] = parts[0].split('-').map(Number);
+  const [hour, minute] = parts[1].split(':').map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+}
+
+function checkAndApplyDarkMode() {
+  const now = getCurrentTimeForDarkMode();
+  const estHour = now.getHours();
+
+  if (estHour >= 20 || estHour < 6) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  checkAndApplyDarkMode();
+
+  setInterval(checkAndApplyDarkMode, 60 * 60 * 1000);
+
+  const testSelector = document.getElementById('test-mode-select');
+  if (testSelector) {
+    testSelector.addEventListener('change', checkAndApplyDarkMode);
+  }
+});
