@@ -198,6 +198,18 @@ main {
   text-decoration: underline;
 }
 
+.theme-description {
+  background-color: #f0f0f0;
+  border-left: 4px solid #ccc;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  color: #333;
+}
+
 li {
   transition: background-color 0.3s ease, padding 0.3s ease;
 }
