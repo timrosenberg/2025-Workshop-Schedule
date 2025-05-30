@@ -103,46 +103,44 @@ function updateNowNext() {
   nowBox.innerHTML = '<h3>Now</h3><p>No current activity</p>';
   nextBox.innerHTML = '<h3>Next</h3><p>No upcoming activity</p>';
 
-  const currentDay = scheduleData.find(day => day.date === now.toISOString().slice(0, 10));
-  if (!currentDay) return;
+  const today = scheduleData.find(day => day.date === now.toISOString().slice(0, 10));
+  if (!today) return;
 
-  const parseTime = timeStr => {
-    const [_, hour, minute, ampm] = timeStr.match(/(\d+):?(\d+)?\s*(AM|PM)/i) || [];
-    if (!hour) return null;
-    let h = parseInt(hour);
-    let m = parseInt(minute || '0');
-    if (ampm.toUpperCase() === 'PM' && h !== 12) h += 12;
-    if (ampm.toUpperCase() === 'AM' && h === 12) h = 0;
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
-  };
-
-  const nowTime = now.getTime();
-  const events = currentDay.activities.map(a => {
-    const parts = a.time.split('-');
-    const start = parseTime(parts[0]?.trim());
-    const end = parts[1] ? parseTime(parts[1]?.trim()) : new Date(start.getTime() + 30 * 60000);
-    return { ...a, start, end };
+  const events = today.activities.map(act => {
+    const timeRange = act.time.split('–');
+    const parse = str => {
+      const match = str?.trim().match(/(\d+)(?::(\d+))?\s*(AM|PM)/i);
+      if (!match) return null;
+      let [_, h, m = '0', meridian] = match;
+      h = parseInt(h, 10);
+      m = parseInt(m, 10);
+      if (meridian.toUpperCase() === 'PM' && h !== 12) h += 12;
+      if (meridian.toUpperCase() === 'AM' && h === 12) h = 0;
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+    };
+    const start = parse(timeRange[0]);
+    const end = parse(timeRange[1] || timeRange[0]); // fallback to same as start
+    return { ...act, start, end };
   });
 
   for (let i = 0; i < events.length; i++) {
     const e = events[i];
-    if (!e.start || !e.end) continue;
-
-    if (nowTime >= e.start.getTime() && nowTime <= e.end.getTime()) {
+    const nowMs = now.getTime();
+    if (e.start && e.end && nowMs >= e.start.getTime() && nowMs <= e.end.getTime()) {
       nowBox.innerHTML = `<h3>Now</h3><p>${e.time} — <a href="#">${e.title}</a></p>`;
       if (events[i + 1]) {
         const n = events[i + 1];
         nextBox.innerHTML = `<h3>Next</h3><p>${n.time} — <a href="#">${n.title}</a></p>`;
       }
-      break;
-    }
-
-    if (nowTime < e.start.getTime()) {
+      return;
+    } else if (e.start && nowMs < e.start.getTime()) {
       nextBox.innerHTML = `<h3>Next</h3><p>${e.time} — <a href="#">${e.title}</a></p>`;
-      break;
+      return;
     }
   }
-}let globalBannerData = null;
+}
+
+let globalBannerData = null;
 
 function applyBanner() {
   const noticeEl = document.getElementById('global-notice');
