@@ -1,154 +1,192 @@
 let scheduleData = [];
-let globalBannerData = {};
 
-function localDateFromISO(isoStr) {
-  const [date, time] = isoStr.split('T');
-  const [y, m, d] = date.split('-').map(Number);
-  const [h = 0, min = 0] = (time || '').split(':').map(Number);
-  return new Date(y, m - 1, d, h, min);
+function groupFlatSchedule(flatData) {
+  const grouped = {};
+
+  for (const item of flatData) {
+    const date = item["Date"];
+    if (!date) continue;
+
+    if (!grouped[date]) {
+      grouped[date] = {
+        date,
+        day: item["Day"] || "",
+        theme: item["Theme"] || "",
+        themeDescription: item["Theme Description"] || "",
+        activities: []
+      };
+    }
+
+    const notes = [];
+    for (let i = 1; i <= 4; i++) {
+      const note = item[`Note ${i}`];
+      if (note) notes.push(note);
+    }
+
+    grouped[date].activities.push({
+      time: item["Time"] || "",
+      title: item["Title"] || "",
+      location: item["Location"] || "",
+      notes
+    });
+  }
+
+  return Object.values(grouped);
 }
 
-function getEffectiveNow() {
-  const testValue = document.getElementById('test-mode-select')?.value;
-  return testValue ? localDateFromISO(testValue) : new Date();
-}
 async function loadSchedule() {
   const res = await fetch('schedule.json');
-  scheduleData = await res.json();
-  renderSchedule();
+  const flatData = await res.json();
+  scheduleData = groupFlatSchedule(flatData);
+  renderSchedule(scheduleData);
 }
-
-function renderSchedule() {
+function renderSchedule(data) {
   const container = document.getElementById('schedule-container');
   container.innerHTML = '';
 
-  for (const day of scheduleData) {
-    const section = document.createElement('details');
-    section.id = day.date;
-    section.open = true;
+  data.forEach(day => {
+    const dayEl = document.createElement('div');
+    dayEl.className = 'day';
 
-    const summary = document.createElement('summary');
-    summary.textContent = `${day.day}, ${day.date} — ${day.theme || ''}`;
-    section.appendChild(summary);
+    const dateTitle = document.createElement('summary');
+    dateTitle.textContent = `${day.day}, ${new Date(day.date).toLocaleDateString('en-US', {
+      month: 'long', day: 'numeric'
+    })}`;
+    dayEl.appendChild(dateTitle);
 
-    if (day.themeDescription) {
-      const desc = document.createElement('div');
-      desc.className = 'theme-description';
-      desc.innerHTML = day.themeDescription;
-      section.appendChild(desc);
+    if (day.theme) {
+      const themeEl = document.createElement('div');
+      themeEl.className = 'theme-description';
+      themeEl.innerHTML = `<strong>${day.theme}:</strong> ${day.themeDescription}`;
+      dayEl.appendChild(themeEl);
     }
 
     const ul = document.createElement('ul');
-    for (const act of day.activities) {
+
+    day.activities.forEach(activity => {
       const li = document.createElement('li');
+      li.innerHTML = `
+        <time>${activity.time}</time> — 
+        <strong>${activity.title}</strong> 
+        ${activity.location ? `@ ${activity.location}` : ''}
+      `;
 
-      const time = document.createElement('time');
-      time.textContent = act.time;
-      li.appendChild(time);
-      li.append(`: ${act.title}`);
-
-      if (act.location) {
-        const loc = document.createElement('div');
-        loc.innerHTML = `<strong>Location:</strong> ${act.location}`;
-        li.appendChild(loc);
-      }
-
-      if (act.notes && act.notes.length) {
-        const sub = document.createElement('ul');
-        for (const note of act.notes) {
-          const subItem = document.createElement('li');
-          subItem.innerHTML = note;
-          sub.appendChild(subItem);
-        }
-        li.appendChild(sub);
+      if (activity.notes?.length) {
+        const noteList = document.createElement('ul');
+        activity.notes.forEach(n => {
+          const noteItem = document.createElement('li');
+          noteItem.innerHTML = n;
+          noteList.appendChild(noteItem);
+        });
+        li.appendChild(noteList);
       }
 
       ul.appendChild(li);
-    }
+    });
 
-    section.appendChild(ul);
-    container.appendChild(section);
-  }
+    dayEl.appendChild(ul);
+    container.appendChild(dayEl);
+  });
+}
+function getCurrentTime() {
+  const testValue = document.getElementById('test-mode-select')?.value;
+  return testValue ? new Date(testValue) : new Date();
 }
 
 function updateNowNext() {
-  const now = getEffectiveNow();
-  const dateStr = now.toISOString().split('T')[0];
-  const today = scheduleData.find(d => d.date === dateStr);
-  if (!today) return;
+  const now = getCurrentTime();
+  const nowBox = document.getElementById('now-box');
+  const nextBox = document.getElementById('next-box');
 
-  let nowActivity = null;
-  let nextActivity = null;
+  nowBox.innerHTML = '<h3>Now</h3><p>No current activity</p>';
+  nextBox.innerHTML = '<h3>Next</h3><p>No upcoming activity</p>';
 
-  for (const act of today.activities) {
-    const range = act.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)(?:\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM))?/i);
-    if (!range) continue;
+  const currentDay = scheduleData.find(day => day.date === now.toISOString().slice(0, 10));
+  if (!currentDay) return;
 
-    let [ , sh, sm, sap, eh, em, eap ] = range;
-    sh = parseInt(sh); sm = parseInt(sm); eh = parseInt(eh || sh); em = parseInt(em || sm);
+  const parseTime = timeStr => {
+    const [_, hour, minute, ampm] = timeStr.match(/(\d+):?(\d+)?\s*(AM|PM)/i) || [];
+    if (!hour) return null;
+    let h = parseInt(hour);
+    let m = parseInt(minute || '0');
+    if (ampm.toUpperCase() === 'PM' && h !== 12) h += 12;
+    if (ampm.toUpperCase() === 'AM' && h === 12) h = 0;
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+  };
 
-    if (sap === 'PM' && sh < 12) sh += 12;
-    if (sap === 'AM' && sh === 12) sh = 0;
-    if (eap === 'PM' && eh < 12) eh += 12;
-    if (eap === 'AM' && eh === 12) eh = 0;
+  const nowTime = now.getTime();
+  const events = currentDay.activities.map(a => {
+    const parts = a.time.split('-');
+    const start = parseTime(parts[0]?.trim());
+    const end = parts[1] ? parseTime(parts[1]?.trim()) : new Date(start.getTime() + 30 * 60000);
+    return { ...a, start, end };
+  });
 
-    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), sh, sm);
-    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), eh, em);
+  for (let i = 0; i < events.length; i++) {
+    const e = events[i];
+    if (!e.start || !e.end) continue;
 
-    if (now >= start && now <= end) {
-      nowActivity = act;
-    } else if (now < start && !nextActivity) {
-      nextActivity = act;
+    if (nowTime >= e.start.getTime() && nowTime <= e.end.getTime()) {
+      nowBox.innerHTML = `<h3>Now</h3><p>${e.time} — <a href="#">${e.title}</a></p>`;
+      if (events[i + 1]) {
+        const n = events[i + 1];
+        nextBox.innerHTML = `<h3>Next</h3><p>${n.time} — <a href="#">${n.title}</a></p>`;
+      }
+      break;
+    }
+
+    if (nowTime < e.start.getTime()) {
+      nextBox.innerHTML = `<h3>Next</h3><p>${e.time} — <a href="#">${e.title}</a></p>`;
+      break;
     }
   }
+}let globalBannerData = null;
 
-  document.getElementById('now-box').innerHTML = nowActivity
-    ? `<h3>Now</h3><p><time>${nowActivity.time}</time>: ${nowActivity.title}</p>`
-    : '';
+function applyBanner() {
+  const noticeEl = document.getElementById('global-notice');
+  if (globalBannerData?.globalNotice?.text) {
+    noticeEl.textContent = globalBannerData.globalNotice.text;
+    noticeEl.style.display = 'block';
+  }
 
-  document.getElementById('next-box').innerHTML = nextActivity
-    ? `<h3>Next</h3><p><time>${nextActivity.time}</time>: ${nextActivity.title}</p>`
-    : '';
+  const bannerEl = document.getElementById('daily-banner');
+  const bannerText = document.getElementById('banner-text');
+  const testValue = document.getElementById('test-mode-select')?.value;
+  const now = testValue ? new Date(testValue) : new Date();
+
+  const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+  const day = now.getDate();
+  const key = `${month}-${day}`;
+
+  const message = globalBannerData?.banners?.[key];
+  if (!message || localStorage.getItem(`bannerDismissed-${key}`)) return;
+
+  bannerText.innerHTML = message;
+  bannerEl.style.display = 'block';
+
+  bannerEl.querySelector('.close-banner')?.addEventListener('click', () => {
+    bannerEl.style.display = 'none';
+    localStorage.setItem(`bannerDismissed-${key}`, 'true');
+  });
 }
+
 async function loadBanners() {
   const res = await fetch('banners.json');
   globalBannerData = await res.json();
-  updateBanner();
+  applyBanner();
 }
 
-function updateBanner() {
-  const now = getEffectiveNow();
-  const key = now.toISOString().split('T')[0];
-
-  const bannerText = globalBannerData.banners?.[key];
-  const bannerEl = document.getElementById('daily-banner');
-  if (!bannerText || localStorage.getItem(`bannerDismissed-${key}`)) {
-    bannerEl.style.display = 'none';
-    return;
-  }
-
-  bannerEl.innerHTML = `
-    <span>${bannerText}</span>
-    <button class="close-banner">&times;</button>
-  `;
-  bannerEl.style.display = 'block';
-
-  bannerEl.querySelector('.close-banner').addEventListener('click', () => {
-    localStorage.setItem(`bannerDismissed-${key}`, 'true');
-    bannerEl.style.display = 'none';
-  });
-}
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSchedule();
   await loadBanners();
   updateNowNext();
-  setInterval(updateNowNext, 60000); // update every minute
+  setInterval(updateNowNext, 60000);
 
   const testSelect = document.getElementById('test-mode-select');
   if (testSelect) {
     testSelect.addEventListener('change', () => {
       updateNowNext();
-      updateBanner();
+      applyBanner();
     });
   }
 });
