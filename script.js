@@ -143,10 +143,16 @@ function updateNowNextFromHiddenData() {
   if (foundNow) {
     const anchorId = `activity-${localDateStr}-${foundNow.time.replace(/[^a-zA-Z0-9]/g, '')}`;
     currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
+    
     currentAnchor.querySelector('a').addEventListener('click', (e) => {
       e.preventDefault();
       const el = document.getElementById(anchorId);
       if (el) {
+        const details = el.closest('details');
+        if (details && !details.open) {
+          details.open = true;
+        }
+
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         el.classList.add('highlighted');
         setTimeout(() => el.classList.remove('highlighted'), 3000);
@@ -157,17 +163,22 @@ function updateNowNextFromHiddenData() {
   if (foundNext) {
     const anchorId = `activity-${localDateStr}-${foundNext.time.replace(/[^a-zA-Z0-9]/g, '')}`;
     nextAnchor.innerHTML = `<a href="#${anchorId}">⏭️ ${foundNext.time} — ${foundNext.title}</a>`;
+
     nextAnchor.querySelector('a').addEventListener('click', (e) => {
       e.preventDefault();
       const el = document.getElementById(anchorId);
       if (el) {
+        const details = el.closest('details');
+        if (details && !details.open) {
+          details.open = true;
+        }
+
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         el.classList.add('highlighted');
         setTimeout(() => el.classList.remove('highlighted'), 3000);
       }
     });
   }
-}
 
 function parseTime(timeStr, refDate) {
   if (!timeStr) return null;
