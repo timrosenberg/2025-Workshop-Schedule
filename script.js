@@ -97,17 +97,20 @@ function getCurrentTime() {
 
 function updateNowNext() {
   const now = getCurrentTime();
-  const nowBox = document.getElementById('now-box');
-  const nextBox = document.getElementById('next-box');
+  const currentAnchor = document.getElementById('current-activity');
+  const nextAnchor = document.getElementById('next-activity');
 
-  nowBox.innerHTML = '<h3>Now</h3><p>No current activity</p>';
-  nextBox.innerHTML = '<h3>Next</h3><p>No upcoming activity</p>';
+  currentAnchor.textContent = '⌛ No current activity';
+  currentAnchor.href = '#';
+
+  nextAnchor.textContent = '➡️ No upcoming activity';
+  nextAnchor.href = '#';
 
   const today = scheduleData.find(day => day.date === now.toISOString().slice(0, 10));
   if (!today) return;
 
   const events = today.activities.map(act => {
-    const timeRange = act.time.split('–');
+    const parts = act.time.split('–');
     const parse = str => {
       const match = str?.trim().match(/(\d+)(?::(\d+))?\s*(AM|PM)/i);
       if (!match) return null;
@@ -118,8 +121,8 @@ function updateNowNext() {
       if (meridian.toUpperCase() === 'AM' && h === 12) h = 0;
       return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
     };
-    const start = parse(timeRange[0]);
-    const end = parse(timeRange[1] || timeRange[0]); // fallback to same as start
+    const start = parse(parts[0]);
+    const end = parse(parts[1] || parts[0]); // fallback to same as start
     return { ...act, start, end };
   });
 
@@ -127,14 +130,18 @@ function updateNowNext() {
     const e = events[i];
     const nowMs = now.getTime();
     if (e.start && e.end && nowMs >= e.start.getTime() && nowMs <= e.end.getTime()) {
-      nowBox.innerHTML = `<h3>Now</h3><p>${e.time} — <a href="#">${e.title}</a></p>`;
+      currentAnchor.textContent = `${e.time} — ${e.title}`;
+      currentAnchor.href = e.mapUrl || '#';
+
       if (events[i + 1]) {
         const n = events[i + 1];
-        nextBox.innerHTML = `<h3>Next</h3><p>${n.time} — <a href="#">${n.title}</a></p>`;
+        nextAnchor.textContent = `${n.time} — ${n.title}`;
+        nextAnchor.href = n.mapUrl || '#';
       }
       return;
     } else if (e.start && nowMs < e.start.getTime()) {
-      nextBox.innerHTML = `<h3>Next</h3><p>${e.time} — <a href="#">${e.title}</a></p>`;
+      nextAnchor.textContent = `${e.time} — ${e.title}`;
+      nextAnchor.href = e.mapUrl || '#';
       return;
     }
   }
