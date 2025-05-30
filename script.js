@@ -179,6 +179,7 @@ function updateNowNextFromHiddenData() {
       }
     });
   }
+} 
 
 function parseTime(timeStr, refDate) {
   if (!timeStr) return null;
