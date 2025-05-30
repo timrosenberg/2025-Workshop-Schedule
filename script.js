@@ -73,7 +73,13 @@ function renderSchedule(scheduleData) {
     if (day.themeDescription) {
       const theme = document.createElement('div');
       theme.className = 'theme-description';
-      theme.textContent = day.themeDescription;
+
+      if (day.themeTitle) {
+        theme.innerHTML = `<strong>${day.themeTitle}:</strong> ${day.themeDescription}`;
+      } else {
+        theme.textContent = day.themeDescription;
+      }
+
       details.appendChild(theme);
     }
 
