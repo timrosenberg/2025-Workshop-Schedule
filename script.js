@@ -1,4 +1,27 @@
 let scheduleData = [];
+let globalBannerData = {};
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadSchedule();
+  updateNowNextFromHiddenData();
+  setInterval(updateNowNextFromHiddenData, 60000);
+
+  document.getElementById('test-mode-select')?.addEventListener('change', () => {
+    updateNowNextFromHiddenData();
+    applyBanner();
+  });
+
+  const res = await fetch('banners.json');
+  globalBannerData = await res.json();
+  applyBanner();
+});
+
+async function loadSchedule() {
+  const res = await fetch('schedule.json');
+  const flatData = await res.json();
+  scheduleData = groupFlatSchedule(flatData);
+  renderSchedule(scheduleData);
+}
 
 function groupFlatSchedule(flatData) {
   const grouped = {};
@@ -9,7 +32,7 @@ function groupFlatSchedule(flatData) {
 
     if (!grouped[date]) {
       grouped[date] = {
-        date: new Date(date + 'T00:00:00').toLocaleDateString('en-CA'),
+        date,
         day: item["Day"] || "",
         theme: item["Theme Title"] || "",
         themeDescription: item["Theme Description"] || "",
@@ -32,63 +55,106 @@ function groupFlatSchedule(flatData) {
     });
   }
 
-  return Object.values(grouped);
+  return Object.values(grouped).sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
-async function loadSchedule() {
-  const res = await fetch('schedule.json');
-  const flatData = await res.json();
-  scheduleData = groupFlatSchedule(flatData);
-  renderSchedule(scheduleData);
-}
-
-function renderSchedule(data) {
+function renderSchedule(scheduleData) {
   const container = document.getElementById('schedule-container');
   container.innerHTML = '';
 
-  data.forEach(day => {
-    const dayEl = document.createElement('details');
-    dayEl.className = 'day';
-    dayEl.setAttribute('open', true);
-
-    const dateStr = new Date(day.date).toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric'
-    });
+  for (const day of scheduleData) {
+    const details = document.createElement('details');
+    details.className = 'day';
 
     const summary = document.createElement('summary');
-    summary.textContent = `${day.day || ''}, ${dateStr}`;
-    dayEl.appendChild(summary);
+    summary.innerHTML = `${day.day}, ${day.date}`;
+    details.appendChild(summary);
 
-    if (day.theme && day.themeDescription) {
-      const themeEl = document.createElement('div');
-      themeEl.className = 'theme-description';
-      themeEl.innerHTML = `<strong>${day.theme}:</strong> ${day.themeDescription}`;
-      dayEl.appendChild(themeEl);
+    if (day.themeDescription) {
+      const theme = document.createElement('div');
+      theme.className = 'theme-description';
+      theme.textContent = day.themeDescription;
+      details.appendChild(theme);
     }
 
     const ul = document.createElement('ul');
-
-    day.activities.forEach(act => {
+    for (const act of day.activities) {
       const li = document.createElement('li');
-      const link = act.mapUrl ? `<a href="${act.mapUrl}" target="_blank">[map]</a>` : '';
-      li.innerHTML = `<time>${act.time}</time> — <strong>${act.title}</strong>${act.location ? ` @ ${act.location}` : ''} ${link}`;
+      li.innerHTML = `<time>${act.time}</time> — ${act.title}`;
+      if (act.location) li.innerHTML += ` @ ${act.location}`;
+      if (act.mapUrl) li.innerHTML += ` <a href="${act.mapUrl}" target="_blank">(map)</a>`;
 
-      if (act.notes?.length) {
+      if (act.notes && act.notes.length > 0) {
         const subUl = document.createElement('ul');
-        act.notes.forEach(n => {
+        act.notes.forEach(note => {
           const subLi = document.createElement('li');
-          subLi.innerHTML = n;
+          subLi.innerHTML = note;
           subUl.appendChild(subLi);
         });
         li.appendChild(subUl);
       }
 
       ul.appendChild(li);
-    });
+    }
 
-    dayEl.appendChild(ul);
-    container.appendChild(dayEl);
-  });
+    details.appendChild(ul);
+    container.appendChild(details);
+  }
+}
+
+function updateNowNextFromHiddenData() {
+  const now = getCurrentTime();
+  const today = scheduleData.find(day => day.date === now.toLocaleDateString('en-CA'));
+
+  const currentAnchor = document.getElementById('now-anchor');
+  const nextAnchor = document.getElementById('next-anchor');
+
+  currentAnchor.textContent = '⌛ No current activity';
+  nextAnchor.textContent = '⏭️ Nothing upcoming';
+
+  if (!today || !today.activities) return;
+
+  let foundNow = null;
+  let foundNext = null;
+
+  for (let i = 0; i < today.activities.length; i++) {
+    const act = today.activities[i];
+    const [start, end] = (act.time || '').split('-').map(t => t && t.trim());
+    const startTime = parseTime(start, now);
+    const endTime = parseTime(end, now);
+
+    if (startTime && endTime && now >= startTime && now < endTime) {
+      foundNow = act;
+      foundNext = today.activities[i + 1] || null;
+      break;
+    }
+
+    if (startTime && now < startTime) {
+      foundNext = act;
+      break;
+    }
+  }
+
+  if (foundNow) {
+    currentAnchor.innerHTML = `⌛ ${foundNow.time} — ${foundNow.title}`;
+  }
+
+  if (foundNext) {
+    nextAnchor.innerHTML = `⏭️ ${foundNext.time} — ${foundNext.title}`;
+  }
+}
+
+function parseTime(timeStr, refDate) {
+  if (!timeStr) return null;
+  const date = new Date(refDate);
+  const [rawTime, modifier] = timeStr.split(' ');
+  const [hourStr, minStr] = rawTime.split(':');
+  let hours = parseInt(hourStr);
+  const minutes = parseInt(minStr) || 0;
+  if (modifier && modifier.toLowerCase().includes('pm') && hours < 12) hours += 12;
+  if (modifier && modifier.toLowerCase().includes('am') && hours === 12) hours = 0;
+  date.setHours(hours, minutes, 0, 0);
+  return date;
 }
 
 function getCurrentTime() {
@@ -96,64 +162,9 @@ function getCurrentTime() {
   return testValue ? new Date(testValue) : new Date();
 }
 
-function updateNowNext() {
-  const now = getCurrentTime();
-  const currentAnchor = document.getElementById('current-activity');
-  const nextAnchor = document.getElementById('next-activity');
-
-  currentAnchor.textContent = '⌛ No current activity';
-  currentAnchor.href = '#';
-
-  nextAnchor.textContent = '➡️ No upcoming activity';
-  nextAnchor.href = '#';
-
-  const localDateStr = now.toLocaleDateString('en-CA'); // "YYYY-MM-DD"
-  const today = scheduleData.find(day => day.date === localDateStr);
-  if (!today) return;
-
-  const events = today.activities.map(act => {
-    const parts = act.time.split('–');
-    const parse = str => {
-      const match = str?.trim().match(/(\d+)(?::(\d+))?\s*(AM|PM)/i);
-      if (!match) return null;
-      let [_, h, m = '0', meridian] = match;
-      h = parseInt(h, 10);
-      m = parseInt(m, 10);
-      if (meridian.toUpperCase() === 'PM' && h !== 12) h += 12;
-      if (meridian.toUpperCase() === 'AM' && h === 12) h = 0;
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
-    };
-    const start = parse(parts[0]);
-    const end = parse(parts[1] || parts[0]); // fallback to same as start
-    return { ...act, start, end };
-  });
-
-  for (let i = 0; i < events.length; i++) {
-    const e = events[i];
-    const nowMs = now.getTime();
-    if (e.start && e.end && nowMs >= e.start.getTime() && nowMs <= e.end.getTime()) {
-      currentAnchor.textContent = `${e.time} — ${e.title}`;
-      currentAnchor.href = e.mapUrl || '#';
-
-      if (events[i + 1]) {
-        const n = events[i + 1];
-        nextAnchor.textContent = `${n.time} — ${n.title}`;
-        nextAnchor.href = n.mapUrl || '#';
-      }
-      return;
-    } else if (e.start && nowMs < e.start.getTime()) {
-      nextAnchor.textContent = `${e.time} — ${e.title}`;
-      nextAnchor.href = e.mapUrl || '#';
-      return;
-    }
-  }
-}
-
-let globalBannerData = null;
-
 function applyBanner() {
   const noticeEl = document.getElementById('global-notice');
-  if (globalBannerData?.globalNotice?.text) {
+  if (globalBannerData.globalNotice?.text) {
     noticeEl.textContent = globalBannerData.globalNotice.text;
     noticeEl.style.display = 'block';
   }
@@ -167,10 +178,10 @@ function applyBanner() {
   const day = now.getDate();
   const key = `${month}-${day}`;
 
-  const message = globalBannerData?.banners?.[key];
+  const message = globalBannerData.banners?.[key];
   if (!message || localStorage.getItem(`bannerDismissed-${key}`)) return;
 
-  bannerText.innerHTML = message;
+  bannerText.textContent = message;
   bannerEl.style.display = 'block';
 
   bannerEl.querySelector('.close-banner')?.addEventListener('click', () => {
@@ -178,24 +189,3 @@ function applyBanner() {
     localStorage.setItem(`bannerDismissed-${key}`, 'true');
   });
 }
-
-async function loadBanners() {
-  const res = await fetch('banners.json');
-  globalBannerData = await res.json();
-  applyBanner();
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  await loadSchedule();
-  await loadBanners();
-  updateNowNext();
-  setInterval(updateNowNext, 60000);
-
-  const testSelect = document.getElementById('test-mode-select');
-  if (testSelect) {
-    testSelect.addEventListener('change', () => {
-      updateNowNext();
-      applyBanner();
-    });
-  }
-});
