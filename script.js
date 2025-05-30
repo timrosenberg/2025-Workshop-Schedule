@@ -106,8 +106,8 @@ function updateNowNextFromHiddenData() {
   const now = getCurrentTime();
   const localDateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
   const today = scheduleData.find(day => day.date === localDateStr);
-  const currentAnchor = document.getElementById('now-anchor');
-  const nextAnchor = document.getElementById('next-anchor');
+  const currentAnchor = document.getElementById('current-activity');
+  const nextAnchor = document.getElementById('next-activity');
 
   currentAnchor.textContent = '⌛ No current activity';
   nextAnchor.textContent = '⏭️ Nothing upcoming';
