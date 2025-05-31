@@ -266,8 +266,6 @@ function formatDate(isoDate) {
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
-//DARK MODE
-
 function getCurrentTimeForDarkMode() {
   const testValue = document.getElementById('test-mode-select')?.value;
   if (!testValue) return new Date();
@@ -278,59 +276,99 @@ function getCurrentTimeForDarkMode() {
   return new Date(year, month - 1, day, hour, minute);
 }
 
-function checkAndApplyDarkMode() {
-  const manualSetting = localStorage.getItem('manualDarkMode');
+function getTimeBlock() {
+  const hour = getCurrentTimeForDarkMode().getHours();
+  return (hour >= 6 && hour < 20) ? 'day' : 'night';
+}
 
-  if (manualSetting === 'on') {
-    document.body.classList.add('dark-mode');
-    return;
-  }
+function getUserDarkModePreference() {
+  return localStorage.getItem('dark-mode-preference');
+}
 
-  if (manualSetting === 'off') {
-    document.body.classList.remove('dark-mode');
-    return;
-  }
-
-  const now = getCurrentTimeForDarkMode();
-  const estHour = now.getHours();
-
-  if (estHour >= 20 || estHour < 6) {
-    document.body.classList.add('dark-mode');
+function setUserDarkModePreference(value) {
+  if (value === null) {
+    localStorage.removeItem('dark-mode-preference');
+    localStorage.removeItem('manual-set-at');
   } else {
-    document.body.classList.remove('dark-mode');
+    localStorage.setItem('dark-mode-preference', value);
+    localStorage.setItem('manual-set-at', new Date().toISOString());
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const manualToggle = document.getElementById('manual-dark-toggle');
-  const testModeSelect = document.getElementById('test-mode-select');
-  const savedMode = localStorage.getItem('manualDarkMode');
+function setDarkMode(isDark) {
+  document.body.classList.toggle('dark-mode', isDark);
+}
 
-  // Apply saved mode or check time-based dark mode
-  if (savedMode === 'on') {
-    document.body.classList.add('dark-mode');
-  } else {
-    checkAndApplyDarkMode();
+function updateDarkMode() {
+  const pref = getUserDarkModePreference();
+  const block = getTimeBlock(); // 'day' or 'night'
+  const now = getCurrentTimeForDarkMode();
+  const hour = now.getHours();
+
+  if (pref === 'dark') {
+    setDarkMode(true);
+    if (block === 'day' && hour >= 20) {
+      setUserDarkModePreference(null); // reset at 8 PM
+      updateDarkMode();
+    }
+    return;
   }
 
-  // Handle manual toggle
-  if (manualToggle) {
-    manualToggle.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-mode');
-      if (isDark) {
-        localStorage.setItem('manualDarkMode', 'on');
-      } else {
-        localStorage.removeItem('manualDarkMode');
-        checkAndApplyDarkMode(); // Revert to time-based mode
-      }
-    });
+  if (pref === 'light') {
+    setDarkMode(false);
+    if (block === 'night' && hour >= 6 && hour < 20) {
+      setUserDarkModePreference(null); // reset at 6 AM
+      updateDarkMode();
+    }
+    return;
   }
 
-  // Handle test mode selector
-  if (testModeSelect) {
-    testModeSelect.addEventListener('change', checkAndApplyDarkMode);
-  }
+  // No manual preference — follow time
+  setDarkMode(block === 'night');
+}
 
-  // Re-check periodically
-  setInterval(checkAndApplyDarkMode, 60 * 60 * 1000);
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadSchedule();
+  updateNowNextFromHiddenData();
+  setInterval(updateNowNextFromHiddenData, 60000);
+
+  document.getElementById('test-mode-select')?.addEventListener('change', () => {
+    updateNowNextFromHiddenData();
+    applyBanner();
+    updateDarkMode(); // reevaluate dark mode when test mode changes
+  });
+
+  const res = await fetch('banners.json');
+  globalBannerData = await res.json();
+  applyBanner();
+
+  document.getElementById('menu-toggle')?.addEventListener('click', () => {
+    document.getElementById('contact-menu')?.classList.toggle('show');
+  });
+
+  document.addEventListener('click', (event) => {
+    const menu = document.getElementById('contact-menu');
+    const toggle = document.getElementById('menu-toggle');
+    if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+      menu.classList.remove('show');
+    }
+  });
+
+  // DARK MODE TOGGLE
+  document.getElementById('manual-dark-toggle')?.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark-mode');
+    const toggledTo = isDark ? 'light' : 'dark';
+    const currentPref = getUserDarkModePreference();
+
+    if (currentPref === toggledTo) {
+      setUserDarkModePreference(null); // cancel override
+    } else {
+      setUserDarkModePreference(toggledTo); // set override
+    }
+
+    updateDarkMode();
+  });
+
+  updateDarkMode(); // initial dark mode check
 });
