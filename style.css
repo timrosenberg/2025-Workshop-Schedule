@@ -31,10 +31,6 @@ header {
   z-index: 999;
 }
 
-/* * {
-  outline: 1px solid rgba(0, 0, 0, 0.2);
-} */
-
 #menu-toggle {
   position: absolute;
   top: 1rem;
@@ -296,9 +292,32 @@ time {
 
 footer {
   text-align: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   font-size: 0.9rem;
   background: #eee;
+  color: #333;
+  margin-top: 2rem;
+  border-top: 1px solid #ccc;
+}
+
+.footer-links {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  margin: 0 1rem;
+  color: #2b644a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-note {
+  font-style: italic;
+  color: #555;
 }
 
 summary {
@@ -474,6 +493,16 @@ body.dark-mode summary {
 body.dark-mode .day {
   background-color: rgb(17, 21, 23);
   border-color: #444;
+}
+
+body.dark-mode footer {
+  background-color: #1e2d26;
+  color: #ccc;
+  border-top-color: #444;
+}
+
+body.dark-mode .footer-links a {
+  color: #9dd9a9;
 }
 
 /* TEMP */
