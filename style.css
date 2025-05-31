@@ -324,13 +324,16 @@ summary::marker {
 }
 
 summary::before {
-  content: "▶";
+  content: '';
   display: inline-block;
-  margin-right: 0.5rem;
-  font-size: 0.9em;
-  transform: rotate(0deg);
-  transition: transform 0.2s;
-  color: #334b3c
+  width: 0;
+  height: 0;
+  margin-right: 1rem;
+  vertical-align: middle;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 11px solid #334b3c; /* Adjust width/color here */
+  transition: transform 0.2s ease-in-out;
 }
 
 details[open] summary::before {
@@ -408,7 +411,7 @@ body.dark-mode #next-box a {
 }
 
 body.dark-mode summary::before {
-  color: #306844;
+  border-left-color: #306844;
 }
 
 body.dark-mode .theme-description {
