@@ -1,7 +1,9 @@
+console.log("Script loaded");
+
 let scheduleData = [];
 let globalBannerData = {};
 
-document.addEventListener('DOMContentLoaded', async () => {
+(async () => {
   await loadSchedule();
   updateNowNextFromHiddenData();
   setInterval(updateNowNextFromHiddenData, 60000);
@@ -15,8 +17,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   globalBannerData = await res.json();
   applyBanner();
 
+  console.log("Binding hamburger...");
+
   document.getElementById('menu-toggle')?.addEventListener('click', () => {
   document.getElementById('contact-menu')?.classList.toggle('show');
+  });
+
+  const toggle = document.getElementById('menu-toggle');
+  /* console.log('Button exists:', toggle); */
+
+  toggle?.addEventListener('click', () => {
+    /* console.log('Hamburger clicked!'); */
+    menu.classList.toggle('show');
   });
 
   document.addEventListener('click', (event) => {
@@ -27,7 +39,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   });
 
-});
+})();
+
+const menu = document.getElementById('contact-menu');
+menu.classList.add('hide');
+/* console.log('Forced menu visible:', menu); */
+
 
 async function loadSchedule() {
   const res = await fetch('schedule.json');

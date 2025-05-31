@@ -28,19 +28,24 @@ header {
   color: #fff;
   padding: 1.5rem;
   text-align: center;
+  z-index: 999;
 }
+
+/* * {
+  outline: 1px solid rgba(0, 0, 0, 0.2);
+} */
 
 #menu-toggle {
   position: absolute;
-  right: 1rem;
   top: 1rem;
+  right: 1rem;
   background: none;
   border: none;
   font-size: 2rem;
   color: #d2edc8;
   cursor: pointer;
-  z-index: 20;
   transition: color 0.3s;
+  z-index: 1001;
 }
 
 #menu-toggle:hover {color: #fff}
@@ -59,7 +64,7 @@ header {
   visibility: hidden;
   transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-  z-index: 10;
+  z-index: 1000 !important;
 }
 
 #contact-menu.show {
@@ -232,17 +237,6 @@ a:focus {
   text-decoration: underline;
 }
 
-summary {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #293c2e;
-  cursor: pointer;
-  padding: 0.5rem 0;
-  outline: none;
-  background: none;
-  border: none;
-}
-
 ul {
   list-style-type: none;
   padding-left: 0;
@@ -308,7 +302,6 @@ footer {
 }
 
 summary {
-  all: unset;
   display: block;
   font-size: 1.1rem;
   font-weight: 700;
@@ -316,6 +309,8 @@ summary {
   cursor: pointer;
   padding: 0.5rem 0;
   background: none;
+  position: relative;
+  z-index: 1;
 }
 
 summary::-webkit-details-marker,
@@ -340,6 +335,15 @@ details[open] summary::before {
   transform: rotate(90deg);
 }
 
+summary {
+  list-style: none;  /* Just in case */
+}
+
+summary::marker,
+summary::-webkit-details-marker {
+  display: none;
+}
+
 .day ul ul {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
@@ -354,7 +358,7 @@ details[open] summary::before {
 
 .dark-mode-toggle {
   position: absolute;
-  top: 3.5rem; /* Adjust as needed to position below the hamburger menu */
+  top: 3.6rem; /* Adjust as needed to position below the hamburger menu */
   right: 1.22rem;
   background: none;
   border: none;
@@ -471,3 +475,22 @@ body.dark-mode .day {
   background-color: rgb(17, 21, 23);
   border-color: #444;
 }
+
+/* TEMP */
+
+/* #menu-toggle {
+  background: red !important;
+  z-index: 9999 !important;
+  position: fixed !important;
+  top: 10px !important;
+  right: 10px !important;
+}
+
+#contact-menu {
+  z-index: 9998 !important;
+  position: fixed !important;
+  top: 60px !important;
+  right: 10px !important;
+  background: yellow !important;
+  border: 2px solid black !important;
+} */
