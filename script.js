@@ -47,6 +47,9 @@ menu.classList.add('hide');
 
 
 async function loadSchedule() {
+  const container = document.getElementById('schedule-container');
+  if (!container) return; // Skip loading if not present
+
   const res = await fetch('schedule.json');
   const flatData = await res.json();
   scheduleData = groupFlatSchedule(flatData);
@@ -259,23 +262,71 @@ function applyBanner() {
   const bannerEl = document.getElementById('daily-banner');
   const bannerText = document.getElementById('banner-text');
   const testValue = document.getElementById('test-mode-select')?.value;
-  const now = testValue ? new Date(testValue) : new Date();
 
-  const month = now.toLocaleString('en-US', { month: 'long' }).toLowerCase();
-  const day = now.getDate();
+  // Eastern Time (ET)
+  const now = testValue ? new Date(testValue) : new Date();
+  const estNow = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+
+  const month = estNow.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+  const day = estNow.getDate();
   const key = `${month}-${day}`;
 
-  const message = globalBannerData.banners?.[key];
-  if (!message || localStorage.getItem(`bannerDismissed-${key}`)) return;
+  let bannerEntry = globalBannerData.banners?.[key];
+  if (!bannerEntry) return;
 
-  bannerText.textContent = message;
+  if (Array.isArray(bannerEntry)) {
+    bannerEntry = [...bannerEntry]
+      .filter(b => b.enabled !== false) // Show only enabled or missing flag (default true)
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .reverse()
+      .find(b => {
+        const [h, m] = b.time.split(':').map(Number);
+        const t = new Date(estNow);
+        t.setHours(h, m, 0, 0);
+        return estNow >= t;
+      });
+    if (!bannerEntry) return;
+  }
+
+  const dismissKey = `bannerDismissed-${key}-${bannerEntry.time}-${bannerEntry.version || 'v1'}`;
+  if (localStorage.getItem(dismissKey)) {
+    // Comment out or delete the next line to ignore dismissals completely:
+    // return;
+  }
+
+  bannerText.textContent = bannerEntry.message || bannerEntry;
   bannerEl.style.display = 'block';
 
   bannerEl.querySelector('.close-banner')?.addEventListener('click', () => {
     bannerEl.style.display = 'none';
-    localStorage.setItem(`bannerDismissed-${key}`, 'true');
+    localStorage.setItem(dismissKey, 'true');
   });
 }
+
+// NAV FETCHER
+fetch('nav.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('nav-container').innerHTML = html;
+
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+  });
+//
+
+// FOOTER FETCHER
+fetch('footer.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('footer-container').innerHTML = html;
+  });
+//
 
 function formatDate(isoDate) {
   const [year, month, day] = isoDate.split('-').map(Number);
@@ -389,3 +440,63 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   updateDarkMode(); // initial dark mode check
 });
+
+// ADD TO HOMESCREEN
+const INSTALL_BANNER_DELAY = 3000; // in milliseconds (5 seconds)
+const INSTALL_BANNER_KEY = 'install-banner-dismissed';
+
+function isMobileDevice() {
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  if (!isMobileDevice()) return;
+  e.preventDefault();
+  deferredPrompt = e;
+  showInstallBanner('android');
+});
+
+function showInstallBanner(type) {
+  if (localStorage.getItem(INSTALL_BANNER_KEY)) return;
+
+  setTimeout(() => {
+    const banner = document.getElementById('install-banner');
+    const text = document.getElementById('install-text');
+    const button = document.getElementById('install-dismiss');
+
+    if (type === 'ios') {
+      text.textContent = '📲 To add this app to your home screen, tap the Share button and then "Add to Home Screen".';
+    } else if (type === 'android') {
+      text.innerHTML = '📲 Install this app to your home screen for quicker access. <button id="install-now">Install</button>';
+    }
+
+    banner.style.display = 'block';
+    requestAnimationFrame(() => banner.classList.add('show'));
+
+    button.onclick = () => {
+      banner.style.display = 'none';
+      localStorage.setItem(INSTALL_BANNER_KEY, 'true');
+    };
+
+    document.getElementById('install-now')?.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(() => {
+        banner.classList.remove('show');
+        setTimeout(() => {
+        banner.style.display = 'none';
+        }, 400); // matches the transition duration
+        localStorage.setItem(INSTALL_BANNER_KEY, 'true');
+      });
+    });
+  }, INSTALL_BANNER_DELAY);
+}
+
+// iOS detection
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+const isInStandaloneMode = 'standalone' in window.navigator && window.navigator.standalone;
+
+if (isMobileDevice() && isIOS && !isInStandaloneMode) {
+  showInstallBanner('ios');
+}

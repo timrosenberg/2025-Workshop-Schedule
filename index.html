@@ -6,41 +6,38 @@
   <title>Summer Workshop Schedule</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nav.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
 </head>
 
 <body>
-  <header>
-    <h1>🎷 2025 Saxophone Workshop Schedule</h1>
 
-<!-- HAMBURGER MENU -->
-    <button id="menu-toggle" title="Menu">☰</button>
-    <div id="contact-menu">
-      <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
-      <a href="mailto:you@example.com">📧 Email Dr. Rosenberg</a>
-      <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
-      <a href="https://instagram.com/stetsonsaxophoneworkshop" target="_blank" style="display: flex; align-items: center;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="height: 20px; margin-right: 0.5rem;">Workshop IG
-      </a>
-      <a href="https://www.facebook.com/stetsonsaxos" target="_blank" rel="noopener">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="height: 20px; vertical-align: middle; margin-right: 0.5rem;">Stetson Saxos FB
-      </a>
+<!-- HEADER -->  
+  <header class="main-header">
+      <h1 class="main-title">🎷 2025 Saxophone Workshop Schedule</h1>
+
+    <div class="header-buttons">
+      <button id="menu-toggle" title="Menu">☰</button>
+      <button id="manual-dark-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+        <i class="fa-solid fa-circle-half-stroke"></i>
+      </button>
     </div>
-
-<!--  DARK MODE TOGGLE-->
-<button id="manual-dark-toggle" class="dark-mode-toggle" title="Toggle dark mode">
-  <i class="fa-solid fa-circle-half-stroke"></i>
-</button>
     
-<!-- STATIC BANNER -->
+  <!-- STATIC BANNER -->
   <div id="global-notice" class="notice" style="display:none;"></div>
 
-<!-- DAILY BANNER -->
+  <!-- DAILY BANNER -->
   <div class="workshop-banner" id="daily-banner" style="display:none;">
     <span id="banner-text"></span>
     <button class="close-banner" aria-label="Dismiss notice">&times;</button>
   </div>
 
-<!-- TEST MODE TOGGLE -->
+  <!-- TEST MODE TOGGLE -->
     <label for="test-mode-select" style="margin: 1rem auto; display: block; text-align: center;">
       Test Mode:
       <select id="test-mode-select">
@@ -58,8 +55,28 @@
 
   </header>
 
+ <!-- CONTACT AND NAV --> 
+  <!-- CONTACT MENU -->
+    <div id="contact-menu">
+      <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
+      <a href="mailto:you@example.com">📧 Email Dr. Rosenberg</a>
+      <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
+      <a href="https://instagram.com/stetsonsaxophoneworkshop" target="_blank" style="display: flex; align-items: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="height: 20px; margin-right: 0.5rem;">Workshop IG
+      </a>
+      <a href="https://www.facebook.com/stetsonsaxos" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="height: 20px; vertical-align: middle; margin-right: 0.5rem;">Stetson Saxos FB
+      </a>
+      <a href="https://www.stetson.edu/other/visit/media/deland-campus-map.pdf" target="_blank">🗺️ Stetson Campus Map</a>
+    </div>
+
+  <!-- NAVIGATION MENU -->  
+  <div id="nav-container"></div>
+
+<!-- MAIN -->  
+
   <main class="main-container">
-<!-- NOW & NEXT BOXES -->
+  <!-- NOW & NEXT BOXES -->
     <section class="now-next-container">
       <div class="activity-box" id="now-box">
         <h3>Now</h3>
@@ -71,25 +88,23 @@
       </div>
     </section>
 
-<!-- SCHEDULE BODY -->
+  <!-- SCHEDULE BODY -->
     <div id="schedule-container"></div>
 
   </main>
 
-<!-- FOOTER -->  
-	<footer>
-  <div class="footer-links">
-    <a href="https://www.stetson.edu/music" target="_blank" rel="noopener">Stetson School of Music</a>
-    <a href="https://www.stetson.edu" target="_blank" rel="noopener">Stetson University</a>
+<!-- ADD TO HOMESCREEN BANNER -->  
+  <div id="install-banner" class="install-banner" style="display: none;">
+  <p id="install-text"></p>
+  <button id="install-dismiss">Dismiss</button>
   </div>
-  <div class="footer-note">
-    Hand-made, farm-to-table HTML, CSS, and JavaScript by Dr. Timothy Rosenberg. <p><a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">
-      <img src="https://licensebuttons.net/p/zero/1.0/88x31.png" alt="CC0" style="height: 1.2em; vertical-align: middle; margin-right: 0.3em;">
-      This work is dedicated to the public domain under CC0 1.0 Universal.</a></p>
-    
-  </div>
-	</footer>  
-<script src="script.js" defer></script>
 
+<!-- FOOTER -->  
+<footer>
+  <div id="footer-container"></div>
+</footer>
+
+
+<script src="script.js" defer></script>
 </body>
 </html>

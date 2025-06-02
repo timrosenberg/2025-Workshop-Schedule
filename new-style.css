@@ -1,0 +1,283 @@
+/* ===================================
+   Base Styles
+=================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+a {
+  color: #2b644a;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #4dab4f;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 1rem 0;
+}
+
+ul li {
+  padding: 0.5rem 0;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+/* ===================================
+   Header & Page Title
+=================================== */
+header {
+  position: relative;
+  background-color: #2b644a;
+  color: #fff;
+  padding: 1.5rem;
+  text-align: center;
+  z-index: 999;
+}
+
+.main-header {
+  padding: 2.5rem 1rem 2rem;
+  text-align: center;
+}
+
+.main-title {
+  font-size: clamp(1.8rem, 6vw, 2rem);
+  margin: 0 auto;
+  max-width: 100%;
+  line-height: 1.2;
+  padding: 0.5rem 2rem;
+}
+
+/* Template override */
+body.page .main-header,
+body.page .main-title {
+  text-align: left;
+  margin: 0;
+}
+
+/* ===================================
+   Dark Mode
+=================================== */
+body.dark-mode {
+  background-color: #181a1b;
+  color: #e8e6e3;
+}
+
+body.dark-mode a {
+  color: #78aa7c;
+}
+
+body.dark-mode a:hover,
+body.dark-mode a:focus {
+  text-decoration: underline;
+}
+
+/* Blink highlight in dark mode */
+body.dark-mode .blink-highlight {
+  background-color: #182c25;
+  box-shadow: 0 0 0 4px #182c25;
+}
+
+/* ===================================
+   Toggle Buttons & Icons
+=================================== */
+#dark-mode-toggle,
+#contact-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+#contact-toggle:hover,
+#dark-mode-toggle:hover {
+  text-decoration: underline;
+}
+
+/* ===================================
+   Navigation & Hamburger Menu
+=================================== */
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--nav-separator, #ccc);
+}
+
+.hamburger-icon {
+  font-size: 1.75rem;
+}
+
+/* Nav container */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-weight: bold;
+  padding: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover {
+  border-bottom-color: #2b644a;
+}
+
+/* Responsive Menu */
+@media (max-width: 400px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-color, #fff);
+    border-top: 1px solid var(--nav-separator, #ccc);
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid var(--nav-separator, #ccc);
+    padding: 1rem;
+  }
+
+  body.dark-mode .nav-links a {
+    border-color: #2c4c3b;
+  }
+
+  body.dark-mode .hamburger {
+    border-color: #2c4c3b;
+  }
+}
+
+/* ===================================
+   Contact Menu
+=================================== */
+#contact-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #f0fdf7;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+#contact-menu a {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-weight: bold;
+  color: #2b644a;
+  transition: background 0.2s;
+}
+
+#contact-menu a:hover {
+  background-color: #f0fdf7;
+}
+
+body.dark-mode #contact-menu {
+  background-color: #121212;
+  border-color: #2c4c3b;
+}
+
+body.dark-mode #contact-menu a {
+  color: #78aa7c;
+}
+
+body.dark-mode #contact-menu a:hover {
+  background-color: #1e1e1e;
+}
+
+/* ===================================
+   Footer & Attribution
+=================================== */
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.cc-attribution {
+  flex: 1 1 100%;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+  padding-top: 0.5rem;
+}
+
+body.dark-mode footer {
+  border-color: #2c4c3b;
+}
+
+/* ===================================
+   Utility Classes
+=================================== */
+.hidden {
+  display: none !important;
+}
+
+.blink-highlight {
+  background-color: #fcf0c6;
+  box-shadow: 0 0 0 4px #fcf0c6;
+  border-radius: 4px;
+  transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+
+body.dark-mode .blink-highlight {
+  background-color: #182c25;
+  box-shadow: 0 0 0 4px #182c25;
+}
+
+/* Responsive Title Scaling */
+@media (max-width: 400px) {
+  .main-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Sub-bullet Spacing Fix */
+ul li > ul {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-left: 1.25rem;
+}

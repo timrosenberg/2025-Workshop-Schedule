@@ -3,11 +3,167 @@
     "text": "⚠️ This is the 2025-05-05 Draft. A final schedule will be released in June."
   },
   "banners": {
-    "june-23": "📢 Welcome to Day 1! Don’t forget your instrument and water bottle!",
-    "june-24": "🎬 Movie Night tonight! Bring your camp blanket!",
-    "june-25": "⚡ Don’t miss the Greg Osby recital at 7:15 PM!",
-    "june-26": "📸 Bring your camp shirt for the group photo!",
-    "june-27": "🎉 Last full day! Let's go all out with team colors!",
-    "june-28": "🎓 Congratulations! Final Concert at 11:30 AM."
+    "june-23": [
+      {
+        "time": "08:00",
+        "message": "📢 Welcome to Stetson! Bring your instruments with you when we leave for lunch. We won't come back to Hatter until evening.",
+        "version": "v1",
+        "enabled": true
+      },
+      {
+        "time": "09:00",
+        "message": "🧳 Orientation reminder draft",
+        "version": "draft-1",
+        "enabled": false
+      },
+      {
+        "time": "13:00",
+        "message": "🥪 Lunch travel note draft",
+        "version": "draft-2",
+        "enabled": false
+      },
+      {
+        "time": "20:00",
+        "message": "🎶 Evening welcome draft",
+        "version": "draft-3",
+        "enabled": false
+      }
+    ],
+    "june-24": [
+      {
+        "time": "04:00",
+        "message": "Sharks & Jets: Wear something with a 🦈 shark or a ✈️ jet on it. 🫰… 🫰… 🫰…",
+        "version": "v1",
+        "enabled": true
+      },
+      {
+        "time": "12:00",
+        "message": "🎬 Movie Night tonight! No food delivery; but, we'll have 🍿 snacks!",
+        "version": "v2",
+        "enabled": true
+      },
+      {
+        "time": "08:00",
+        "message": "☀️ Morning activity draft",
+        "version": "draft-1",
+        "enabled": false
+      },
+      {
+        "time": "15:00",
+        "message": "📣 Midday announcement draft",
+        "version": "draft-2",
+        "enabled": false
+      },
+      {
+        "time": "21:00",
+        "message": "🌙 Bedtime note draft",
+        "version": "draft-3",
+        "enabled": false
+      }
+    ],
+    "june-25": [
+      {
+        "time": "07:15",
+        "message": "⚡ Don’t miss the Greg Osby recital at 7:15 PM!",
+        "version": "v1",
+        "enabled": true
+      },
+      {
+        "time": "07:45",
+        "message": "☕ Coffee house vibe draft",
+        "version": "draft-1",
+        "enabled": false
+      },
+      {
+        "time": "14:30",
+        "message": "🎧 Listening session draft",
+        "version": "draft-2",
+        "enabled": false
+      },
+      {
+        "time": "19:15",
+        "message": "📢 Recital prep reminder draft",
+        "version": "draft-3",
+        "enabled": false
+      }
+    ],
+    "june-26": [
+      {
+        "time": "10:00",
+        "message": "📸 Bring your camp shirt for the group photo!",
+        "version": "v1",
+        "enabled": true
+      },
+      {
+        "time": "09:15",
+        "message": "🧢 Hat day encouragement draft",
+        "version": "draft-1",
+        "enabled": false
+      },
+      {
+        "time": "11:00",
+        "message": "📷 Group photo prep draft",
+        "version": "draft-2",
+        "enabled": false
+      },
+      {
+        "time": "17:00",
+        "message": "🎭 Skit rehearsal note draft",
+        "version": "draft-3",
+        "enabled": false
+      }
+    ],
+    "june-27": [
+      {
+        "time": "08:00",
+        "message": "🎉 Last full day! Let's go all out with team colors!",
+        "version": "v1",
+        "enabled": true
+      },
+      {
+        "time": "06:30",
+        "message": "🌈 Team color rally draft",
+        "version": "draft-1",
+        "enabled": false
+      },
+      {
+        "time": "13:45",
+        "message": "🎲 Carnival reminder draft",
+        "version": "draft-2",
+        "enabled": false
+      },
+      {
+        "time": "20:00",
+        "message": "🔥 Campfire celebration draft",
+        "version": "draft-3",
+        "enabled": false
+      }
+    ],
+    "june-28": [
+      {
+        "time": "11:30",
+        "message": "🎓 Congratulations! Final Concert at 11:30 AM.",
+        "version": "v1",
+        "enabled": true
+      },
+      {
+        "time": "08:30",
+        "message": "🎓 Final call prep draft",
+        "version": "draft-1",
+        "enabled": false
+      },
+      {
+        "time": "10:45",
+        "message": "📯 Concert arrival note draft",
+        "version": "draft-2",
+        "enabled": false
+      },
+      {
+        "time": "12:30",
+        "message": "🎉 Farewell wave draft",
+        "version": "draft-3",
+        "enabled": false
+      }
+    ]
   }
 }

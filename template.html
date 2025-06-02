@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Page Title</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nav.css">
+</head>
+<body class="page">
+
+    <header>
+    <div class="page-header">
+        <h1 class="page-title">Header Title</h1>
+         <nav class="breadcrumb">
+            <a href="index.html">← Back to Schedule</a>
+        </nav>
+    </div>
+    <!-- BUTTONS -->
+    <div class="header-buttons">
+        <button id="menu-toggle" aria-label="Toggle Menu">☰</button>
+        <button id="manual-dark-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </div>
+    </header>
+
+    <!-- CONTACT MENU -->
+    <div id="contact-menu">
+        <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
+        <a href="mailto:you@example.com">📧 Email Dr. Rosenberg</a>
+        <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
+        <a href="https://instagram.com/stetsonsaxophoneworkshop" target="_blank" style="display: flex; align-items: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="height: 20px; margin-right: 0.5rem;">Workshop IG
+        </a>
+        <a href="https://www.facebook.com/stetsonsaxos" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="height: 20px; vertical-align: middle; margin-right: 0.5rem;">Stetson Saxos FB
+        </a>
+        <a href="https://www.stetson.edu/other/visit/media/deland-campus-map.pdf" target="_blank">🗺️ Stetson Campus Map</a>
+    </div>
+
+    <!-- NAVIGATION MENU -->
+    <div id="nav-container"></div>
+
+    <!-- MAIN TEXT AREA -->
+    <main class="main-container">
+    <div class="=content-inner">
+    <h1>Main Heading (H1)</h1>
+    <h2>Subheading (H2)</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas nulla et odio molestie, sit amet pretium augue tincidunt. Praesent quis nulla vitae ante consequat dictum. Etiam sit amet eros justo. Proin in euismod lectus. Nam tempus pharetra leo, a finibus neque convallis eget. Curabitur sit amet ligula neque. Proin fringilla ornare libero, ut rhoncus dolor blandit vel. Donec lacinia purus id vehicula tempor. Maecenas malesuada libero non ligula sagittis consequat.</p>
+
+    <ul>
+        <li>First-level item
+        <ul>
+            <li>Second-level item
+            <ul>
+                <li>Third-level item</li>
+            </ul>
+            </li>
+        </ul>
+        </li>
+        <li>Another first-level item</li>
+    </ul>
+
+    <table class="styled-table">
+    <thead>
+        <tr>
+        <th>Day</th>
+        <th>Time</th>
+        <th>Event</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>Monday</td>
+        <td>9:00 AM</td>
+        <td>Opening Session</td>
+        </tr>
+        <tr>
+        <td>Tuesday</td>
+        <td>10:30 AM</td>
+        <td>Masterclass</td>
+        </tr>
+        <!-- Add more rows as needed -->
+    </tbody>
+    </table>
+
+    </div>
+    </main>
+
+<!-- FOOTER -->  
+<footer>
+  <div id="footer-container"></div>
+</footer>
+
+<script src="template-script.js" defer></script>
+</body>
+</html>
