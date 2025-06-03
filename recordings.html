@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recordings</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nav.css">
+</head>
+<body class="page">
+
+    <header>
+    <div class="page-header">
+        <h1 class="page-title">Recordings</h1>
+         <nav class="breadcrumb">
+            <a href="index.html">← Back to Schedule</a>
+        </nav>
+    </div>
+    <!-- BUTTONS -->
+    <div class="header-buttons">
+        <button id="menu-toggle" aria-label="Toggle Menu">☰</button>
+        <button id="manual-dark-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </div>
+    </header>
+
+    <!-- CONTACT MENU -->
+    <div id="contact-menu">
+        <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
+        <a href="mailto:you@example.com">📧 Email Dr. Rosenberg</a>
+        <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
+        <a href="https://instagram.com/stetsonsaxophoneworkshop" target="_blank" style="display: flex; align-items: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="height: 20px; margin-right: 0.5rem;">Workshop IG
+        </a>
+        <a href="https://www.facebook.com/stetsonsaxos" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="height: 20px; vertical-align: middle; margin-right: 0.5rem;">Stetson Saxos FB
+        </a>
+        <a href="https://www.stetson.edu/other/visit/media/deland-campus-map.pdf" target="_blank">🗺️ Stetson Campus Map</a>
+    </div>
+
+    <!-- NAVIGATION MENU -->
+    <div id="nav-container"></div>
+
+    <!-- MAIN TEXT AREA -->
+    <main class="main-container">
+    <div class="content-inner">
+        <h2>Camp Theme</h2>
+        <p>Arranged by Mr. Steven Amann<p>
+            <audio controls class="audio-player">
+                <source src="media/camp-theme-2025.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        <h2><em>America</em> from <em>West Side Story</em></h2>
+        <iframe width="600px" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Fsong.link%2Fi%2F394304025&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+        <h2><em>Popular</em> from <em>Wicked</em></h2>
+        <iframe width="600px" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Fsong.link%2Fi%2F1783418977&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+        <h2><em>Summer Nights</em> from <em>Grease</em></h2>
+        <iframe width="600px" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Fsong.link%2Fi%2F1440844694&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+        <h2><em>The Greatest Showman</em> (Album)</h2>
+        <iframe width="600px" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1299856714&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+    </div>
+    </main>
+
+<!-- FOOTER -->  
+<footer>
+  <div id="footer-container"></div>
+</footer>
+
+<script src="template-script.js" defer></script>
+</body>
+</html>
