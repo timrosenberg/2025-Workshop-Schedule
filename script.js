@@ -123,6 +123,7 @@ function renderSchedule(scheduleData) {
   for (const day of scheduleData) {
     const details = document.createElement('details');
     details.className = 'day';
+    details.id = day.date;
 
     const summary = document.createElement('summary');
     const [year, month, dayNum] = day.date.split('-').map(Number);
@@ -172,111 +173,181 @@ function renderSchedule(scheduleData) {
 }
 
 function updateNowNextFromHiddenData() {
-  const now = getCurrentTime();
-  const localDateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-  const today = scheduleData.find(day => day.date === localDateStr);
-  const currentAnchor = document.getElementById('current-activity');
-  const nextAnchor = document.getElementById('next-activity');
+    const now = getCurrentTime();
+    const todayDateString = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
 
-  currentAnchor.textContent = '⌛ No current activity';
-  nextAnchor.textContent = '⏭️ Nothing upcoming';
+    const currentActivityEl = document.getElementById('current-activity');
+    const nextActivityEl = document.getElementById('next-activity');
 
-  if (!today || !today.activities) return;
+    // Default states
+    currentActivityEl.innerHTML = '⌛ No current activity';
+    currentActivityEl.removeAttribute('href');
+    currentActivityEl.onclick = null;
+    nextActivityEl.innerHTML = '⏭️ Nothing upcoming';
+    nextActivityEl.removeAttribute('href');
+    nextActivityEl.onclick = null;
 
-  let foundNow = null;
-  let foundNext = null;
+    let foundNowActivity = null;
+    let nowActivityDayDetails = null; // The day object for foundNowActivity
 
-  for (let i = 0; i < today.activities.length; i++) {
-    const act = today.activities[i];
-    let [startStr, endStr] = (act.time || '').split('-').map(t => t && t.trim());
-    
-    const isSinglePoint = !endStr; // True if there was no '-' in act.time
-    
-    if (isSinglePoint) {
-      endStr = startStr; // For parsing, treat end as start
-    }
+    let nextActivityForDisplay = null;
+    let nextActivityDayDetails = null; // The day object for nextActivityForDisplay
 
-    const startTime = parseTime(startStr, now); // 'now' is getCurrentTime()
-    let endTime = parseTime(endStr, now);     // For single point, endTime will initially be same as startTime
+    const todayIndexInSchedule = scheduleData.findIndex(day => day.date === todayDateString);
 
-    let isNow = false;
-    if (startTime && endTime) {
-      if (isSinglePoint) {
-        // For a single point event, consider it "Now" if 'now' is at 'startTime'
-        // and for a nominal duration of 1 minute.
-        // (now.getTime() >= startTime.getTime()) checks if current time is at or after start.
-        // (now.getTime() < startTime.getTime() + (1 * 60 * 1000)) checks if current time is before start + 1 minute.
-        if (now.getTime() >= startTime.getTime() && now.getTime() < (startTime.getTime() + 60000)) { // 60000ms = 1 minute
-          isNow = true;
+    // --- Phase 1: Process today's schedule (if it exists) ---
+    if (todayIndexInSchedule !== -1) {
+        const currentDayData = scheduleData[todayIndexInSchedule];
+        
+        for (let i = 0; i < currentDayData.activities.length; i++) {
+            const activity = currentDayData.activities[i];
+            // Use the actual date of the activity for parsing its times
+            const activitysActualDate = new Date(currentDayData.date + "T00:00:00Z"); 
+
+            let [startStr, endStr] = (activity.time || '').split('-').map(t => t && t.trim());
+            const isSinglePoint = !endStr;
+            if (isSinglePoint) endStr = startStr;
+
+            const startTime = parseTime(startStr, activitysActualDate);
+            let endTime = parseTime(endStr, activitysActualDate);
+
+            if (isSinglePoint && startTime) { // Single point events effectively last 1 minute for "Now" check
+                endTime = new Date(startTime.getTime() + 60000); // 1 minute duration
+            }
+
+            // Check if this activity is "Now"
+            if (!foundNowActivity && startTime && endTime && now >= startTime && now < endTime) {
+                foundNowActivity = activity;
+                nowActivityDayDetails = currentDayData; // Store the day object for "Now"
+                
+                // If there's a next activity on the SAME day
+                if (i + 1 < currentDayData.activities.length) {
+                    nextActivityForDisplay = currentDayData.activities[i + 1];
+                    nextActivityDayDetails = currentDayData;
+                }
+                // Once "Now" is found, we also have its immediate successor (or null if it's the last).
+                // Further checks for "Next" on this day are implicitly handled or will be overridden by next day search if needed.
+                break; 
+            }
+
+            // If not "Now", and "Now" hasn't been found yet, check if this is a future activity for "Next"
+            if (!foundNowActivity && startTime && now < startTime) {
+                if (!nextActivityForDisplay) { // Grab the first future activity of today
+                    nextActivityForDisplay = activity;
+                    nextActivityDayDetails = currentDayData;
+                    // DO NOT break; a later activity today might be "Now".
+                }
+            }
         }
-      } else {
-        // This is for ranged events (original logic)
-        if (now >= startTime && now < endTime) {
-          isNow = true;
+    }
+
+    // --- Phase 2: If "Next" is still not found, look for the first activity of a subsequent day ---
+    if (!nextActivityForDisplay) {
+        let startIndexForNextDaySearch = 0;
+
+        if (todayIndexInSchedule !== -1) {
+            // If today was found in the schedule, start looking from the day after.
+            startIndexForNextDaySearch = todayIndexInSchedule + 1;
+        } else {
+            // If today's date wasn't in scheduleData (e.g., an unscheduled day),
+            // find the index of the first day that is today or in the future.
+            const firstUpcomingDayIndex = scheduleData.findIndex(day => day.date >= todayDateString);
+            if (firstUpcomingDayIndex !== -1) {
+                startIndexForNextDaySearch = firstUpcomingDayIndex;
+            } else {
+                startIndexForNextDaySearch = scheduleData.length; // All schedule is in the past
+            }
         }
-      }
+
+        for (let i = startIndexForNextDaySearch; i < scheduleData.length; i++) {
+            const day = scheduleData[i];
+            // If this day is 'today' (only if todayIndexInSchedule was -1 and firstUpcomingDayIndex pointed to today)
+            // and we haven't found a "Now" activity, we need to find the first future activity on this day.
+            if (day.date === todayDateString && !foundNowActivity) {
+                const activitysActualDate = new Date(day.date + "T00:00:00Z");
+                for (const act of day.activities) {
+                    const startTime = parseTime(act.time.split(' - ')[0], activitysActualDate);
+                    if (startTime && now < startTime) {
+                        nextActivityForDisplay = act;
+                        nextActivityDayDetails = day;
+                        break; // Found the first upcoming event for today
+                    }
+                }
+            } else if (day.date > todayDateString) { // This is a strictly future day
+                 if (day.activities && day.activities.length > 0) {
+                    nextActivityForDisplay = day.activities[0]; // First activity of this future day
+                    nextActivityDayDetails = day;
+                 }
+            }
+            if (nextActivityForDisplay) break; // Found the overall next activity
+        }
     }
 
-    if (isNow) {
-      foundNow = act;
-      foundNext = today.activities[i + 1] || null;
-      break; 
+    // --- Phase 3: Update DOM elements ---
+    if (foundNowActivity && nowActivityDayDetails) {
+        const anchorId = `activity-${nowActivityDayDetails.date}-${foundNowActivity.time.replace(/[^a-zA-Z0-9]/g, '')}`;
+        currentActivityEl.innerHTML = `<a href="#${anchorId}">⌛ ${foundNowActivity.time} — ${foundNowActivity.title}</a>`;
+        addClickAndScroll(currentActivityEl, anchorId, nowActivityDayDetails.date);
+    } else {
+        // Handled by default state at the beginning
     }
 
-    // This part for finding 'foundNext' if 'foundNow' is not yet set remains the same:
-    if (!foundNow && startTime && now < startTime) {
-      if (!foundNext) {
-        foundNext = act;
-      }
+    if (nextActivityForDisplay && nextActivityDayDetails) {
+        const anchorId = `activity-${nextActivityDayDetails.date}-${nextActivityForDisplay.time.replace(/[^a-zA-Z0-9]/g, '')}`;
+        let nextText = `⏭️ ${nextActivityForDisplay.time}`;
+        // Display date for "Next" if it's on a different date than "todayDateString"
+        if (nextActivityDayDetails.date !== todayDateString) {
+            nextText += ` (${formatDateShort(nextActivityDayDetails.date)})`;
+        }
+        nextText += ` — ${nextActivityForDisplay.title}`;
+        nextActivityEl.innerHTML = `<a href="#${anchorId}">${nextText}</a>`;
+        addClickAndScroll(nextActivityEl, anchorId, nextActivityDayDetails.date);
+    } else {
+         // Handled by default state at the beginning
     }
-  }
+}
 
-  if (foundNow) {
-    const anchorId = `activity-${localDateStr}-${foundNow.time.replace(/[^a-zA-Z0-9]/g, '')}`;
-    currentAnchor.innerHTML = `<a href="#${anchorId}">⌛ ${foundNow.time} — ${foundNow.title}</a>`;
+// Helper function to format date as "Mon DD" (e.g., "Jun 23")
+// Ensure this is defined in your script.js if not already present elsewhere
+function formatDateShort(isoDate) {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  // Note: JavaScript months are 0-indexed (0 for January, 11 for December)
+  const d = new Date(Date.UTC(year, month - 1, day)); // Use UTC to avoid timezone shift issues with toLocaleDateString formatting
+  return d.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric' });
+}
 
-    currentAnchor.querySelector('a').addEventListener('click', (e) => {
+// Helper function for adding click/scroll behavior (to avoid repetition)
+// Ensure the details section for the correct day is opened.
+function addClickAndScroll(element, anchorId, activityDateKey) {
+  const link = element.querySelector('a');
+  if (link) {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
-      const el = document.getElementById(anchorId);
-      if (el) {
-        const details = el.closest('details');
-        if (details && !details.open) {
-          details.open = true;
-        }
-
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        el.classList.add('blink-highlight');
-        setTimeout(() => el.classList.remove('blink-highlight'), 800);
-        setTimeout(() => el.classList.add('blink-highlight'), 1400);
-        setTimeout(() => el.classList.remove('blink-highlight'), 2200);
+      const elToScroll = document.getElementById(anchorId);
+      if (elToScroll) {
+        // Ensure the correct day's <details> is open
+        document.querySelectorAll('details.day').forEach(detailsEl => {
+          if (detailsEl.id === activityDateKey) {
+            if (!detailsEl.open) detailsEl.open = true;
+          } else {
+            // Optionally close other days if they are open,
+            // though refreshDisplayForCurrentTime should also handle this.
+            // if (detailsEl.open) detailsEl.open = false; 
+          }
+        });
+        
+        // A small delay can help ensure the <details> element is fully open and laid out before scrolling
+        setTimeout(() => {
+            elToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            elToScroll.classList.add('blink-highlight');
+            setTimeout(() => elToScroll.classList.remove('blink-highlight'), 800);
+            setTimeout(() => elToScroll.classList.add('blink-highlight'), 1400);
+            setTimeout(() => elToScroll.classList.remove('blink-highlight'), 2200);
+        }, 50); // 50ms delay
       }
     });
   }
-
-  if (foundNext) {
-    const anchorId = `activity-${localDateStr}-${foundNext.time.replace(/[^a-zA-Z0-9]/g, '')}`;
-    nextAnchor.innerHTML = `<a href="#${anchorId}">⏭️ ${foundNext.time} — ${foundNext.title}</a>`;
-
-    nextAnchor.querySelector('a').addEventListener('click', (e) => {
-      e.preventDefault();
-      const el = document.getElementById(anchorId);
-      if (el) {
-        const details = el.closest('details');
-        if (details && !details.open) {
-          details.open = true;
-        }
-
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        el.classList.add('blink-highlight');
-        setTimeout(() => el.classList.remove('blink-highlight'), 800);
-        setTimeout(() => el.classList.add('blink-highlight'), 1400);
-        setTimeout(() => el.classList.remove('blink-highlight'), 2200);
-      }
-    });
-  }
-} 
+}
 
 function parseTime(timeStr, refDate) {
   if (!timeStr) return null;
