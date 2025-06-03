@@ -6,12 +6,12 @@
     "june-23": [
       {
         "time": "08:00",
-        "message": "📢 Welcome to Stetson! Bring your instruments with you when we leave for lunch. We won't come back to Hatter until evening.",
+        "message": "📢 Welcome to Stetson! Bring your instruments with you when we leave for lunch.",
         "version": "v1",
         "enabled": true
       },
       {
-        "time": "09:00",
+        "time": "12:00",
         "message": "🧳 Orientation reminder draft",
         "version": "draft-1",
         "enabled": false

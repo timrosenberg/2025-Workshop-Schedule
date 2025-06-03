@@ -740,6 +740,28 @@ body.page .audio-player {
   }
 }
 
+body.page .content-inner.recordings-page{
+  padding-bottom: 1rem;
+  width: 100%;
+}
+
+/* ==== RESPONSIVE  IFRAMES ==== */
+.responsive-iframe {
+  width: 100%;
+  max-width: 100%;
+  height: 52px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.responsive-iframe iframe {
+  width: 100%;
+  height: 52px;
+  border: 1px solid red;
+  display: block;
+  box-sizing: border-box;
+}
+
 /* ===================================
    FAQ PAGE STYLES
 =================================== */
@@ -799,10 +821,16 @@ body.page .main-container.faq-block-display {
   display: block;
 }
 
-@media (max-width: 450px) {
-  body.page .main-container.faq-block-display .content-inner {
+@media (max-width: 600px) {
+  body.page .main-container {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 450px) {
+  body.page h2 {
+    font-size: 1.25rem;
   }
 }
 
