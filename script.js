@@ -188,23 +188,46 @@ function updateNowNextFromHiddenData() {
 
   for (let i = 0; i < today.activities.length; i++) {
     const act = today.activities[i];
-    let [start, end] = (act.time || '').split('-').map(t => t && t.trim());
-    if (!end) {
-      end = start;
+    let [startStr, endStr] = (act.time || '').split('-').map(t => t && t.trim());
+    
+    const isSinglePoint = !endStr; // True if there was no '-' in act.time
+    
+    if (isSinglePoint) {
+      endStr = startStr; // For parsing, treat end as start
     }
-    const startTime = parseTime(start, now);
-    const endTime = parseTime(end, now);
 
+    const startTime = parseTime(startStr, now); // 'now' is getCurrentTime()
+    let endTime = parseTime(endStr, now);     // For single point, endTime will initially be same as startTime
 
-    if (startTime && endTime && now >= startTime && now < endTime) {
+    let isNow = false;
+    if (startTime && endTime) {
+      if (isSinglePoint) {
+        // For a single point event, consider it "Now" if 'now' is at 'startTime'
+        // and for a nominal duration of 1 minute.
+        // (now.getTime() >= startTime.getTime()) checks if current time is at or after start.
+        // (now.getTime() < startTime.getTime() + (1 * 60 * 1000)) checks if current time is before start + 1 minute.
+        if (now.getTime() >= startTime.getTime() && now.getTime() < (startTime.getTime() + 60000)) { // 60000ms = 1 minute
+          isNow = true;
+        }
+      } else {
+        // This is for ranged events (original logic)
+        if (now >= startTime && now < endTime) {
+          isNow = true;
+        }
+      }
+    }
+
+    if (isNow) {
       foundNow = act;
       foundNext = today.activities[i + 1] || null;
-      break;
+      break; 
     }
 
-    if (startTime && now < startTime) {
-      foundNext = act;
-      break;
+    // This part for finding 'foundNext' if 'foundNow' is not yet set remains the same:
+    if (!foundNow && startTime && now < startTime) {
+      if (!foundNext) {
+        foundNext = act;
+      }
     }
   }
 
