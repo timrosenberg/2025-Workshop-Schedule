@@ -3,68 +3,43 @@ console.log("Script loaded");
 let scheduleData = [];
 let globalBannerData = {};
 
-// Function to refresh all time-sensitive parts of the page
-function refreshDisplayForCurrentTime() {
-  console.log("NEW: refreshDisplayForCurrentTime called."); // For debugging
+(async () => {
+  await loadSchedule();
+  updateNowNextFromHiddenData();
+  setInterval(updateNowNextFromHiddenData, 60000);
 
-  // Ensure scheduleData is loaded before proceeding
-  if (!scheduleData || scheduleData.length === 0) {
-    console.warn("Schedule data not loaded yet, skipping refreshDisplayForCurrentTime.");
-    // It's possible loadSchedule hasn't completed or failed.
-    // The DOMContentLoaded handler should await loadSchedule before the first call.
-    return;
-  }
-
-  const currentTime = getCurrentTime(); // Get the current time (live or test)
-  console.log("Effective current time for refresh:", currentTime.toString());
-
-  // 1. Re-render the main schedule display.
-  // This ensures all <details> and <li> elements for all days are fresh in the DOM.
-  renderSchedule(scheduleData);
-  console.log("Schedule re-rendered.");
-
-  // 2. Explicitly open the <details> tag for the current day and close others.
-  const year = currentTime.getFullYear();
-  const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // JavaScript months are 0-11
-  const dayNum = String(currentTime.getDate()).padStart(2, '0');
-  const currentDateKey = `${year}-${month}-${dayNum}`; // Format: "YYYY-MM-DD"
-
-  console.log(`Current effective date key for opening details: ${currentDateKey}`);
-
-  let dayWasOpened = false;
-  document.querySelectorAll('details.day').forEach(detailsEl => {
-    if (detailsEl.id === currentDateKey) {
-      if (!detailsEl.open) {
-        detailsEl.open = true; // Open the correct day
-        console.log(`Opened details for ID: ${detailsEl.id}`);
-      }
-      dayWasOpened = true;
-    } else {
-      if (detailsEl.open) {
-        detailsEl.open = false; // Close other days
-        // console.log(`Closed details for ID: ${detailsEl.id}`);
-      }
-    }
+  document.getElementById('test-mode-select')?.addEventListener('change', () => {
+    updateNowNextFromHiddenData();
+    applyBanner();
   });
 
-  if (!dayWasOpened) {
-    console.log(`No specific day in schedule matched the current test/live date: ${currentDateKey}. All <details> sections will remain closed or as per their default HTML state (which is closed).`);
-  }
-
-  // 3. Update "Now" and "Next" boxes.
-  // These create links that might point to elements within the <details> now opened.
-  // updateNowNextFromHiddenData uses getCurrentTime() internally.
-  updateNowNextFromHiddenData();
-  console.log("Now/Next boxes updated.");
-
-  // 4. Update other UI elements.
-  // These also use getCurrentTime() or a similar mechanism internally.
+  const res = await fetch('banners.json');
+  globalBannerData = await res.json();
   applyBanner();
-  console.log("Banner applied.");
-  updateDarkMode();
-  console.log("Dark mode updated.");
-  console.log("NEW: refreshDisplayForCurrentTime finished.");
-}
+
+  console.log("Binding hamburger...");
+
+  document.getElementById('menu-toggle')?.addEventListener('click', () => {
+  document.getElementById('contact-menu')?.classList.toggle('show');
+  });
+
+  const toggle = document.getElementById('menu-toggle');
+  /* console.log('Button exists:', toggle); */
+
+  toggle?.addEventListener('click', () => {
+    /* console.log('Hamburger clicked!'); */
+    menu.classList.toggle('show');
+  });
+
+  document.addEventListener('click', (event) => {
+  const menu = document.getElementById('contact-menu');
+  const toggle = document.getElementById('menu-toggle');
+  if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+    menu.classList.remove('show');
+  }
+  });
+
+})();
 
 const menu = document.getElementById('contact-menu');
 menu.classList.add('hide');
@@ -420,56 +395,35 @@ function updateDarkMode() {
   setDarkMode(block === 'night');
 }
 
+
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log("DOM fully loaded and parsed. Initializing...");
+  await loadSchedule();
+  updateNowNextFromHiddenData();
+  setInterval(updateNowNextFromHiddenData, 60000);
 
-  // 1. Load essential data
-  try {
-    await loadSchedule(); // Fetches schedule.json, processes it, and does initial renderSchedule()
-
-    const bannerRes = await fetch('banners.json'); //
-    globalBannerData = await bannerRes.json(); //
-  } catch (error) {
-    console.error("Error loading initial data:", error);
-    // Optionally, display an error message to the user on the page
-  }
-
-  // 2. Perform initial full display update based on current time (live or test mode)
-  refreshDisplayForCurrentTime();
-
-  // 3. Set up periodic updates for live time (if not in test mode)
-  setInterval(() => {
-    const testModeSelect = document.getElementById('test-mode-select');
-    if (!testModeSelect || !testModeSelect.value) { // Only run for live time
-      console.log("Interval: Updating for live time.");
-      refreshDisplayForCurrentTime();
-    }
-  }, 60000); // Every 60 seconds
-
-  // 4. Event Listeners
-
-  // Test Mode Changer
   document.getElementById('test-mode-select')?.addEventListener('change', () => {
-    console.log("Test mode changed.");
-    refreshDisplayForCurrentTime();
+    updateNowNextFromHiddenData();
+    applyBanner();
+    updateDarkMode(); // reevaluate dark mode when test mode changes
   });
 
-  // Contact Menu Toggle
+  const res = await fetch('banners.json');
+  globalBannerData = await res.json();
+  applyBanner();
+
   document.getElementById('menu-toggle')?.addEventListener('click', () => {
-    document.getElementById('contact-menu')?.classList.toggle('show'); //
+    document.getElementById('contact-menu')?.classList.toggle('show');
   });
 
-  // Click outside to close Contact Menu
   document.addEventListener('click', (event) => {
     const menu = document.getElementById('contact-menu');
     const toggle = document.getElementById('menu-toggle');
-    // Check if menu and toggle exist before trying to access 'contains'
-    if (menu && toggle && !menu.contains(event.target) && !toggle.contains(event.target)) {
-      menu.classList.remove('show'); //
+    if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+      menu.classList.remove('show');
     }
   });
 
-  // Manual Dark Mode Toggle
+  // DARK MODE TOGGLE
   document.getElementById('manual-dark-toggle')?.addEventListener('click', () => {
     const isDark = document.body.classList.contains('dark-mode');
     const toggledTo = isDark ? 'light' : 'dark';
@@ -480,15 +434,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       setUserDarkModePreference(toggledTo); // set override
     }
-    updateDarkMode(); // Apply the change immediately
+
+    updateDarkMode();
   });
 
-  // Initial Dark Mode setup (already called by refreshDisplayForCurrentTime, but can be explicit too)
-  // updateDarkMode(); // This is already called by refreshDisplayForCurrentTime above
-
-  console.log("Initialization complete.");
+  updateDarkMode(); // initial dark mode check
 });
-
 
 // ADD TO HOMESCREEN
 const INSTALL_BANNER_DELAY = 3000; // in milliseconds (5 seconds)
