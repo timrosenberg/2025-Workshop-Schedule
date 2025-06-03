@@ -124,7 +124,7 @@ function renderSchedule(scheduleData) {
     for (const act of day.activities) {
       const li = document.createElement('li');
       li.setAttribute('id', `activity-${day.date}-${act.time.replace(/[^a-zA-Z0-9]/g, '')}`);
-      li.innerHTML = `<time>${act.time}</time> — ${act.title}`;
+      li.innerHTML = `<time>${act.time}</time> — <strong>${act.title}</strong>`;
       if (act.location) li.innerHTML += ` @ ${act.location}`;
       if (act.mapUrl) li.innerHTML += ` <a href="${act.mapUrl}" target="_blank">(map)</a>`;
 

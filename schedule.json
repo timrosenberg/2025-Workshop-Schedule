@@ -56,7 +56,7 @@
     "Location": "",
     "Map URL": "",
     "Subpoint 1": "Symphonic Saxophones (10th-12+ grade): Large Ensemble - Feasel Hall",
-    "Subpoint 2": "Concert Saxophones (7th-9th grade): Chamber Ensembles - Various Rooms",
+    "Subpoint 2": "Concert Saxophones (7th-9th grade): Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 3": ""
   },
   {
@@ -67,7 +67,7 @@
     "Activity": "Large Ensemble & Chamber Ensemble Rehearsal",
     "Location": "",
     "Map URL": "",
-    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 2": "Concert Saxophones: Large Ensemble - Lee Chapel (inside Elizabeth Hall (<a href=\"https://maps.app.goo.gl/kmcVc2dHF1nawH2Q8\">map</a>))",
     "Subpoint 3": ""
   },
@@ -77,7 +77,7 @@
     "Theme Title": "🎬 Sax & Screen",
     "Theme Description": "Wear something that shows your favorite film or musical.",
     "Activity": "Jazz Classes",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "",
     "Subpoint 2": "",
@@ -197,7 +197,7 @@
     "Theme Title": "Sharks & Jets",
     "Theme Description": "Wear something with a 🦈 shark or a ✈️ jet on it. 🫰… 🫰… 🫰…",
     "Activity": "Fundamentals Class",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "Class is determined by instrument played in large ensemble.",
     "Subpoint 2": "",
@@ -212,7 +212,7 @@
     "Location": "",
     "Map URL": "",
     "Subpoint 1": "Symphonic Saxophones: Large Ensemble - Feasel Hall",
-    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 3": ""
   },
   {
@@ -247,7 +247,7 @@
     "Activity": "Large Ensemble & Chamber Ensemble Rehearsal",
     "Location": "",
     "Map URL": "",
-    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 2": "Concert Saxophones: Large Ensemble - Lee Chapel",
     "Subpoint 3": ""
   },
@@ -257,7 +257,7 @@
     "Theme Title": "Sharks & Jets",
     "Theme Description": "Wear something with a 🦈 shark or a ✈️ jet on it. 🫰… 🫰… 🫰…",
     "Activity": "Jazz Classes",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "",
     "Subpoint 2": "",
@@ -353,7 +353,7 @@
     "Theme Title": "⚡ Greased Lightning",
     "Theme Description": "Wear something retro! Bandanas, rolled sleeves, bowling shirts, sunglasses. Inspired by 🕶️ <em><a href=\"https://res.cloudinary.com/dwh6m5mbn/image/upload/c_lfill,w_830/What%27s%20On/Review-_Grease_The_Musical_2024.jpg\">Grease</a></em>, 💃 <a href=\"https://i0.wp.com/pepperdinebeacon.com/wp-content/uploads/2021/12/West-Side-Story-Review.png?resize=1140%2C570&amp;ssl=1\"><em>West Side Story</em></a>, 🎭 <em><a href=\"https://i.redd.it/rzwi0hm1hc2a1.jpg\">Fame</a></em>, 👣 <em><a href=\"https://saltlakemagazine-webaholics.s3.us-west-2.amazonaws.com/wp-content/uploads/2024/08/01133937/The-Cast-of-the-Film-Footloose-from-1984_SLM-JA24_Paramount_Courtesy-Everett-Collection.jpg\">Footloose</a></em>).",
     "Activity": "Fundamentals Class",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "",
     "Subpoint 2": "",
@@ -368,7 +368,7 @@
     "Location": "",
     "Map URL": "",
     "Subpoint 1": "Symphonic Saxophones: Large Ensemble - Feasel Hall",
-    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 3": ""
   },
   {
@@ -391,7 +391,7 @@
     "Activity": "Large Ensemble & Chamber Ensemble Rehearsal",
     "Location": "",
     "Map URL": "",
-    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 2": "Concert Saxophones: Large Ensemble - Lee Chapel",
     "Subpoint 3": ""
   },
@@ -521,7 +521,7 @@
     "Theme Title": "🐱 Purrs-day Thursday",
     "Theme Description": "Wear a 🐈 cat-themed outfit. Bonus points for <a href=\"https://res.cloudinary.com/hello-tickets/image/upload/c_limit,f_auto,q_auto,w_1920/v1638481741/adhcqgo2sadh0sqskunk.jpg\"><i>Cats</i></a> musical merch (no costumes). Bring your camp shirt for the photo!",
     "Activity": "Fundamentals Class",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "Class is determined by instrument played in large ensemble.",
     "Subpoint 2": "",
@@ -536,7 +536,7 @@
     "Location": "",
     "Map URL": "",
     "Subpoint 1": "Symphonic Saxophones: Large Ensemble - Feasel Hall",
-    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 3": ""
   },
   {
@@ -571,7 +571,7 @@
     "Activity": "Large Ensemble & Chamber Ensemble Rehearsal",
     "Location": "",
     "Map URL": "",
-    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 2": "Concert Saxophones: Large Ensemble - Lee Chapel",
     "Subpoint 3": ""
   },
@@ -581,7 +581,7 @@
     "Theme Title": "🐱 Purrs-day Thursday",
     "Theme Description": "Wear a 🐈 cat-themed outfit. Bonus points for <a href=\"https://res.cloudinary.com/hello-tickets/image/upload/c_limit,f_auto,q_auto,w_1920/v1638481741/adhcqgo2sadh0sqskunk.jpg\"><i>Cats</i></a> musical merch (no costumes). Bring your camp shirt for the photo!",
     "Activity": "Jazz Classes",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "Change into workshop t-shirt after class",
     "Subpoint 2": "",
@@ -701,7 +701,7 @@
     "Theme Title": "🧚‍♀️ Team Pink or 🧙‍♀️ Team Green",
     "Theme Description": "Wear something 👚 pink or something 🍏 green to show your support for <a href=\"https://en.wikipedia.org/wiki/Glinda\">Glinda</a> (pink) or <a href=\"https://en.wikipedia.org/wiki/Elphaba\">Elphaba</a> (green)&#8230; or maybe some of both!",
     "Activity": "Fundamentals Class",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "",
     "Subpoint 2": "",
@@ -716,7 +716,7 @@
     "Location": "",
     "Map URL": "",
     "Subpoint 1": "Symphonic Saxophones: Large Ensemble - Feasel Hall",
-    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 2": "Concert Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 3": ""
   },
   {
@@ -739,7 +739,7 @@
     "Activity": "Large Ensemble & Chamber Ensemble Rehearsal",
     "Location": "",
     "Map URL": "",
-    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms",
+    "Subpoint 1": "Symphonic Saxophones: Chamber Ensembles - Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Subpoint 2": "Concert Saxophones: Large Ensemble - Lee Chapel",
     "Subpoint 3": ""
   },
@@ -749,7 +749,7 @@
     "Theme Title": "🧚‍♀️ Team Pink or 🧙‍♀️ Team Green",
     "Theme Description": "Wear something 👚 pink or something 🍏 green to show your support for <a href=\"https://en.wikipedia.org/wiki/Glinda\">Glinda</a> (pink) or <a href=\"https://en.wikipedia.org/wiki/Elphaba\">Elphaba</a> (green)&#8230; or maybe some of both!",
     "Activity": "Jazz Classes",
-    "Location": "Various Rooms",
+    "Location": "Various Rooms (<a href=\"/rooms.html\">see guide</a>)",
     "Map URL": "",
     "Subpoint 1": "",
     "Subpoint 2": "",
