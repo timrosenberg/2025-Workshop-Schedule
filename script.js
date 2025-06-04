@@ -661,7 +661,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 // ADD TO HOMESCREEN
-const INSTALL_BANNER_DELAY = 3000; // in milliseconds (5 seconds)
+const INSTALL_BANNER_DELAY = 2000; // in milliseconds (5 seconds)
 const INSTALL_BANNER_KEY = 'install-banner-dismissed';
 
 function isMobileDevice() {
