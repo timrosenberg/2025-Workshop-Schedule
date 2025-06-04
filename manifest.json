@@ -1,7 +1,7 @@
 {
   "name": "Saxophone Workshop",
-  "short_name": "Workshop",
-  "start_url": "/2025-Workshop-Schedule/",
+  "short_name": "Sax Workshop",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2b644a",
