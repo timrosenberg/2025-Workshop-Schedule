@@ -359,7 +359,7 @@ function updateNowNextFromHiddenData() {
     // --- Phase 3: Update DOM elements ---
     if (activityToDisplayAsNow && dayToDisplayAsNow) {
         const anchorId = `activity-${dayToDisplayAsNow.date}-${activityToDisplayAsNow.time.replace(/[^a-zA-Z0-9]/g, '')}`;
-        currentActivityEl.innerHTML = `<a href="#${anchorId}">⌛ ${activityToDisplayAsNow.time} — ${activityToDisplayAsNow.title}</a>`;
+        currentActivityEl.innerHTML = `<a href="#${anchorId}">⌛ ${activityToDisplayAsNow.time}: ${activityToDisplayAsNow.title}</a>`;
         addClickAndScroll(currentActivityEl, anchorId, dayToDisplayAsNow.date);
     } else {
         // Default already set: currentActivityEl.innerHTML = '⌛ No current activity';
@@ -375,7 +375,7 @@ function updateNowNextFromHiddenData() {
                  nextText += ` (${formatDateShort(dayToDisplayAsNext.date)})`;
             }
         }
-        nextText += ` — ${activityToDisplayAsNext.title}`;
+        nextText += `: ${activityToDisplayAsNext.title}`;
         nextActivityEl.innerHTML = `<a href="#${anchorId}">${nextText}</a>`;
         addClickAndScroll(nextActivityEl, anchorId, dayToDisplayAsNext.date);
     } else {
@@ -678,37 +678,81 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 function showInstallBanner(type) {
-  if (localStorage.getItem(INSTALL_BANNER_KEY)) return;
+  // These constants should be defined globally in your script.js or passed in.
+  // const INSTALL_BANNER_KEY = 'install-banner-dismissed';
+  // const INSTALL_BANNER_DELAY = 3000; // example delay
+  // let deferredPrompt; // Should be a global variable, set by 'beforeinstallprompt'
+
+  if (localStorage.getItem(INSTALL_BANNER_KEY)) {
+    console.log('[InstallBanner] Banner previously dismissed by user.');
+    return;
+  }
 
   setTimeout(() => {
     const banner = document.getElementById('install-banner');
-    const text = document.getElementById('install-text');
-    const button = document.getElementById('install-dismiss');
+    const textElement = document.getElementById('install-text'); 
+    const buttonsContainer = document.getElementById('install-banner-buttons');
+    const dismissButton = document.getElementById('install-dismiss');
 
-    if (type === 'ios') {
-      text.textContent = '📲 To add this app to your home screen, tap the Share button and then "Add to Home Screen".';
-    } else if (type === 'android') {
-      text.innerHTML = '📲 Install this app to your home screen for quicker access. <button id="install-now">Install</button>';
+    if (!banner || !textElement || !buttonsContainer || !dismissButton) {
+        console.error('[InstallBanner] One or more required HTML elements for the banner were not found. Cannot display banner.');
+        return;
+    }
+    console.log('[InstallBanner] Attempting to show banner of type:', type);
+
+    // Clear previous dynamic "Install" button if it exists, to prevent duplicates
+    const existingInstallButton = document.getElementById('install-now');
+    if (existingInstallButton) {
+        existingInstallButton.remove();
     }
 
-    banner.style.display = 'block';
-    requestAnimationFrame(() => banner.classList.add('show'));
+    if (type === 'ios') {
+      textElement.textContent = '📲 To add this app to your home screen, tap the Share button and then "Add to Home Screen".';
+    } else if (type === 'android' && window.deferredPrompt) { // Check if deferredPrompt is available
+      textElement.textContent = '📲 Install this app to your home screen for quicker access.';
+      const installButton = document.createElement('button');
+      installButton.id = 'install-now';
+      installButton.textContent = 'Install';
+      // Insert "Install" button before "Dismiss" button within the buttons container
+      buttonsContainer.insertBefore(installButton, dismissButton); 
 
-    button.onclick = () => {
-      banner.style.display = 'none';
+      installButton.addEventListener('click', () => {
+        if (window.deferredPrompt) {
+          window.deferredPrompt.prompt();
+          window.deferredPrompt.userChoice.finally(() => {
+            banner.classList.remove('show'); // Hide by sliding out
+            setTimeout(() => {
+              banner.style.display = 'none'; // Then set display none after transition
+            }, 400); // Should match your CSS transition duration for the transform
+            localStorage.setItem(INSTALL_BANNER_KEY, 'true');
+            window.deferredPrompt = null; // Clear the prompt as it can only be used once
+            console.log('[InstallBanner] Android install prompt shown or choice made.');
+          });
+        }
+      });
+    } else if (type === 'android' && !window.deferredPrompt) {
+        console.log('[InstallBanner] Android type, but deferredPrompt not available. Not showing install button.');
+        textElement.textContent = '📲 For quick access, you can add this site to your home screen via your browser menu.';
+    }
+
+
+    // Setup dismiss button action
+    dismissButton.onclick = () => { 
+      banner.classList.remove('show'); // Hide by sliding out
+      setTimeout(() => {
+        banner.style.display = 'none'; // Then set display none after transition
+      }, 400); 
       localStorage.setItem(INSTALL_BANNER_KEY, 'true');
+      console.log('[InstallBanner] Banner dismissed by user via dismiss button.');
     };
 
-    document.getElementById('install-now')?.addEventListener('click', () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.finally(() => {
-        banner.classList.remove('show');
-        setTimeout(() => {
-        banner.style.display = 'none';
-        }, 400); // matches the transition duration
-        localStorage.setItem(INSTALL_BANNER_KEY, 'true');
-      });
+    // Actually show the banner
+    banner.style.display = 'block'; // Make it part of the layout
+    requestAnimationFrame(() => { // Ensures display:block is applied before class change for transition
+      banner.classList.add('show'); // Then slide it in by adding 'show' class
+      console.log('[InstallBanner] Banner display initiated.');
     });
+
   }, INSTALL_BANNER_DELAY);
 }
 

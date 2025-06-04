@@ -520,6 +520,9 @@ details[open] summary::before {
 /* ===================================
    ADD TO HOMESCREEN
 =================================== */
+/* In style.css */
+
+/* ADD TO HOMESCREEN BANNER section */
 .install-banner {
   position: fixed;
   bottom: 0;
@@ -531,38 +534,49 @@ details[open] summary::before {
   text-align: center;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   z-index: 9999;
-  transform: translateY(100%);
+  transform: translateY(100%); /* Initially hidden below screen */
   transition: transform 0.4s ease-in-out;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  max-width: 100%;
+  /* display: none;  Remove this if you're using transform to hide/show */
   box-sizing: border-box;
 }
 
 .install-banner.show {
-  transform: translateY(0);
+  transform: translateY(0); /* Slides banner into view */
 }
 
-.install-banner button {
+#install-homescreen-text { /* Container for the text <p> */
+  margin-bottom: 0.75rem; /* Space between text block and button block */
+}
+
+#install-homescreen-text p#install-text { /* Target the <p> tag directly */
+  margin: 0; /* Remove default top/bottom margins from paragraph */
+  line-height: 1.3; /* Adjust this value to control spacing for wrapped text. Try 1.2 to 1.5 */
+  white-space: normal; /* Already in your CSS, good */
+  word-break: break-word; /* Already in your CSS, good */
+}
+
+.install-banner button { /* General styling for buttons in the banner */
   padding: 0.5rem 1rem;
   font-weight: bold;
   background-color: #d7eccb;
   border: 2px solid #3a634c;
   border-radius: 50px;
   color: #3a634c;
-  width: 100px;
+  /* width: 100px; /* Consider removing fixed width or using min-width */
+  margin: 0.25rem 0.35rem; /* Small margin around each button */
+  cursor: pointer;
+  /* line-height: normal; /* Already in your CSS, good */
+  /* white-space: normal; /* Already in your CSS, good */
+  /* word-break: break-word; /* Already in your CSS, good */
 }
 
+/* If you need specific margin for #install-now, it can be added, 
+   but general button margin might be enough. */
+/*
 #install-now {
-  margin-top: 1rem;
-}
-
-.install-banner p,
-.install-banner button {
-  white-space: normal;
-  word-break: break-word;
-}
+  margin-top: 0; /* Overrides the previous margin-top: 1rem if it was causing too much space */
+/* }
+*/
 
 /* ===================================
    PAGE STYLES
