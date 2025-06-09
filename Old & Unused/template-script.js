@@ -16,7 +16,7 @@ fetch('nav.html')
 //
 
 // FOOTER FETCHER
-fetch('footer.html')
+fetch('/includes/footer.html')
   .then(res => res.text())
   .then(html => {
     document.getElementById('footer-container').innerHTML = html;

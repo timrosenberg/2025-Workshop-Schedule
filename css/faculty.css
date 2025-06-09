@@ -9,3 +9,15 @@ body {
   padding: 0.5rem;
   font-weight: bold;
 }
+/* Make the header background gray */
+header.main-header {
+  background-color: #555555;
+  color: white;
+}
+
+/* Optionally distinguish the faculty title */
+header.main-header h1.main-title::after {
+  content: " – Faculty Version";
+  /* font-size: 0.75em; */
+  color: #ffffff;
+}

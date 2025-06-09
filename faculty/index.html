@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- META -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Faculty schedule and resources for the 2025 Stetson Saxophone Workshop." />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- TITLE -->
+  <title>Faculty – Saxophone Workshop</title>
+
+  <!-- STYLESHEETS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/faculty.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/assets/icons/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-180.png">
+
+  <!-- SCRIPTS -->
+  <script src="https://kit.fontawesome.com/8a346dba79.js" crossorigin="anonymous"></script>
+  <script src="/js/include.js" defer></script>
+</head>
+
+<body>
+
+<!-- HEADER -->  
+  <header class="main-header">
+    <h1 class="main-title">🎷 2025 Saxophone Workshop Schedule</h1>
+
+    <div class="header-buttons">
+      <button id="menu-toggle" title="Menu">☰</button>
+      <button id="manual-dark-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+        <i class="fa-solid fa-circle-half-stroke"></i>
+      </button>
+    </div>
+    
+    <!-- STATIC BANNER -->
+    <div id="global-notice" class="notice" style="display:none;"></div>
+
+    <!-- DAILY BANNER -->
+    <div class="workshop-banner" id="daily-banner" style="display:none;">
+      <span id="banner-text"></span>
+      <button class="close-banner" aria-label="Dismiss notice">&times;</button>
+    </div>
+
+    <!-- TEST MODE TOGGLE -->
+    <label for="test-mode-select" style="margin: 1rem auto; display: block; text-align: center;">
+      Test Mode:
+      <select id="test-mode-select">
+        <option value="">(live time)</option>
+        <option value="2025-06-23T08:45">June 23 @ 8:45 AM</option>
+        <option value="2025-06-23T11:00">June 23 @ 11:00 AM</option>
+        <option value="2025-06-23T13:45">June 23 @ 1:45 PM</option>
+        <option value="2025-06-23T19:45">June 23 @ 7:45 PM</option>
+        <option value="2025-06-23T20:01">June 23 @ 8:01 PM</option>
+        <option value="2025-06-23T22:00">June 23 @ 10:00 PM</option>
+        <option value="2025-06-24T07:15">June 24 @ 7:15 AM</option>
+        <option value="2025-06-24T08:46">June 24 @ 8:46 AM</option>
+        <option value="2025-06-24T19:15">June 24 @ 7:15 PM</option>
+        <option value="2025-06-25T07:15">June 25 @ 7:15 AM</option>
+        <option value="2025-06-26T07:15">June 26 @ 7:15 AM</option>
+        <option value="2025-06-27T07:15">June 27 @ 7:15 AM</option>
+        <option value="2025-06-28T07:00">June 28 @ 7:00 AM</option>
+      </select>
+    </label>
+  </header>
+
+  <!-- CONTACT MENU -->
+  <div id="contact-menu">
+    <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
+    <a href="mailto:you@example.com">📧 Email Dr. Rosenberg</a>
+    <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
+    <a href="https://instagram.com/stetsonsaxophoneworkshop" target="_blank" style="display: flex; align-items: center;">
+      <img src="/assets/icons/Instagram.png" alt="Instagram" style="height: 20px; margin-right: 0.5rem;">Workshop IG
+    </a>
+    <a href="https://www.facebook.com/stetsonsaxos" target="_blank" rel="noopener">
+      <img src="/assets/icons/Facebook.svg" alt="Facebook" style="height: 20px; vertical-align: middle; margin-right: 0.5rem;">Stetson Saxos FB
+    </a>
+    <a href="https://www.stetson.edu/other/visit/media/deland-campus-map.pdf" target="_blank">🗺️ Stetson Campus Map</a>
+  </div>
+
+  <!-- NAVIGATION MENU (faculty) -->
+  <div data-include="/includes/nav-faculty.html"></div>
+
+  <!-- MAIN -->  
+  <main class="main-container">
+    <!-- NOW & NEXT BOXES -->
+    <section class="now-next-container">
+      <div class="activity-box" id="now-box">
+        <h3>Now</h3>
+        <a id="current-activity" href="#">⌛</a>
+      </div>
+      <div class="activity-box" id="next-box">
+        <h3>Next</h3>
+        <a id="next-activity" href="#">➡️</a>
+      </div>
+    </section>
+
+    <!-- SCHEDULE BODY -->
+    <div id="schedule-container"></div>
+  </main>
+
+  <!-- ADD TO HOMESCREEN BANNER -->  
+  <div id="install-banner" class="install-banner">
+    <div id="install-homescreen-text"><p id="install-text"></p></div>
+    <div id="install-banner-buttons"><button id="install-dismiss">Dismiss</button></div>
+  </div>
+
+  <!-- FOOTER -->  
+  <footer>
+    <div id="footer-container"></div>
+  </footer>
+
+  <script src="/js/script.js" defer></script>
+</body>
+</html>
