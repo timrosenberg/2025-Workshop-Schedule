@@ -669,7 +669,9 @@ body.dark-mode .styled-table tbody tr:nth-child(even) {
 }
 
 .breadcrumb a:hover {
-  text-decoration: underline;
+  color: #e8f3ec;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 /* ========== PAGE ORDERED LISTS ========== */

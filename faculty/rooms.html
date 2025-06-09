@@ -7,19 +7,41 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/nav.css">
   <link rel="stylesheet" href="/css/faculty.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head>
 
 <body class="page">
-  <header>
-    <div class="page-header">
-      <h1 class="page-title">Room Guide</h1>
-      <nav class="breadcrumb"><a href="index.html">← Back to Dashboard</a></nav>
+<header class="main-header">
+  <div class="page-header">
+    <h1 class="page-title">Room Guide</h1>
+    <nav class="breadcrumb"><a href="index.html">← Back to Dashboard</a></nav>
+  </div>
+
+  <div class="header-buttons">
+    <button id="menu-toggle" title="Menu">☰</button>
+    <button id="manual-dark-toggle" class="dark-mode-toggle" title="Toggle dark mode">
+      <i class="fa-solid fa-circle-half-stroke"></i>
+    </button>
+  </div>
+</header>
+
+<!-- CONTACT MENU -->
+    <div id="contact-menu">
+        <a href="sms:+14074940603">📱 Text Dr. Rosenberg</a>
+        <a href="mailto:you@example.com">📧 Email Dr. Rosenberg</a>
+        <a href="tel:+14074940603">📞 Call Dr. Rosenberg</a>
+        <a href="https://instagram.com/stetsonsaxophoneworkshop" target="_blank" style="display: flex; align-items: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="height: 20px; margin-right: 0.5rem;">Workshop IG
+        </a>
+        <a href="https://www.facebook.com/stetsonsaxos" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="height: 20px; vertical-align: middle; margin-right: 0.5rem;">Stetson Saxos FB
+        </a>
+        <a href="https://www.stetson.edu/other/visit/media/deland-campus-map.pdf" target="_blank">🗺️ Stetson Campus Map</a>
     </div>
-  </header>
 
   <!-- NAV and CONTACT -->
   <div data-include="/includes/nav-faculty.html"></div>
-  <div id="contact-menu">...</div>
 
   <!-- MAIN -->
   <main class="main-container">

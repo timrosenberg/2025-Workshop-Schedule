@@ -1,23 +1,237 @@
+/* === BASE STYLES === */
 body {
-  background-color: #f4f1eb;
+  background-color: #e5e5e5;
+  color: #222; /* Default text color */
 }
 
+/* === FACULTY BANNER === */
 #faculty-banner {
-  background-color: #2b644a;
+  background-color: #555;  /* Dark gray */
   color: white;
   text-align: center;
   padding: 0.5rem;
   font-weight: bold;
 }
-/* Make the header background gray */
-header.main-header {
-  background-color: #555555;
+
+/* === HEADER === */
+header.main-header,
+header.main-header h1,
+header.main-header .page-title {
+  background-color: #555;
+  color: white !important;
+}
+
+header.main-header h1.main-title::after {
+  content: " – Faculty Version";
   color: white;
 }
 
-/* Optionally distinguish the faculty title */
-header.main-header h1.main-title::after {
-  content: " – Faculty Version";
-  /* font-size: 0.75em; */
-  color: #ffffff;
+/* === NAVIGATION === */
+.nav-links {
+  background-color: #d9d9d9 !important;
+  color: #222 !important;
+}
+
+.nav-links a {
+  color: #222 !important;
+  background-color: transparent !important;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: #000 !important;
+}
+
+.hamburger,
+.hamburger-icon {
+  color: #222 !important;
+}
+
+/* === MOBILE NAV === */
+@media (max-width: 400px) {
+  .nav-links a:not(:last-child) {
+    border-bottom: 1px solid #bbb !important;
+  }
+}
+
+/* === BUTTONS === */
+#menu-toggle,
+.dark-mode-toggle,
+#manual-dark-toggle {
+  color: #909090 !important;  /* dark gray in light mode */
+}
+
+#menu-toggle:hover,
+.dark-mode-toggle:hover,
+#manual-dark-toggle:hover {
+  color: #c5c5c5 !important;
+}
+
+body.dark-mode #menu-toggle,
+body.dark-mode .dark-mode-toggle,
+body.dark-mode #manual-dark-toggle {
+  color: #ccc !important;  /* light gray in dark mode */
+}
+
+button,
+input,
+select,
+textarea {
+  background-color: #eee;
+  color: #111;
+  border: 1px solid #aaa;
+}
+
+button:hover {
+  background-color: #ccc;
+}
+
+/* === BREADCRUMBS === */
+.breadcrumb a {
+  color: #909090 !important;
+}
+
+.breadcrumb a:hover {
+  color: #c5c5c5 !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* === SUMMARY TAGS === */
+summary {
+  background-color: #fff !important;
+  color: #222 !important;
+}
+
+summary:hover {
+  color: #000 !important;
+}
+
+summary::before {
+  border-left-color: #111 !important;
+}
+
+body.dark-mode summary {
+  background-color: #333 !important;
+  color: #ccc !important;
+}
+
+body.dark-mode summary::before {
+  border-left-color: #ccc !important;
+}
+
+/* === MAIN CONTENT === */
+main,
+.main-container,
+.page {
+  background-color: #f5f5f5;
+  color: #222;
+}
+
+/* === ACTIVITY BLOCKS === */
+.activity-box,
+.day {
+  border: 1px solid #aaa;
+  box-shadow: none;
+}
+
+#now-box,
+#next-box {
+  background-color: #e0e0e0;
+  border-color: #888;
+}
+
+#now-box h3,
+#next-box h3,
+#now-box a,
+#next-box a {
+  color: #111;
+}
+
+/* === NOTICES AND BANNERS === */
+.notice,
+.workshop-banner {
+  background-color: #e2e2e2;
+  color: #333;
+}
+
+/* === CONTACT MENU === */
+#contact-menu a {
+  color: #111 !important; /* black text */
+}
+
+#contact-menu a:hover {
+  background-color: #e0e0e0 !important;
+  color: #000 !important;
+}
+
+body.dark-mode #contact-menu a {
+  color: #ccc !important;
+}
+
+/* === FOOTER === */
+footer {
+  background-color: #ddd;
+  color: #333;
+}
+
+.footer-links a {
+  color: #111 !important;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #000 !important;
+  text-decoration: underline;
+}
+
+body.dark-mode .footer-links a {
+  color: #ccc !important;
+}
+
+body.dark-mode .footer-links a:hover {
+  color: #fff !important;
+}
+
+/* === THEME DESCRIPTION === */
+.theme-description {
+  background-color: #e0e0e0 !important;
+  border: 1px solid #aaa !important;
+  color: #222 !important;
+}
+
+body.dark-mode .theme-description {
+  background-color: #333 !important;
+  border-color: #555 !important;
+  color: #ccc !important;
+}
+
+/* === DARK MODE BASE === */
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+body.dark-mode .nav-links,
+body.dark-mode .nav-links a,
+body.dark-mode .hamburger,
+body.dark-mode .hamburger-icon {
+  color: #ccc !important;
+  background-color: #333 !important;
+}
+
+body.dark-mode header.main-header {
+  background-color: #333;
+}
+
+body.dark-mode footer {
+  background-color: #222;
+  color: #aaa;
+}
+
+/* === GREEN SHADE CLEANUP === */
+[class*="green"],
+[class*="success"],
+a[style*="color:"] {
+  color: #111 !important;
 }
