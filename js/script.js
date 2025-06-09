@@ -75,7 +75,7 @@ async function loadSchedule() {
   const container = document.getElementById('schedule-container');
   if (!container) return; // Skip loading if not present
 
-  const res = await fetch('schedule.json');
+  const res = await fetch('/data/schedule.json');
   const flatData = await res.json();
   scheduleData = groupFlatSchedule(flatData);
   renderSchedule(scheduleData);
@@ -597,7 +597,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     await loadSchedule(); // Fetches schedule.json, processes it, and does initial renderSchedule()
 
-    const bannerRes = await fetch('banners.json'); //
+    const bannerRes = await fetch('/data/banners.json'); //
     globalBannerData = await bannerRes.json(); //
   } catch (error) {
     console.error("Error loading initial data:", error);
