@@ -23,7 +23,6 @@ header.main-header .page-title {
 
 header.main-header h1.main-title::after {
   content: " – Faculty Version";
-  color: white;
 }
 
 /* === NAVIGATION === */
@@ -111,15 +110,6 @@ summary::before {
   border-left-color: #111 !important;
 }
 
-body.dark-mode summary {
-  background-color: #333 !important;
-  color: #ccc !important;
-}
-
-body.dark-mode summary::before {
-  border-left-color: #ccc !important;
-}
-
 /* === MAIN CONTENT === */
 main,
 .main-container,
@@ -185,6 +175,14 @@ footer {
   text-decoration: underline;
 }
 
+body.dark-mode footer {
+  border-top: 1px solid #555;
+}
+
+body.dark-mode .cc-attribution a {
+  color: #ccc;
+}
+
 body.dark-mode .footer-links a {
   color: #ccc !important;
 }
@@ -234,4 +232,140 @@ body.dark-mode footer {
 [class*="success"],
 a[style*="color:"] {
   color: #111 !important;
+}
+
+/* === FACULTY DARK MODE – GRAYSCALE OVERRIDES === */
+
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: #cccccc;
+}
+
+/* Header */
+body.dark-mode header,
+body.dark-mode header.main-header {
+  background-color: #333;
+  color: #eee;
+}
+
+body.dark-mode header.main-header,
+body.dark-mode header.main-header h1,
+body.dark-mode header.main-header .page-title {
+  background-color: #333;
+  color: white !important;
+}
+
+/* Main Containers */
+body.dark-mode main,
+body.dark-mode .main-container,
+body.dark-mode .page {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+/* Nav Links */
+body.dark-mode .nav-links,
+body.dark-mode .nav-links a {
+  background-color: #404040 !important;
+  color: #ccc !important;
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #fff !important;
+}
+
+/* Buttons and Toggles */
+body.dark-mode #menu-toggle,
+body.dark-mode .dark-mode-toggle,
+body.dark-mode #manual-dark-toggle {
+  color: #ccc !important;
+}
+
+/* Summary Tags */
+body.dark-mode summary {
+  background-color: #2b2b2b !important;
+  color: #ccc !important;
+}
+
+body.dark-mode summary::before {
+  border-left-color: #ccc !important;
+}
+
+/* Boxes and Sections */
+body.dark-mode #now-box,
+body.dark-mode #next-box,
+body.dark-mode .activity-box,
+body.dark-mode .day {
+  background-color: #2b2b2b;
+  border-color: #555;
+  color: #ccc;
+}
+
+body.dark-mode #now-box h3,
+body.dark-mode #next-box h3,
+body.dark-mode #now-box a,
+body.dark-mode #next-box a {
+  color: #eee;
+}
+
+/* Contact Menu */
+body.dark-mode #contact-menu {
+  background-color: #2b2b2b;
+  border-color: #555;
+  color: #ccc;
+}
+
+body.dark-mode #contact-menu a {
+  color: #ccc !important;
+}
+
+body.dark-mode #contact-menu a:hover {
+  background-color: #444 !important;
+  color: #fff !important;
+}
+
+/* Theme Description */
+body.dark-mode .theme-description {
+  background-color: #333 !important;
+  border-color: #555 !important;
+  color: #ccc !important;
+}
+
+/* Breadcrumb Links */
+body.dark-mode .breadcrumb a {
+  color: #aaa !important;
+}
+
+body.dark-mode .breadcrumb a:hover {
+  color: #fff !important;
+}
+
+/* Footer */
+body.dark-mode footer {
+  background-color: #222;
+  color: #aaa;
+}
+
+body.dark-mode .footer-links a {
+  color: #ccc !important;
+}
+
+body.dark-mode .footer-links a:hover {
+  color: #fff !important;
+}
+
+/* Miscellaneous Cleanup */
+body.dark-mode [class*="green"],
+body.dark-mode [class*="success"],
+body.dark-mode a[style*="color:"] {
+  color: #ccc !important;
 }
