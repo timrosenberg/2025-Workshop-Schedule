@@ -394,7 +394,7 @@ body.dark-mode a[style*="color:"] {
   color: #ccc !important;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 440px) {
   /* LIGHT MODE */
   body:not(.dark-mode) .nav-links,
   body.page:not(.dark-mode) .nav-links,
