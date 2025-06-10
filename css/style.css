@@ -562,14 +562,6 @@ details[open] summary::before {
   cursor: pointer;
 }
 
-/* If you need specific margin for #install-now, it can be added, 
-   but general button margin might be enough. */
-/*
-#install-now {
-  margin-top: 0; /* Overrides the previous margin-top: 1rem if it was causing too much space */
-/* }
-*/
-
 /* ===================================
    PAGE STYLES
 =================================== */
@@ -913,21 +905,22 @@ body.dark-mode .nav-links a {
 }
 
 .hamburger-icon {
-  font-size: 1.75rem;
+  font-size: 1.7rem;
+  line-height: 1;
+  vertical-align: middle;
+  display: inline-block;
+  transform: translateY(-2px); /* tweak this value as needed */
 }
 
 @media (max-width: 400px) {
-    .hamburger {
-        display: flex;
-    }
-    
-    body.dark-mode .nav-links a:not(:last-child),
-    body.dark-mode .hamburger {
-        border-bottom: 1px solid #2c4c3b;
-    }
+  .hamburger {
+    display: flex;
+    padding: 0.75rem 0; /* Use this padding instead of the larger 1rem padding */
+  }
 
   .nav-links {
-    display: none;
+    /* Base styles for the mobile nav container */
+    display: none; /* Hidden by default */
     flex-direction: column;
     align-items: center;
     gap: 0;
@@ -937,7 +930,7 @@ body.dark-mode .nav-links a {
   }
 
   .nav-links.active {
-    display: flex;
+    display: flex; /* The JS toggle makes it visible */
   }
 
   .nav-links a {
@@ -948,6 +941,11 @@ body.dark-mode .nav-links a {
   }
 
   .nav-links a:not(:last-child) {
-    border-bottom: 1px solid #e0e0e0; /* Change to #e0e0e0 or similar once verified */
+    border-bottom: 1px solid #e0e0e0; 
+  }
+  
+  body.dark-mode .nav-links a:not(:last-child),
+  body.dark-mode .hamburger {
+      border-bottom: 1px solid #2c4c3b;
   }
 }

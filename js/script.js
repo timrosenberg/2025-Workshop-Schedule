@@ -1,6 +1,5 @@
 // === Begin include.js ===
-// include.js
-document.addEventListener("DOMContentLoaded", () => {
+/* document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-include]").forEach(async el => {
     const file = el.getAttribute("data-include");
     if (!file) return;
@@ -10,7 +9,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const content = await res.text();
       el.innerHTML = content;
 
-      // Run any inline scripts
+      // **FIX**: If the loaded file is the navigation menu, find the buttons
+      // inside the newly added content and make them clickable.
+      // We assume your nav file has '.hamburger' and '.nav-links'.
+      if (file.includes('nav-faculty.html')) {
+        const hamburger = el.querySelector('.hamburger');
+        const navLinks = el.querySelector('.nav-links');
+
+        if (hamburger && navLinks) {
+          hamburger.addEventListener('click', (e) => {
+            e.preventDefault(); // Good practice to prevent other actions
+            navLinks.classList.toggle('active'); // The class that makes the menu appear
+          });
+        }
+      }
+
+      // Run any inline scripts from the included file
       el.querySelectorAll("script").forEach(oldScript => {
         const newScript = document.createElement("script");
         if (oldScript.src) {
@@ -18,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           newScript.textContent = oldScript.textContent;
         }
-        document.body.appendChild(newScript);
+        document.body.appendChild(newScript).remove();
       });
     } catch (err) {
       console.error(err);
@@ -33,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     link.href = '/css/faculty.css';
     document.head.appendChild(link);
   }
-});
+}); */
 // === End include.js ===
 
 console.log("Script loaded");
@@ -104,8 +118,8 @@ function refreshDisplayForCurrentTime() {
   console.log("NEW: refreshDisplayForCurrentTime finished.");
 }
 
-const menu = document.getElementById('contact-menu');
-menu.classList.add('hide');
+/* const menu = document.getElementById('contact-menu'); */
+/* menu.classList.add('hide'); */
 /* console.log('Forced menu visible:', menu); */
 
 
@@ -537,7 +551,7 @@ function applyBanner() {
 }
 
 // NAV FETCHER
-fetch('nav.html')
+/* fetch('nav.html')
   .then(res => res.text())
   .then(html => {
     document.getElementById('nav-container').innerHTML = html;
@@ -550,7 +564,7 @@ fetch('nav.html')
         navLinks.classList.toggle('active');
       });
     }
-  });
+  }); */
 //
 
 // FOOTER FETCHER
@@ -628,7 +642,7 @@ function updateDarkMode() {
   setDarkMode(block === 'night');
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+/* document.addEventListener('DOMContentLoaded', async () => {
   console.log("DOM fully loaded and parsed. Initializing...");
 
   // 1. Load essential data
@@ -695,6 +709,106 @@ document.addEventListener('DOMContentLoaded', async () => {
   // updateDarkMode(); // This is already called by refreshDisplayForCurrentTime above
 
   console.log("Initialization complete.");
+}); */
+
+// A single, unified listener to set up the entire page.
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log("DOM fully loaded. Initializing application...");
+
+  // --- 1. Handle all dynamic content includes first ---
+  // We wait for all includes to finish before we do anything else.
+  const includePromises = Array.from(document.querySelectorAll("[data-include]")).map(async (el) => {
+    const file = el.getAttribute("data-include");
+    if (!file) return;
+
+    try {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error(`Failed to load ${file}`);
+      const content = await res.text();
+      el.innerHTML = content;
+
+      // If this was the nav menu, attach its specific listener right away.
+      if (file.includes('nav-faculty.html') || file.includes('nav.html')) {
+        const hamburger = el.querySelector('.hamburger');
+        const navLinks = el.querySelector('.nav-links');
+        if (hamburger && navLinks) {
+          hamburger.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.classList.toggle('active');
+          });
+          console.log("Navigation menu listener attached successfully.");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      el.innerHTML = `<p style="color:red;">Error loading ${file}</p>`;
+    }
+  });
+
+  await Promise.all(includePromises);
+  console.log("All dynamic content has been loaded.");
+
+  // --- 2. Attach all other main event listeners ---
+  // Contact Menu Toggle
+  document.getElementById('menu-toggle')?.addEventListener('click', () => {
+    document.getElementById('contact-menu')?.classList.toggle('show');
+  });
+
+  // Click outside to close Contact Menu
+  document.addEventListener('click', (event) => {
+    const menu = document.getElementById('contact-menu');
+    const toggle = document.getElementById('menu-toggle');
+    if (menu && toggle && !menu.contains(event.target) && !toggle.contains(event.target)) {
+      menu.classList.remove('show');
+    }
+  });
+
+  // Manual Dark Mode Toggle
+  document.getElementById('manual-dark-toggle')?.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark-mode');
+    const toggledTo = isDark ? 'light' : 'dark';
+    const currentPref = getUserDarkModePreference();
+    if (currentPref === toggledTo) {
+      setUserDarkModePreference(null);
+    } else {
+      setUserDarkModePreference(toggledTo);
+    }
+    updateDarkMode();
+  });
+
+  // Test Mode Changer
+  document.getElementById('test-mode-select')?.addEventListener('change', () => {
+    console.log("Test mode changed.");
+    refreshDisplayForCurrentTime();
+  });
+  
+  console.log("All main event listeners attached.");
+
+  // --- 3. Load page-specific data and perform initial render ---
+  try {
+    // The loadSchedule function has a guard clause, so it's safe to call on any page.
+    await loadSchedule(); 
+
+    // The banners.json is small, so we can fetch it on all pages.
+    const bannerRes = await fetch('/data/banners.json');
+    globalBannerData = await bannerRes.json();
+  } catch (error) {
+    console.error("Error loading initial data:", error);
+  }
+
+  // Perform initial full display update based on the data we just loaded.
+  refreshDisplayForCurrentTime();
+
+  // --- 4. Set up periodic updates ---
+  setInterval(() => {
+    const testModeSelect = document.getElementById('test-mode-select');
+    if (!testModeSelect || !testModeSelect.value) { // Only run for live time
+      console.log("Interval: Updating for live time.");
+      refreshDisplayForCurrentTime();
+    }
+  }, 60000);
+
+  console.log("Page initialization complete.");
 });
 
 

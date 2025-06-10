@@ -1,6 +1,6 @@
 /* === BASE STYLES === */
 body {
-  background-color: #e5e5e5;
+  background-color: #e0e0e0;
   color: #222; /* Default text color */
 }
 
@@ -27,7 +27,7 @@ header.main-header h1.main-title::after {
 
 /* === NAVIGATION === */
 .nav-links {
-  background-color: #d9d9d9 !important;
+  background-color: #e0e0e0 !important;
   color: #222 !important;
 }
 
@@ -50,6 +50,23 @@ header.main-header h1.main-title::after {
 @media (max-width: 400px) {
   .nav-links a:not(:last-child) {
     border-bottom: 1px solid #bbb !important;
+  }
+}
+
+@media (max-width: 400px) {
+  body.dark-mode .nav-links a:not(:last-child),
+  body.dark-mode .hamburger {
+    border-bottom: 1px solid #555 !important;
+    border-top: none;
+  }
+
+  body.dark-mode .nav-links {
+    background-color: #404040 !important;
+    border-top: none;
+  }
+
+  .nav-links a {
+    background-color: #e0e0e0 !important;
   }
 }
 
@@ -76,14 +93,14 @@ button,
 input,
 select,
 textarea {
-  background-color: #eee;
+  background-color: #e0e0e0;
   color: #111;
   border: 1px solid #aaa;
 }
 
-button:hover {
+/* button:hover {
   background-color: #ccc;
-}
+} */
 
 /* === BREADCRUMBS === */
 .breadcrumb a {
@@ -283,6 +300,13 @@ body.dark-mode .nav-links a:hover {
   color: #fff !important;
 }
 
+@media (max-width: 400px) {
+  body.dark-mode .hamburger,
+  body.dark-mode .hamburger-icon {
+    background-color: #404040 !important;
+  }
+}
+
 /* Buttons and Toggles */
 body.dark-mode #menu-toggle,
 body.dark-mode .dark-mode-toggle,
@@ -369,3 +393,42 @@ body.dark-mode [class*="success"],
 body.dark-mode a[style*="color:"] {
   color: #ccc !important;
 }
+
+@media (max-width: 400px) {
+  /* LIGHT MODE */
+  body:not(.dark-mode) .nav-links,
+  body.page:not(.dark-mode) .nav-links,
+  body.page:not(.dark-mode) .hamburger {
+    background-color: #e0e0e0 !important;
+  }
+
+  body:not(.dark-mode) .nav-links a,
+  body.page:not(.dark-mode) .nav-links a {
+    background-color: #e0e0e0 !important;
+    color: #222 !important;
+  }
+
+  body:not(.dark-mode) .nav-links a:not(:last-child),
+  body.page:not(.dark-mode) .nav-links a:not(:last-child) {
+    border-bottom: 1px solid #bbb !important;
+  }
+
+  /* DARK MODE */
+  body.dark-mode .nav-links,
+  body.page.dark-mode .nav-links,
+  body.page.dark-mode .hamburger {
+    background-color: #404040 !important;
+  }
+
+  body.dark-mode .nav-links a,
+  body.page.dark-mode .nav-links a {
+    background-color: #404040 !important;
+    color: #ccc !important;
+  }
+
+  body.dark-mode .nav-links a:not(:last-child),
+  body.page.dark-mode .nav-links a:not(:last-child) {
+    border-bottom: 1px solid #555 !important;
+  }
+}
+
