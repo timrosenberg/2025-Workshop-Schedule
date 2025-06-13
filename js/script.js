@@ -572,6 +572,20 @@ function setUserDarkModePreference(value) {
 
 function setDarkMode(isDark) {
   document.body.classList.toggle('dark-mode', isDark);
+
+  // Find the theme-color meta tag
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+  
+  // Only proceed if the tag exists and this is the faculty page
+  if (themeColorMeta && document.querySelector('meta[name="page-type"]')?.content === 'faculty') {
+    if (isDark) {
+      // Set the color to match the faculty dark mode header
+      themeColorMeta.content = '#333333';
+    } else {
+      // Set the color for light mode
+      themeColorMeta.content = '#555555';
+    }
+  }
 }
 
 function updateDarkMode() {
