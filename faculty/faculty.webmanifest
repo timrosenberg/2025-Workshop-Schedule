@@ -1,18 +1,19 @@
 {
-  "name": "Saxophone Workshop - Faculty",
+  "name": "Saxophone Workshop (Faculty)",
   "short_name": "Sax Faculty",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "/faculty/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#555555",
   "icons": [
     {
-      "src": "assets/icons/faculty-icon-192.png",
+      "src": "/assets/icons/faculty-icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/icons/faculty-icon-512.png",
+      "src": "/assets/icons/faculty-icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
