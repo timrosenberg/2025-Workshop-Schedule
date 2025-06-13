@@ -77,13 +77,36 @@ function refreshDisplayForCurrentTime() {
 
 async function loadSchedule() {
   const container = document.getElementById('schedule-container');
-  if (!container) return; // Skip loading if not present
+  if (!container) return; // Skip loading if not on a schedule page
 
-  const res = await fetch('/data/schedule.json');
-  const flatData = await res.json();
-  scheduleData = groupFlatSchedule(flatData);
-  renderSchedule(scheduleData);
+  let schedulePath;
+  
+  // Look for the meta tag you added to the faculty page
+  const pageTypeMeta = document.querySelector('meta[name="page-type"]');
+  
+  // Check if the tag exists and its content is 'faculty'
+  if (pageTypeMeta && pageTypeMeta.content === 'faculty') {
+    console.log("Faculty page detected via meta tag. Loading faculty schedule.");
+    schedulePath = '/data/faculty-schedule.json';
+  } else {
+    console.log("Student page (or no meta tag found). Loading student schedule.");
+    schedulePath = '/data/schedule.json';
+  }
+
+  try {
+    const res = await fetch(schedulePath);
+    if (!res.ok) {
+        throw new Error(`Failed to fetch ${schedulePath}: ${res.statusText}`);
+    }
+    const flatData = await res.json();
+    scheduleData = groupFlatSchedule(flatData);
+    renderSchedule(scheduleData);
+  } catch (error) {
+    console.error("Error loading schedule data:", error);
+    container.innerHTML = `<p style="color: red; text-align: center;">Could not load the schedule. Please try again later.</p>`;
+  }
 }
+
 
 function groupFlatSchedule(flatData) {
   const grouped = {};
@@ -103,7 +126,9 @@ function groupFlatSchedule(flatData) {
     }
 
     const notes = [];
-    for (let i = 1; i <= 4; i++) {
+    // This loop robustly handles cases with up to 5 subpoints (for faculty)
+    // or fewer (for students) without error.
+    for (let i = 1; i <= 5; i++) {
       const note = item[`Subpoint ${i}`];
       if (note) notes.push(note);
     }
