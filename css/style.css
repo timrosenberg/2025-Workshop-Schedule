@@ -610,9 +610,10 @@ body.page .content-inner {
 
 .styled-table {
   width: 100%;
-  max-width: 100%;
+  max-width: 600px;
   border-collapse: collapse;
-  margin: 1.5rem 0;
+  margin: 0 auto;
+  margin-bottom: 1rem;
   font-size: 0.95rem;
   background-color: var(--bg-main, #fff);
   color: var(--text-main, #333);
@@ -620,7 +621,7 @@ body.page .content-inner {
 }
 
 .styled-table thead {
-  background-color: #78aa7c;
+  background-color: #555555;
   color: #fff;
 }
 
@@ -641,7 +642,7 @@ body.dark-mode .styled-table {
 }
 
 body.dark-mode .styled-table thead {
-  background-color: #4c7a4c;
+  background-color: #555555;
   color: #fff;
 }
 
