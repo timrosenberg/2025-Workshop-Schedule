@@ -734,6 +734,39 @@ body.page ul li:first-child {
   margin-top: 0;
 }
 
+/* === STYLED ORDERED LISTS FOR STUDENT GROUPS === */
+
+.group-list ol {
+  padding-left: 2rem !important;
+}
+
+.group-list ol li {
+  counter-increment: list-counter;
+  position: relative;
+  padding-left: 2rem !important;
+  margin-bottom: 0.5rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.group-list ol li::before {
+  content: counter(list-counter) ".";
+  position: absolute;
+  left: 0;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Dark mode adjustments */
+body.dark-mode .group-list ol li {
+  color: #ccc;
+}
+
+body.dark-mode .group-list ol li::before {
+  color: #ccc;
+}
+
+
 /* ===================================
    AUDIO PLAYER
 =================================== */
