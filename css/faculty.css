@@ -511,3 +511,31 @@ body.dark-mode #faculty-directory .faculty-list strong {
 body.dark-mode #faculty-directory .faculty-list a {
   color: #78aa7c;
 }
+
+/* === STYLED ORDERED LISTS FOR STUDENT GROUPS === */
+
+.group-list ol li {
+  counter-increment: list-counter;
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  line-height: 1.5;
+}
+
+.group-list ol li::before {
+  content: counter(list-counter) ".";
+  position: absolute;
+  left: 0;
+  color: #222;
+  font-weight: bold;
+}
+
+/* Dark mode adjustments */
+body.dark-mode .group-list ol li {
+  color: #ccc;
+}
+
+body.dark-mode .group-list ol li::before {
+  color: #ccc;
+}
