@@ -1,6 +1,6 @@
 			{
   "globalNotice": {
-    "text": "⚠️ This is the 2025-05-05 Draft. A final schedule will be released in June."
+    "text": "📌 Bookmark this page. We will use it all week."
   },
   "banners": {
     "june-23": [
@@ -11,13 +11,13 @@
         "enabled": true
       },
       {
-        "time": "12:00",
-        "message": "🧳 Orientation reminder draft",
-        "version": "draft-1",
-        "enabled": false
+        "time": "21:00",
+        "message": "🤝 Hall Meeting at 9:15 in your floor's lobby.",
+        "version": "v2",
+        "enabled": true
       },
       {
-        "time": "13:00",
+        "time": "22:00",
         "message": "🥪 Lunch travel note draft",
         "version": "draft-2",
         "enabled": false
@@ -31,7 +31,7 @@
     ],
     "june-24": [
       {
-        "time": "04:00",
+        "time": "07:00",
         "message": "Sharks & Jets: Wear something with a 🦈 shark or a ✈️ jet on it. 🫰… 🫰… 🫰…",
         "version": "v1",
         "enabled": true
@@ -43,15 +43,15 @@
         "enabled": true
       },
       {
-        "time": "08:00",
-        "message": "☀️ Morning activity draft",
-        "version": "draft-1",
-        "enabled": false
+        "time": "08:45",
+        "message": "☀️ Fundamentals Classes at 9:00. Check the room guide to find your class.",
+        "version": "v3",
+        "enabled": true
       },
       {
-        "time": "15:00",
-        "message": "📣 Midday announcement draft",
-        "version": "draft-2",
+        "time": "09:35",
+        "message": "",
+        "version": "draft-1",
         "enabled": false
       },
       {
@@ -64,41 +64,41 @@
     "june-25": [
       {
         "time": "07:15",
-        "message": "⚡ Don’t miss the Greg Osby recital at 7:15 PM!",
+        "message": "⚡ Greased Lightning: Wear something retro!",
         "version": "v1",
         "enabled": true
       },
       {
-        "time": "07:45",
-        "message": "☕ Coffee house vibe draft",
-        "version": "draft-1",
-        "enabled": false
+        "time": "09:00",
+        "message": "🌟 It's Greg Osby Day! Masterclass at 3:15; recital at 7:15.",
+        "version": "v2",
+        "enabled": true
       },
       {
-        "time": "14:30",
-        "message": "🎧 Listening session draft",
-        "version": "draft-2",
-        "enabled": false
+        "time": "16:15",
+        "message": "🔎 Scavenger Hunt Time! Report to Feasel to learn the rules.",
+        "version": "v3",
+        "enabled": true
       },
       {
-        "time": "19:15",
-        "message": "📢 Recital prep reminder draft",
-        "version": "draft-3",
-        "enabled": false
+        "time": "18:15",
+        "message": "🔥 Greg Osby's Concert & Jam Session at 7:15.",
+        "version": "v4",
+        "enabled": true
       }
     ],
     "june-26": [
       {
-        "time": "10:00",
-        "message": "📸 Bring your camp shirt for the group photo!",
+        "time": "07:15",
+        "message": "🐱 Purrs-day Thursday! Rememberg: 📸 Bring your camp shirt for the group photo!",
         "version": "v1",
         "enabled": true
       },
       {
-        "time": "09:15",
-        "message": "🧢 Hat day encouragement draft",
-        "version": "draft-1",
-        "enabled": false
+        "time": "17:30",
+        "message": "📸 Change in to your camp shirt for the photo.",
+        "version": "v2",
+        "enabled": true
       },
       {
         "time": "11:00",
@@ -115,54 +115,54 @@
     ],
     "june-27": [
       {
-        "time": "08:00",
-        "message": "🎉 Last full day! Let's go all out with team colors!",
+        "time": "07:15",
+        "message": "🧚‍♀️ Team Pink or 🧙‍♀️ Team Green: Wear something 👚 pink or something 🍏 green.",
         "version": "v1",
         "enabled": true
       },
       {
-        "time": "06:30",
-        "message": "🌈 Team color rally draft",
-        "version": "draft-1",
-        "enabled": false
+        "time": "09:30",
+        "message": "🎶 Chamber Music Concert Tonight at 7:30!",
+        "version": "v2",
+        "enabled": true
       },
       {
-        "time": "13:45",
-        "message": "🎲 Carnival reminder draft",
-        "version": "draft-2",
-        "enabled": false
+        "time": "18:00",
+        "message": "🤵‍♂️💄 Students have the option to leave the CUB for Hatter Hall at 6:45 to prepare for the concert.",
+        "version": "v3",
+        "enabled": true
       },
       {
-        "time": "20:00",
-        "message": "🔥 Campfire celebration draft",
-        "version": "draft-3",
-        "enabled": false
+        "time": "21:00",
+        "message": "🧳 Student begin packing for move out.",
+        "version": "v4",
+        "enabled": true
       }
     ],
     "june-28": [
       {
-        "time": "11:30",
+        "time": "08:00",
         "message": "🎓 Congratulations! Final Concert at 11:30 AM.",
         "version": "v1",
         "enabled": true
       },
       {
-        "time": "08:30",
-        "message": "🎓 Final call prep draft",
-        "version": "draft-1",
-        "enabled": false
+        "time": "07:00",
+        "message": "🎓 School Spirit Day: Show off your 🧑‍🎓 school pride.",
+        "version": "v2",
+        "enabled": true
       },
       {
-        "time": "10:45",
-        "message": "📯 Concert arrival note draft",
-        "version": "draft-2",
-        "enabled": false
+        "time": "09:30",
+        "message": "↩️ Be sure to return anything borrowed after the concert.",
+        "version": "v3",
+        "enabled": true
       },
       {
         "time": "12:30",
-        "message": "🎉 Farewell wave draft",
-        "version": "draft-3",
-        "enabled": false
+        "message": "👋 Thank you for a great week! We'll see you next year!",
+        "version": "v4",
+        "enabled": true
       }
     ]
   }

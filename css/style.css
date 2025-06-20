@@ -370,7 +370,7 @@ body.dark-mode .day > ul > li.blink-highlight {
 .notice,
 .workshop-banner {
   font-size: 1rem;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  padding: 0.75rem 2.5rem;
   margin: 1rem auto;
   text-align: center;
   width: fit-content;
